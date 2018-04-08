@@ -8,7 +8,7 @@ description: "A website with blog posts and pages on mostly on Deep Learning and
 # THEME-SPECIFIC CONFIGURATION
 theme_settings:
   # Meta
-  title: Type on Strap # blog's title
+  title: My Blog # blog's title
   avatar: assets/img/triangle.svg
   favicon: assets/favicon.ico
   gravatar: # Email MD5 hash
@@ -22,25 +22,25 @@ theme_settings:
 
   # Icons
   rss: true  # Make sure you created a feed.xml with feed.xml layout
-  email_address: "bilgin.aksoy@metu.edu.tr" # Full email address, e.g. "sam@example.com"
+  email_address: bilgin.aksoy@metu.edu.tr # Full email address, e.g. "sam@example.com"
   behance:
-  bitbucket:"blgnksy"
+  bitbucket: blgnksy
   dribbble:
   facebook:
   flickr:
   gitlab:
-  github: "blgnksy"
+  github: blgnksy
   google_plus:
   instagram:
   keybase:
-  linkedin:  "https://www.linkedin.com/in/bilgin-aksoy-a61a90110/" # Full URL
+  linkedin:  https://www.linkedin.com/in/bilgin-aksoy-a61a90110 # Full URL
   pinterest:
   reddit:
   soundcloud:
   stack_exchange:  # Full URL
   steam:
   tumblr:
-  twitter: "twitter blgnksy"# "twitter username"
+  twitter:  blgnksy # "twitter username"
   vimeo:
   wordpress:
   youtube:
