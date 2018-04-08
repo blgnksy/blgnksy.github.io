@@ -1,8 +1,8 @@
 # SITE CONFIGURATION
-baseurl: "/Type-on-Strap"
-url: "https://sylhare.github.io"
-title: Type on Strap # site's title
-description: "A website with blog posts and pages" # used by search engines
+baseurl: ""
+url: "https://blgnksy.github.io"
+title: Bilgin Aksoy # site's title
+description: "A website with blog posts and pages on mostly on Deep Learning and same kind of software related topics" # used by search engines
 
 
 # THEME-SPECIFIC CONFIGURATION
@@ -22,25 +22,25 @@ theme_settings:
 
   # Icons
   rss: true  # Make sure you created a feed.xml with feed.xml layout
-  email_address: # Full email address, e.g. "sam@example.com"
+  email_address: bilgin.aksoy@metu.edu.tr# Full email address, e.g. "sam@example.com"
   behance:
-  bitbucket:
+  bitbucket:"blgnksy"
   dribbble:
   facebook:
   flickr:
   gitlab:
-  github: "sylhare"
+  github: "blgnksy"
   google_plus:
   instagram:
   keybase:
-  linkedin:  # Full URL
+  linkedin:  "https://www.linkedin.com/in/bilgin-aksoy-a61a90110/" # Full URL
   pinterest:
   reddit:
   soundcloud:
   stack_exchange:  # Full URL
   steam:
   tumblr:
-  twitter: # "twitter username"
+  twitter: "blgnksy"# "twitter username"
   vimeo:
   wordpress:
   youtube:
