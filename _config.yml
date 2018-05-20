@@ -79,9 +79,6 @@ paginate_path: "blog/page:num"
 
 # PORTFOLIO
 collections:
-  portfolio: false
-    output: true
-    permalink: /:collection/:name
 
 
 # BUILD SETTINGS
