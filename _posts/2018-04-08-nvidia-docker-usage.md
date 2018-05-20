@@ -16,7 +16,7 @@ Ana Başlıklar:
 1. Temel Kavramlar
 2. Docker, NVIDIA Docker Kurulumu
 3. Hazır görüntülerin(image) kullanımı
-4. DockerFile ile özgün görüntüleri oluşturulması
+4. DockerFile ile özgün görüntülerin kullanılması
 5. Komut satırı üzerinden Docker ile etkileşim
 6. Jupyter kurulumu ve ayarlanması
 
@@ -143,7 +143,6 @@ sudo apt-get install -y nvidia-docker2
 sudo pkill -SIGHUP dockerd
 ```
 
-# Test nvidia-smi with the latest official CUDA image
    Yine kurulumumuzu test etmek için bu sefer NVIDIA'ya ait son CUDA deposunu kendi bilgisayarımıza indirip herhangi bir sorun olmadığına emin oluyoruz. Bu noktada sizin ekran kartı modeli, sürücüsü ve özellikleri ile uyumlu olarak standart çıktıda aşağıdakine benzer bir sonuç alıyoruz. 
 ```shell
 $ docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
@@ -174,6 +173,11 @@ Sun May 20 18:33:05 2018
 $ nvidia-docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu
 # NVIDIA ekran kartı olmayanlar için docker run -it -p 8888:8888 tensorflow/tensorflow ile kurulum yapılabilir.
 ```
+[DockerHub](https://hub.docker.com/) üzerinden ulaştığınız tüm depolarda farklı etiket (tag) varsa farklı sürümleri olduğunu düşünebilirsiniz. Gidip size uygun farklı sürümlerini de denemeniz mümkün olabilir. Görüldüğü gibi sadece parametreleri değiştirerek ana makinemiz (host) üzerinde bir çok farklı bilgisayar varmış gibi görüntüler (image) sayesinde istediğimiz özgürlüğe sahip oluyoruz. 
+   
+4. DockerFile ile özgün görüntülerin kullanılması:
+
+
 
 
 <ul>
