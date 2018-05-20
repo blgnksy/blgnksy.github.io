@@ -34,7 +34,8 @@ Docker görüntüsünün üzerinde koştuğu izole/sanal çalıştığı ortamd�
 ## 2. Docker, NVIDIA Docker Kurulumu:
 [Docker CE](https://docs.docker.com/install/) versiyonun kurulum yönergelerine bağlantı üzerinden ulaşabilirsiniz. Ben size Ubuntu bash terminal üzerinde kurulumunu göstereceğim.
 
-  * İlk önce daha önce kurulan Docker CE versiyonunu kaldırıyoruz. 
+  * İlk önce daha önce kurulan Docker CE versiyonunu apt ile kaldırıyoruz. 
+
 ```shell
 $ sudo apt-get remove docker docker-engine docker.io
 ```
@@ -84,7 +85,7 @@ $ sudo apt-get update
 $ sudo apt-get install docker-ce
 ```
 
-   "Merhaba Dünya"sız yapamazdık. Aşağıdaki komut ile henüz bilgisayarımızda olmayan hello-world isimli bir görüntüyü [DockerHub](https://hub.docker.com/) adı verilen geliştiricilerin ve resmi olarak kullanılan görüntülerin paylaşıldığı bir çeşit uygulama dükkanından görünütüyü indirip çalıştırıyoruz ve terminal standart çıktısında aşağıdaki çıktıyı görüyoruz.
+   "Merhaba Dünya"sız yapamazdık. Aşağıdaki komut ile henüz bilgisayarımızda olmayan hello-world isimli bir görüntüyü [DockerHub](https://hub.docker.com/) adı verilen geliştiricilerin ve resmi olarak kullanılan görüntülerin paylaşıldığı bir çeşit uygulama dükkanından indirip çalıştırıyoruz ve terminal standart çıktısında aşağıdaki çıktıyı görüyoruz.
 
 ```shell
 $ sudo docker run hello-world
@@ -114,6 +115,49 @@ Share images, automate workflows, and more with a free Docker ID:
 
 For more examples and ideas, visit:
  https://docs.docker.com/engine/userguide/
+```
+
+Docker kurma işlemimiz sonuçta bitti. Şimdi de derin öğrenme (deep learning) modellerini eğitme işlemimizi kısaltacak önemli bir donanım olan ekran kartı üreticisi NVIDIA'nın hayatımıza soktuğu nimetlerden faydalanmak için bir de [NVIDIA-Docker](https://github.com/NVIDIA/nvidia-docker/blob/master/README.md) kurmaya başlayabiliriz. Bu noktada ana makinemizde (host) NVIDIA ekran kartı sürücüsü kurulmuş olması gerekmektedir.
+
+   Önce eski sürümleri ve o sürümlerin kullandığı konteynerleri kaldırıyoruz.
+```shell
+docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
+sudo apt-get purge -y nvidia-docker
+```
+
+   apt ile gerekli paketleri kuruyoruz ve anahtar zincirimize resmi GPG anahtarını ekliyoruz.
+```shell
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
+  sudo apt-key add -
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \
+  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+sudo apt-get update
+```
+   NVIDIA-Docker kurulumunu yapıyoruz ve eğer daha önce çalışan bir docker işlemi varsa kaptma sinyali gönderiyoruz.
+```shell
+sudo apt-get install -y nvidia-docker2
+sudo pkill -SIGHUP dockerd
+```
+   Yine kurulumumuzu test etmek için bu sefer NVIDIA'ya ait son CUDA deposunu kendi bilgisayarımıza indirip herhangi bir sorun olmadığına emin oluyoruz. Bu noktada sizin ekran kartı modeli, sürücüsü ve özellikleri ile uyumlu olarak standart çıktıda aşağıdakine benzer bir sonuç alıyoruz. 
+```shell
+$ docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
+Sun May 20 18:33:05 2018       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 384.111                Driver Version: 384.111                   |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 1070    Off  | 00000000:0A:00.0  On |                  N/A |
+|  0%   49C    P8    11W / 200W |    359MiB /  8110MiB |      7%      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
++-----------------------------------------------------------------------------+
 ```
 
 
