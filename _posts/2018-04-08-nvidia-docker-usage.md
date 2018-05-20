@@ -6,6 +6,8 @@ tags: [NVIDIA-Docker, Docker, Docker Temel Bilgiler, Docker Kurulumu, DockerFile
 
 
 
+
+
 Derin Öğrenme (Deep Learning) ile uğraşmaya başlayan herkesin bir şekilde korkulu rüyası maalesef gerekli paketlerin, araçların kurulması ve birbirlerinin gereksinimleri ile uyumsuzluk yaratmadan çalışabilmesi olmuştur. Bunun için Python Package Index ile sunulan virtualenv [virtualenv](https://virtualenv.pypa.io/en/stable/), [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) kullanımı belli oranda işe yarasa bile bazen sorun geliştirme ortamınızda mevcut ekran kartının(NVIDIA Cuda çekirdeğine sahip olan) CUDA sürücüleri, cuDNN kütüphanesi kurmaya çalıştığınız paketler ile uyumlu olmaması/olamaması neticesinde kurulum işlemleri olması gerekenden daha fazla zaman harcamamıza neden olabilmektedir. Bazen bunların hepsi bir araya getirilse bile bu seferde sisteminizde yaptığınız bir işletim sistemi/donanım sürücüsü güncellemesi bütün emeklerin çöpe gitmesi anlamına gelebilmektedir. 
 
 Bu noktada daha fazla izole/sanal ortama ihtiyaç ortaya çıkmaktadır. Sorunların ortadan kaldırılmasında [Docker](https://www.docker.com) etkin bir çözüm olarak karşımıza çıkmakta ve giderek daha çok geliştirici tarafıundan tercih edilmektedir. Dahası ekran kartının hesap gücünden faydalanmak isteyen kullanıcıların yardımına bir de [NVIDIA-Docker](https://github.com/NVIDIA/nvidia-docker) koşmaktadır. Çok fazla teknik ayrıntısına boğulmadan gerekli kavramları öğrenerek bu çözümü derin/makina öğrenmesi geliştiricileri için nasıl faydalı bir şekilde kullanılabileceği üzerine odaklanacağız. Teknik ayrıntılar için [Gökhan Şengün](https://www.gokhansengun.com/docker-nedir-nasil-calisir-nerede-kullanilir/) tarafından kaleme alınan yazıya başvurabilirsiniz.  Konuyu derin öğrenme özelinde anlatmaya çalışacağım. Özellikle İngilizce kaynak sayısı oldukça fazla olsa da Türkçe kaynak bulmakta sorun yaşanmakta olduğunu değerlendirdiğim için de bu yazıyı Türkçe olarak paylaşıyorum. 
@@ -13,7 +15,7 @@ Bu noktada daha fazla izole/sanal ortama ihtiyaç ortaya çıkmaktadır. Sorunla
 Ana Başlıklar:
 1. Temel Kavramlar
 2. Docker, NVIDIA Docker Kurulumu
-3. Hazır görüntülerin(iamge) kullanımı
+3. Hazır görüntülerin(image) kullanımı
 4. DockerFile ile özgün görüntüleri oluşturulması
 5. Komut satırı üzerinden Docker ile etkileşim
 6. Jupyter kurulumu ve ayarlanması
@@ -32,9 +34,9 @@ Kendi başına çalışabilen, ihtiyaç duyduğu herşeyi (sistem araçları, si
 Docker görüntüsünün üzerinde koştuğu izole/sanal çalıştığı ortamdır. Yine çalışan, görüntü içine aktarmayı (commit) veya aktaılmamış olanlar üzerinde yapılan işlemlere ileride değineceğiz. 
 
 ## 2. Docker, NVIDIA Docker Kurulumu:
-[Docker CE](https://docs.docker.com/install/) versiyonun kurulum yönergelerine bağlantı üzerinden ulaşabilirsiniz. Ben size Ubuntu bash terminal üzerinde kurulumunu göstereceğim.
+[Docker CE](https://docs.docker.com/install/) sürümünün kurulum yönergelerine bağlantı üzerinden ulaşabilirsiniz. Ben size Ubuntu bash terminal üzerinde kurulumunu göstereceğim.
 
-  * İlk önce daha önce kurulan Docker CE versiyonunu apt ile kaldırıyoruz. 
+  * İlk önce daha önce kurulan Docker CE sürümünü apt ile kaldırıyoruz. 
 
 ```shell
 $ sudo apt-get remove docker docker-engine docker.io
@@ -79,7 +81,7 @@ $ sudo add-apt-repository \
 $ sudo apt-get update
 ```
 
-   Ve sonunda Docker CE'nin son versiyonunu kuruyoruz.
+   Ve sonunda Docker CE'nin son sürümünü kuruyoruz.
 
 ```shell
 $ sudo apt-get install docker-ce
@@ -134,11 +136,14 @@ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.li
   sudo tee /etc/apt/sources.list.d/nvidia-docker.list
 sudo apt-get update
 ```
-   NVIDIA-Docker kurulumunu yapıyoruz ve eğer daha önce çalışan bir docker işlemi varsa kaptma sinyali gönderiyoruz.
+
+   NVIDIA-Docker kurulumunu yapıyoruz ve eğer daha önce çalışan bir docker işlemi varsa kapatma sinyali gönderiyoruz.
 ```shell
 sudo apt-get install -y nvidia-docker2
 sudo pkill -SIGHUP dockerd
 ```
+
+# Test nvidia-smi with the latest official CUDA image
    Yine kurulumumuzu test etmek için bu sefer NVIDIA'ya ait son CUDA deposunu kendi bilgisayarımıza indirip herhangi bir sorun olmadığına emin oluyoruz. Bu noktada sizin ekran kartı modeli, sürücüsü ve özellikleri ile uyumlu olarak standart çıktıda aşağıdakine benzer bir sonuç alıyoruz. 
 ```shell
 $ docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
@@ -158,6 +163,16 @@ Sun May 20 18:33:05 2018
 |  GPU       PID   Type   Process name                             Usage      |
 |=============================================================================|
 +-----------------------------------------------------------------------------+
+```
+
+3. Hazır görüntülerin(image) kullanımı:
+[DockerHub](https://hub.docker.com/explore) üzerinden paylaşılmış hazır görüntülere (image) ulaşabilirsiniz. Kolaydan başlayarak zora doğru gideceğimiz için önce hazır depoları kullanacağız. Ben size Tensorflow'un resmi deposundan son sürümünü nasıl kuracağınızı göstereceğim.
+
+   Yine terminal üzerinden aşağıdaki komutu verdiğimizde uzak depo alanından tensorflow/tensorflow isimli deponun son sürümünü(latest-gpu) ana makinemize çekip (pull) etkileşimli modda çalıştırıp (-p) parametresi ile dış dünya ile 8888 nolu portdan haberleşmesini söylüyoruz. Daha sonra [localhost:8888](localhost:8888) üzerinden çalışan Jupyter Notebook karşımıza çıkıyor. Bundan sonra bu komut her çalıştırdığımızda Docker uzak depo yerel makinemizde olduğu için indirmek yerine doğrudan çalıştırmaya başlayacaktır.
+
+```shell
+$ nvidia-docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu
+# NVIDIA ekran kartı olmayanlar için docker run -it -p 8888:8888 tensorflow/tensorflow ile kurulum yapılabilir.
 ```
 
 
