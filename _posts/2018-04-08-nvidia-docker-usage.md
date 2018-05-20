@@ -22,9 +22,22 @@ Ana Başlıklar:
 
 ### Docker nedir?
 
-Kendi başına çalışabilen, ihtiyaç duyduğu herşeyi (sistem araçları, sistem kütüphaneleri, gerekli paketler, donanım sürücüleri vb.) kendi içinde bulunduran, hafif bir yazılımdır. Dahası içerisinde barındırdığı tüm bileşenleri aynı makine üstünde (ana makine-host) çok farklı ayarlarla istediğiniz sayıda görüntüyü (image) farklı işlemler (container) çalıştırmak mümkün ki bu haliyle her geliştirici için normal şartlarda ayrı ayrı sahip olmak veya ayarlamak çok maliyetli ve zahmetli olabilecek süreçler hem çok ekonomik hem de çok süratli olabilmektedir. 
+Kendi başına çalışabilen, ihtiyaç duyduğu herşeyi (sistem araçları, sistem kütüphaneleri, gerekli paketler, donanım sürücüleri vb.) kendi içinde bulunduran, hafif bir yazılımdır. Dahası içerisinde barındırdığı tüm bileşenleri aynı makine üstünde (ana makine-host) çok farklı ayarlarla istediğiniz sayıda görüntüyü (image) farklı konteyner (container) çalıştırmak mümkün ki bu haliyle her geliştirici için normal şartlarda ayrı ayrı sahip olmak veya ayarlamak çok maliyetli ve zahmetli olabilecek süreçler hem çok ekonomik hem de çok süratli olabilmektedir. 
 
-#### Görüntü (Image)
+#### Görüntü (Image) 
+
+İçerisinde işletim sistemi NVIDIA sürücülerini ve gerekli tüm araç, paket ve programları barındıran yapıdır. Docker kurulumunu anlattıktan sonra ana makine de mevcut görüntüleri (image) nasıl oluşturulacağını, görüntüleneceği ve yapılabilecek işlemlere değineceğiz. 
+
+#### Konteyner (Container)
+Docker görüntüsünün üzerinde koştuğu izole/sanal çalıştığı ortamdır. Yine çalışan, görüntü içine aktarmayı (commit) veya aktaılmamış olanlar üzerinde yapılan işlemlere ileride değineceğiz. 
+
+## 2. Docker, NVIDIA Docker Kurulumu:
+[Docker CE](https://docs.docker.com/install/) versiyonun kurulum yönergelerine bağlantı üzerinden ulaşabilirsiniz. Ben size Ubuntu bash terminal üzerinde kurulumunu göstereceğim.
+
+  * İlk önce daha önce kurulan Docker CE versiyonunu kaldırıyoruz. 
+'''shell
+$ sudo apt-get remove docker docker-engine docker.io
+'''
 
 
 <ul>
