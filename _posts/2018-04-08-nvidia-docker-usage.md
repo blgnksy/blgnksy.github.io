@@ -35,9 +35,9 @@ Docker görüntüsünün üzerinde koştuğu izole/sanal çalıştığı ortamd�
 [Docker CE](https://docs.docker.com/install/) versiyonun kurulum yönergelerine bağlantı üzerinden ulaşabilirsiniz. Ben size Ubuntu bash terminal üzerinde kurulumunu göstereceğim.
 
   * İlk önce daha önce kurulan Docker CE versiyonunu kaldırıyoruz. 
-'''shell
+```shell
 $ sudo apt-get remove docker docker-engine docker.io
-'''
+```
 
 
 <ul>
