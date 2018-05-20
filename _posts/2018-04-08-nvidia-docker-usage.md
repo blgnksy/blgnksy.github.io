@@ -179,7 +179,7 @@ $ nvidia-docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu
 
 Her zaman hazır bir depo kullanmak Docker'ın bize sunduğu esnekliği tam anlamıyla kullanmamıza imkan vermeyebilir. Bu noktada tamamıyla kendi istediğimiz bir görüntü oluşturmak gerekecektir. DockerFile bu eksikliği gidermek için kullanılan metin bazlı bir dosya olup içerisinde bulunan Docker'a özel sözdizim kuralları ile tam anlamıyla istediğimiz gibi bir görüntü oluşturmamıza yardım eder. Ben bu noktada DockerFile oluşturma konusunda yine [Gökhan Şengün](https://www.gokhansengun.com/docker-yeni-image-hazirlama/) tarafından kaleme mutlaka göz atmanızı tavsiye edip derin öğrenme merkezli olarak nasıl bir DockerFile kullanabileceğimize değineceğim. 
 
-Öncelikle örnek bir DockerFile ele alalım. Burada çok kullanılan bir [Floyd Lab](https://github.com/floydhub/dl-docker) tarafından sağlanan bir hazır görüntünün DockerFile dosyasını kullanacağız. [Bağlantıdan](../assets/DockerFile.gpu) dosyayı indirebilirsiniz. 
+Öncelikle örnek bir DockerFile ele alalım. Burada çok kullanılan bir [Floyd Lab](https://github.com/floydhub/dl-docker) tarafından sağlanan bir hazır görüntünün DockerFile dosyasını kullanacağız. [Bağlantıdan](https://github.com/blgnksy/blgnksy.github.io/raw/master/assets/DockerFile.gpu) dosyayı indirebilirsiniz. 
 
 
 <ul>
