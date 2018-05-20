@@ -164,7 +164,7 @@ Sun May 20 18:33:05 2018
 +-----------------------------------------------------------------------------+
 ```
 
-3. Hazır görüntülerin(image) kullanımı:
+## 3. Hazır Görüntülerin(image) Kullanımı:
 [DockerHub](https://hub.docker.com/explore) üzerinden paylaşılmış hazır görüntülere (image) ulaşabilirsiniz. Kolaydan başlayarak zora doğru gideceğimiz için önce hazır depoları kullanacağız. Ben size Tensorflow'un resmi deposundan son sürümünü nasıl kuracağınızı göstereceğim.
 
    Yine terminal üzerinden aşağıdaki komutu verdiğimizde uzak depo alanından tensorflow/tensorflow isimli deponun son sürümünü(latest-gpu) ana makinemize çekip (pull) etkileşimli modda çalıştırıp (-p) parametresi ile dış dünya ile 8888 nolu portdan haberleşmesini söylüyoruz. Daha sonra [localhost:8888](localhost:8888) üzerinden çalışan Jupyter Notebook karşımıza çıkıyor. Bundan sonra bu komut her çalıştırdığımızda Docker uzak depo yerel makinemizde olduğu için indirmek yerine doğrudan çalıştırmaya başlayacaktır.
@@ -175,7 +175,7 @@ $ nvidia-docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu
 ```
    [DockerHub](https://hub.docker.com/) üzerinden ulaştığınız tüm depolarda farklı etiket (tag) varsa farklı sürümleri olduğunu düşünebilirsiniz. Gidip size uygun farklı sürümlerini de denemeniz mümkün olabilir. Görüldüğü gibi sadece parametreleri değiştirerek ana makinemiz (host) üzerinde bir çok farklı bilgisayar varmış gibi görüntüler (image) sayesinde istediğimiz özgürlüğe sahip oluyoruz. 
    
-4. DockerFile ile özgün görüntülerin kullanılması:
+## 4. DockerFile ile Özgün Görüntülerin Kullanılması:
 
    Her zaman hazır bir depo kullanmak Docker'ın bize sunduğu esnekliği tam anlamıyla kullanmamıza imkan vermeyebilir. Bu noktada tamamıyla kendi istediğimiz bir görüntü oluşturmak gerekecektir. DockerFile bu eksikliği gidermek için kullanılan metin bazlı bir dosya olup içerisinde bulunan Docker'a özel sözdizim kuralları ile tam anlamıyla istediğimiz gibi bir görüntü oluşturmamıza yardım eder. Ben bu noktada DockerFile oluşturma konusunda yine [Gökhan Şengün](https://www.gokhansengun.com/docker-yeni-image-hazirlama/) tarafından kaleme mutlaka göz atmanızı tavsiye edip derin öğrenme merkezli olarak nasıl bir DockerFile kullanabileceğimize değineceğim. 
 
@@ -394,6 +394,10 @@ CMD ["/bin/bash"]
 
 ```
 
+## 5. Komut Satırı Üzerinden Docker ile Etkileşim
+   -----
+## 6. Jupyter kurulumu ve ayarlanması
+   ---
 
 <ul>
   {% for post in site.posts %}
