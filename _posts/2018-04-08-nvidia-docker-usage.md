@@ -8,9 +8,9 @@ tags: [NVIDIA-Docker, Docker, Docker Temel Bilgiler, Docker Kurulumu, DockerFile
 
 
 
-   Derin Öğrenme (Deep Learning) ile uğraşmaya başlayan herkesin bir şekilde korkulu rüyası maalesef gerekli paketlerin, araçların kurulması ve birbirlerinin gereksinimleri ile uyumsuzluk yaratmadan çalışabilmesi olmuştur. Bunun için Python Package Index ile sunulan virtualenv [virtualenv](https://virtualenv.pypa.io/en/stable/), [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) kullanımı belli oranda işe yarasa bile bazen sorun geliştirme ortamınızda mevcut ekran kartının(NVIDIA Cuda çekirdeğine sahip olan) CUDA sürücüleri, cuDNN kütüphanesi kurmaya çalıştığınız paketler ile uyumlu olmaması/olamaması neticesinde kurulum işlemleri olması gerekenden daha fazla zaman harcamamıza neden olabilmektedir. Bazen bunların hepsi bir araya getirilse bile bu seferde sisteminizde yaptığınız bir işletim sistemi/donanım sürücüsü güncellemesi bütün emeklerin çöpe gitmesi anlamına gelebilmektedir. 
+   Derin Öğrenme (Deep Learning) ile uğraşmaya başlayan herkesin bir şekilde korkulu rüyası maalesef gerekli paketlerin, araçların kurulması ve birbirlerinin gereksinimleri ile uyumsuzluk yaratmadan çalışabilmesi olmuştur. Hele bir de aynı anda farklı projelerle çalışıyorsanız bunların hepsinin aynı gereksinimleri varsa işler daha da sorunlu olmaktadır. Bunun için Python paket yönetimi ile sunulan virtualenv [virtualenv](https://virtualenv.pypa.io/en/stable/), [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) kullanımı belli oranda işe yarasa bile bazen sorun geliştirme ortamınızda mevcut ekran kartının(_NVIDIA Cuda_ çekirdeğine sahip olan) _CUDA_ sürücüleri, _cuDNN_ kütüphanesi kurmaya çalıştığınız paketler ile uyumlu olmaması/olamaması neticesinde kurulum işlemleri  gerekenden daha fazla zaman harcamamıza neden olabilmektedir. Bazen bunların hepsi bir araya getirilse bile bu seferde sisteminizde yaptığınız bir işletim sistemi/donanım sürücüsü güncellemesi bütün emeklerin çöpe gitmesi anlamına gelebilmektedir. 
 
-   Bu noktada daha fazla izole/sanal ortama ihtiyaç ortaya çıkmaktadır. Sorunların ortadan kaldırılmasında [Docker](https://www.docker.com) etkin bir çözüm olarak karşımıza çıkmakta ve giderek daha çok geliştirici tarafıundan tercih edilmektedir. Dahası ekran kartının hesap gücünden faydalanmak isteyen kullanıcıların yardımına bir de [NVIDIA-Docker](https://github.com/NVIDIA/nvidia-docker) koşmaktadır. Çok fazla teknik ayrıntısına boğulmadan gerekli kavramları öğrenerek bu çözümü derin/makina öğrenmesi geliştiricileri için nasıl faydalı bir şekilde kullanılabileceği üzerine odaklanacağız. Teknik ayrıntılar için [Gökhan Şengün](https://www.gokhansengun.com/docker-nedir-nasil-calisir-nerede-kullanilir/) tarafından kaleme alınan yazıya başvurabilirsiniz.  Konuyu derin öğrenme özelinde anlatmaya çalışacağım. Özellikle İngilizce kaynak sayısı oldukça fazla olsa da Türkçe kaynak bulmakta sorun yaşanmakta olduğunu değerlendirdiğim için de bu yazıyı Türkçe olarak paylaşıyorum. 
+   Bu noktada daha fazla izole/sanal ortama ihtiyaç ortaya çıkmaktadır. Sorunların ortadan kaldırılmasında [Docker](https://www.docker.com) etkin bir çözüm olarak karşımıza çıkmakta ve giderek daha çok geliştirici tarafından tercih edilmektedir. Dahası ekran kartının hesap gücünden faydalanmak isteyen kullanıcıların yardımına bir de [NVIDIA-Docker](https://github.com/NVIDIA/nvidia-docker) koşmaktadır. Çok fazla teknik ayrıntısına boğulmadan gerekli kavramları öğrenerek bu çözümü derin/makina öğrenmesi geliştiricileri için nasıl faydalı bir şekilde kullanılabileceği üzerine odaklanacağız. Teknik ayrıntılar için [Gökhan Şengün](https://www.gokhansengun.com/docker-nedir-nasil-calisir-nerede-kullanilir/) tarafından kaleme alınan yazıya/yazılara başvurabilirsiniz.  Konuyu derin öğrenme özelinde anlatmaya çalışacağım. Özellikle İngilizce kaynak sayısı oldukça fazla olsa da Türkçe kaynak bulmakta sorun yaşanmakta olduğunu değerlendirdiğim için de bu yazıyı Türkçe olarak paylaşıyorum. 
 
 Ana Başlıklar:
 1. Temel Kavramlar
@@ -18,7 +18,7 @@ Ana Başlıklar:
 3. Hazır görüntülerin(image) kullanımı
 4. DockerFile ile özgün görüntülerin kullanılması
 5. Komut satırı üzerinden Docker ile etkileşim
-6. Jupyter kurulumu ve ayarlanması
+6. Jupyter ayarlanması
 
 ## 1. Temel Kavramlar:
 
@@ -36,7 +36,7 @@ Ana Başlıklar:
 ## 2. Docker, NVIDIA Docker Kurulumu:
    [Docker CE](https://docs.docker.com/install/) sürümünün kurulum yönergelerine bağlantı üzerinden ulaşabilirsiniz. Ben size Ubuntu bash terminal üzerinde kurulumunu göstereceğim.
 
-  * İlk önce daha önce kurulan Docker CE sürümünü apt ile kaldırıyoruz. 
+  * İlk önce daha önce kurulan Docker CE sürümünü _apt_ ile kaldırıyoruz. 
 
 ```shell
 $ sudo apt-get remove docker docker-engine docker.io
@@ -44,13 +44,13 @@ $ sudo apt-get remove docker docker-engine docker.io
 
   * Daha sonra Docker CE kurulumuna geçiyoruz ve aşağıdaki komutları sıra ile terminalden uyguluyoruz.
 
-   apt paket endekslerini güncelliyoruz.
+   _apt_ paket endekslerini güncelliyoruz.
    
 ```shell
 $ sudo apt-get update
 ```
 
-   apt ile gerekli paketleri kuruyoruz.
+   _apt_ ile gerekli paketleri kuruyoruz.
    
 ```shell
 $ sudo apt-get install \
@@ -75,7 +75,7 @@ $ sudo add-apt-repository \
    stable"
 ```
 
-   apt paket endekslerini tekrar güncelliyoruz.
+   _apt_ paket endekslerini tekrar güncelliyoruz.
    
 ```shell
 $ sudo apt-get update
@@ -127,7 +127,7 @@ docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a 
 sudo apt-get purge -y nvidia-docker
 ```
 
-   apt ile gerekli paketleri kuruyoruz ve anahtar zincirimize resmi GPG anahtarını ekliyoruz.
+   _apt_ ile gerekli paketleri kuruyoruz ve anahtar zincirimize resmi GPG anahtarını ekliyoruz.
 ```shell
 curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
   sudo apt-key add -
@@ -167,7 +167,7 @@ Sun May 20 18:33:05 2018
 ## 3. Hazır Görüntülerin(image) Kullanımı:
 [DockerHub](https://hub.docker.com/explore) üzerinden paylaşılmış hazır görüntülere (image) ulaşabilirsiniz. Kolaydan başlayarak zora doğru gideceğimiz için önce hazır depoları kullanacağız. Ben size Tensorflow'un resmi deposundan son sürümünü nasıl kuracağınızı göstereceğim.
 
-   Yine terminal üzerinden aşağıdaki komutu verdiğimizde uzak depo alanından tensorflow/tensorflow isimli deponun son sürümünü(latest-gpu) ana makinemize çekip (pull) etkileşimli modda çalıştırıp (-p) parametresi ile dış dünya ile 8888 nolu portdan haberleşmesini söylüyoruz. Daha sonra [localhost:8888](localhost:8888) üzerinden çalışan Jupyter Notebook karşımıza çıkıyor. Bundan sonra bu komut her çalıştırdığımızda Docker uzak depo yerel makinemizde olduğu için indirmek yerine doğrudan çalıştırmaya başlayacaktır.
+   Yine terminal üzerinden aşağıdaki komutu verdiğimizde uzak depo alanından _tensorflow/tensorflow_ isimli deponun son sürümünü(_latest-gpu_) ana makinemize çekip (_pull_) etkileşimli modda çalıştırıp (-p) parametresi ile dış dünya ile 8888 nolu portdan haberleşmesini söylüyoruz. Daha sonra [localhost:8888](localhost:8888) üzerinden çalışan Jupyter Notebook karşımıza çıkıyor. Bundan sonra bu komut her çalıştırdığımızda Docker uzak depo yerel makinemizde olduğu için indirmek yerine doğrudan çalıştırmaya başlayacaktır.
 
 ```shell
 $ nvidia-docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu
@@ -181,7 +181,7 @@ $ nvidia-docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu
 
    Öncelikle örnek bir DockerFile ele alalım. Burada çok kullanılan bir [Floyd Lab](https://github.com/floydhub/dl-docker) tarafından sağlanan bir hazır görüntünün DockerFile dosyasını kullanacağız. [Bağlantıdan](https://github.com/blgnksy/blgnksy.github.io/raw/master/assets/DockerFile.gpu) dosyayı indirebilirsiniz. 
 
-   İndirdiğimiz DockerFile.gpu dosyasının olduğu dizine terminalden gelip aşağıdaki komut ile floydhub/dl-docker adından ve gpu etiketli bir görüntü oluşturuyoruz. 
+   İndirdiğimiz DockerFile.gpu dosyasının olduğu dizine terminalden gelip aşağıdaki komut ile _floydhub/dl-docker_ adından ve _gpu_ etiketli bir görüntü oluşturuyoruz. 
 
 ```shell
 $ nvidia-docker build -t floydhub/dl-docker:gpu -f Dockerfile.gpu .
@@ -193,16 +193,16 @@ $ nvidia-docker build -t floydhub/dl-docker:gpu -f Dockerfile.gpu .
 $ nvidia-docker run -it -p 8888:8888 floydhub/dl-docker:gpu
 ```
 
-   Şimdi de DockerFile dosyasının içine bakarak neler yaptığını anlamaya ve sonra özelleştirmek için neler yapabileceğimeze bakalım. Dosyayı çok uzun olduğundan bazı bölümleri "..." ile belirterek kısalttığımı belirtmek isterim. 
+   Şimdi de DockerFile dosyasının içine bakarak neler yaptığını anlamaya ve sonra özelleştirmek için neler yapabileceğimeze bakalım. (Not: Dosya çok uzun olduğundan bazı bölümleri "..." ile belirterek kısalttığımı belirtmek isterim.) 
 
   * Öncelikle NVIDIA tarafından sağlanan CUDA'nın 8. sürümü ve cuDNN kütüphanesinin 5. sürümünü kullanan Ubuntu'nun 14.04 sürümünü görüntü içine kuruyor.
   * Daha sonra kullanacağı bazı parametreleri ARG ile belirliyor.
-  * Apt ile gerekli kütüphaneleri kuruyor.
+  * _apt_ ile gerekli kütüphaneleri kuruyor.
   * Python paket yöneticisini ve gerekli kütüphaneleri kuruyor.
   * Tensorflow, Caffe, Theano, Keras, Lasagne, Torch ve Lua derin öğrenme kütüphanelerini kuruyor ve ihtiyaç duyduğu bazı ortam değişkenlerini ayarlıyor.
   * Açık kaynak bilgisayarlı görü kütüphanelerinden OpenCV kurulumunu yapıyor.
-  * Jupyter Notebook için ayar dosyasını ve Jupyter Notebook kullanımı root kullanıcı için sorunlu olduğundan küçük bir betik dosyası olan run_jupyter.sh dosyasını kopyalıyor. (Not: Kurulumdan önce [floydhub/dl-docker](https://github.com/floydhub/dl-docker) deposundan jupyter_notebook_config.py dosyasını ve birazdan kullanacağımız run_jupyter.sh dosyasını da DockerFile.gpu ile aynı dizine koymamız gerekiyor.
-  * Daha sonra ana makine ile konuşmak üzere 6006 ve 8888 nolu portları açıyor. Genelde 6006 nolu port Tensorboard, 8888 nolu port ise Jupyter Notebook tarafından kullanılmaktadır.
+  * Jupyter Notebook için ayar dosyasını ve Jupyter Notebook kullanımı root kullanıcı için sorunlu olduğundan küçük bir betik dosyası olan  dosyasını kopyalıyor. (Not: Kurulumdan önce [floydhub/dl-docker](https://github.com/floydhub/dl-docker) deposundan _jupyter_notebook_config.py_ dosyasını ve birazdan kullanacağımız _run_jupyter.sh_ dosyasını da DockerFile.gpu ile aynı dizine koymamız gerekiyor.
+  * Daha sonra ana makine ile konuşmak üzere _6006_ ve _8888_ nolu portları açıyor. Genelde _6006_ nolu port Tensorboard, _8888_ nolu port ise Jupyter Notebook tarafından kullanılmaktadır.
   * Son olarak görüntü çalıştığında terminalden bash ile bizi karşılayacak komutu yazıyor.
 
 ```shell
@@ -235,14 +235,7 @@ RUN apt-get update && apt-get install -y \
 		liblcms2-dev \
 		libopenblas-dev \
 		liblapack-dev \
-		libopenjpeg2 \
-		libpng12-dev \
-		libssl-dev \
-		libtiff5-dev \
-		libwebp-dev \
-		libzmq3-dev \
-		nano \
-		pkg-config \
+		...
 		python-dev \
 		...
 		&& \
@@ -393,11 +386,30 @@ WORKDIR "/root"
 CMD ["/bin/bash"]
 
 ```
+   Bazılarınız hazırladığı özgün DockerFile dosyasını uzak depoya göndermek (_push_) isteyebilir. Yine ayrıntılar için [Gökhan Şengün](https://www.gokhansengun.com/docker-yeni-image-hazirlama/) bağlantısından _Basit Image Hazırlama ve DockerHub’a Push Etme_ bölümünde ulaşabilirsiniz.
 
 ## 5. Komut Satırı Üzerinden Docker ile Etkileşim
    -----
-## 6. Jupyter kurulumu ve ayarlanması
+   Öncelikle var olan görüntülerin listesine terminal üzerinden erişelim:
+```shell
+#  Sadece docker images da kullanılabilir.
+$ sudo nvidia-docker images
+REPOSITORY                     TAG                       IMAGE ID            CREATED             SIZE
+hello-world                    latest                    e38bc07ac18e        5 weeks ago         1.85kB
+gcr.io/tensorflow/tensorflow   latest-gpu_changed        f73dd685943c        5 weeks ago         14.8GB
+gcr.io/tensorflow/tensorflow   1.7.0-rc0-devel-gpu-py3   a48c5d8684b3        2 months ago        3.1GB
+```
+  Görülebileceği gibi benim ana makinem üzerinde 3 adet görüntü var. Dikkat ederseniz aynı isimli ama farklı etikete sahip iki görüntü var. Altta ilk çektiğim (_pull_) hali üstte zaman içinde konteyner da  yaptığım değişiklikleri aktardığım (_commit_) son halinde verdiğim yeni etiketli olan bulunuyor.
+
+
+## 6. Jupyter Ayarlanması
    ---
+
+
+
+```shell
+
+```
 
 <ul>
   {% for post in site.posts %}
