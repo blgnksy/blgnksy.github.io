@@ -1,8 +1,8 @@
 # SITE CONFIGURATION
 baseurl: ""
 url: "https://blgnksy.github.io"
-title: Bilgin Aksoy # site's title
-description: "A website with blog posts and pages on mostly on Deep Learning and same kind of software related topics" # used by search engines
+title: Bilgin Aksoy# site's title
+description: "A website with blog posts and pages on mostly on Docker, Computer Vision, Machine Learning, Deep Learning and same kind of software related topics. Çoğunlukla Docker, Bilgisayarlı Görü, Makine Öğrenmesi,Derin Öğrenme ve benzeri yazılımla ilgili konularda bloglar yayımlanan bir websitesi." # used by search engines
 
 
 # THEME-SPECIFIC CONFIGURATION
@@ -15,7 +15,7 @@ theme_settings:
 
   # Header and footer text
   header_text: > #two or three lines to describe your site
-     <p>I am mainly interested in Machine/Deep Learning, Computer Vision, Image Processing, CUDA Programming. </p>
+     <p>Machine/Deep Learning, Computer Vision, Image Processing, CUDA Programming.</p>
   header_text_feature_image: assets/img/pexels/triangular.jpeg
   footer_text: >
    Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
@@ -49,7 +49,7 @@ theme_settings:
   google_analytics: # Tracking ID, e.g. "UA-000000-01"
   disqus_shortname:
   katex: true # Enable if using math markup
-  portfolio: true
+  portfolio: false
   search: true
   tags: true
   
