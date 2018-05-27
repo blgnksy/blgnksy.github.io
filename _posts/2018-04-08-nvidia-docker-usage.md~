@@ -419,9 +419,13 @@ Yukarıdaki komut ile önce docker'a _run_ komutunu _it_ parametreleri ile çal�
 [I 14:52:56.460 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
 ```
 
+Şimdi gidip Firefox'u açıp adres satırına "localhost:8888"
+
+![Jupyter Notebook](/assets/img/docker-usage/initial_jupyter.png)
 ### Konteyner'da değişiklik yapmak ve içe aktarmak (_commit_)
 
 Görüntüyü oluşturduk be bir konteyner içinde çalıştırmaya başladık.
+
 
 ## 6. Jupyter Ayarlanması
    ---

@@ -421,7 +421,7 @@ Yukarıdaki komut ile önce docker'a _run_ komutunu _it_ parametreleri ile çal�
 
 Şimdi gidip Firefox'u açıp adres satırına "localhost:8888"
 
-![Jupyter Notebook](/assets/img/docker-usage/initial_jupyter.png)
+![Jupyter Notebook](/assets/img/docker-usage/initial_jupyter_big.png)
 ### Konteyner'da değişiklik yapmak ve içe aktarmak (_commit_)
 
 Görüntüyü oluşturduk be bir konteyner içinde çalıştırmaya başladık.
