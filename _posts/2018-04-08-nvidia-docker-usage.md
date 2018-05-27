@@ -19,7 +19,6 @@ Ana Başlıklar:
 3. Hazır görüntülerin(image) kullanımı
 4. DockerFile ile özgün görüntülerin kullanılması
 5. Komut satırı üzerinden Docker ile etkileşim
-6. Jupyter ayarlanması
 
 ## 1. Temel Kavramlar:
 
@@ -410,8 +409,9 @@ Görüntüyü oluşturduk. Şİmdi görüntüyü bir konteyner da çalıştırma
 $ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook --allow-root
 ```
 
-Yukarıdaki komut ile önce docker'a _run_ komutunu _it_ parametreleri ile çalıştırmasını söylüyoruz. _i_ etkileşimli modu konteyner çalışınca onu komutlar gönderebilmemiz için STDIN (standart girdiyi) açık tutuluyor. _t_ ile konteyner için bir pseudo-TTY tahsis ediliyor. _p_ parametresi ile portların ana makine ile konteyner arasında nasıl yönlendirileceğini söylüyoruz. Burada docker konteynerinin 8888 nolu portu ile ana makinenin 8888. portu ve aynı şekilde 6666. portlarını birbirlerine yönlendirdik. Buna jupyter notebook kullanımında ihtiyaç duyacağız. Sonra hangi görüntünün çalıştırılmasını istediğimizi  ve konteyner açılınca _jupyter notebook_ açılmasını istediğimizi docker'a söyledikten sonra işimiz bitiyor. Terminal ekranında aşağıdakine benzer bir çıktı görüyor olmalısınız.
+Yukarıdaki komut ile önce docker'a _run_ komutunu _it_ parametreleri ile çalıştırmasını söylüyoruz. _i_ etkileşimli modu ile konteyner çalışınca ona komutlar gönderebilmemiz için STDIN (standart girdiyi) açık tutuyor. _t_ ile konteyner için bir pseudo-TTY tahsis ediliyor. _p_ parametresi ile portların ana makine ile konteyner arasında nasıl yönlendirileceğini söylüyoruz. Burada docker konteynerinin 8888 nolu portu ile ana makinenin 8888. portu ve aynı şekilde 6666. portlarını birbirlerine yönlendirdik. Buna jupyter notebook kullanımında ihtiyaç duyacağız. Sonra hangi görüntünün çalıştırılmasını istediğimizi ve konteyner açılınca _jupyter notebook_ açılmasını istediğimizi docker'a söyledikten sonra işimiz bitiyor. Terminal ekranında aşağıdakine benzer bir çıktı görüyor olmalısınız.
 ```shell
+$ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook --allow-root
 [I 14:52:56.460 NotebookApp] Serving notebooks from local directory: /notebooks
 [I 14:52:56.460 NotebookApp] 0 active kernels
 [I 14:52:56.460 NotebookApp] The Jupyter Notebook is running at:
@@ -419,20 +419,27 @@ Yukarıdaki komut ile önce docker'a _run_ komutunu _it_ parametreleri ile çal�
 [I 14:52:56.460 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
 ```
 
-Şimdi gidip Firefox'u açıp adres satırına "localhost:8888"
+Şimdi gidip Firefox'u açıp adres satırına "localhost:8888" yazıp sayfaya gittiğimizde aşağıdaki sayfa ile karşılaşıyoruz. Bu sayfada docker konteynerimizin _/notebooks_ klasörünün içeriğine ulaşıyoruz. Docker içerisinde _Jupyter Notebook_ kullanımı ve gerekli ayarların yapılmasını başka bir yazıda aktarmayı planlıyorum. Umarım en kısa zamanda onu da yayımlayacağım. Neyse şimdi konumuza devam edelim. 
 
 ![Jupyter Notebook](/assets/img/docker-usage/initial_jupyter_big.png)
+
+Şimdilik yukarıda sayfanın sağ üstünde bulunan _Logout_ tuşuna basıp bağlantımızı kestikten sonra terminal penceresinde Kontrol+C ile Jupyter sunucusunu ve çalışan docker konteynerimizi kapatıyoruz. Bazen konteyner çalıştığında terminal ekranına çıkmak isteyebilirsiniz. Bu durumda aşağıdaki gibi docker çalıştırma komutumuzun sonuna _bash_ eklemek yeterli olacaktır. 
+
+```shell
+$ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed bash
+root@2fc479bed67f:/notebooks# 
+```
+
+Görüldüğü gibi artık konterner içinde terminal ekranına bağlıyız ve artık özelleştirmek istersek şimdi güç bizim elimize geçti. Kullanıcı adımız _root_ ve konteyner anahtar adımız _2fc479bed67f_ (siz de bu alan farklı olacaktır ki bu rasgele verilen bir anahtar) ve aynı Jupyter'de olduğu _/notebook_ klasöründe bulunuyoruz. Terminalde işimiz bittiğinde _exit_ komutu ile çıkıyoruz. 
+
 ### Konteyner'da değişiklik yapmak ve içe aktarmak (_commit_)
 
 Görüntüyü oluşturduk be bir konteyner içinde çalıştırmaya başladık.
 
-
-## 6. Jupyter Ayarlanması
-   ---
-
-
-
 ```shell
+$ sudo docker ps -a 
+CONTAINER ID        IMAGE                                             COMMAND             CREATED             STATUS                        PORTS               NAMES
+2fc479bed67f        gcr.io/tensorflow/tensorflow:latest-gpu_changed   "bash"              5 minutes ago       Exited (130) 10 seconds ago                       musing_saha
 
 ```
 
