@@ -9,9 +9,9 @@ tags: [NVIDIA-Docker, Docker, Docker Temel Bilgiler, Docker Kurulumu, DockerFile
 
 
 
-   Derin Öğrenme (Deep Learning) ile uğraşmaya başlayan herkesin bir şekilde korkulu rüyası maalesef gerekli paketlerin, araçların kurulması ve birbirlerinin gereksinimleri ile uyumsuzluk yaratmadan çalışabilmesi olmuştur. Hele bir de aynı anda farklı projelerle çalışıyorsanız bunların hepsinin aynı gereksinimleri varsa işler daha da sorunlu olmaktadır. Bunun için Python paket yönetimi ile sunulan virtualenv [virtualenv](https://virtualenv.pypa.io/en/stable/), [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) kullanımı belli oranda işe yarasa bile bazen sorun geliştirme ortamınızda mevcut ekran kartının(_NVIDIA Cuda_ çekirdeğine sahip olan) _CUDA_ sürücüleri, _cuDNN_ kütüphanesi kurmaya çalıştığınız paketler ile uyumlu olmaması/olamaması neticesinde kurulum işlemleri  gerekenden daha fazla zaman harcamamıza neden olabilmektedir. Bazen bunların hepsi bir araya getirilse bile bu seferde sisteminizde yaptığınız bir işletim sistemi/donanım sürücüsü güncellemesi bütün emeklerin çöpe gitmesi anlamına gelebilmektedir. 
+   Derin Öğrenme (Deep Learning) ile uğraşmaya başlayan herkesin bir şekilde korkulu rüyası maalesef gerekli paketlerin, araçların kurulması ve birbirlerinin gereksinimleri ile uyumsuzluk yaratmadan çalışabilmesi olmuştur. Hele bir de aynı anda farklı projelerle çalışıyorsanız bunların hepsinin ayrı gereksinimleri varsa işler daha da sorunlu olmaktadır. Bunun için Python paket yönetimi ile sunulan virtualenv [virtualenv](https://virtualenv.pypa.io/en/stable/), [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) kullanımı belli oranda işe yarasa bile bazen sorun geliştirme ortamınızda mevcut ekran kartının(_NVIDIA Cuda_ çekirdeğine sahip olan) _CUDA_ sürücüleri, _cuDNN_ kütüphanesi kurmaya çalıştığınız paketler ile uyumlu olmaması/olamaması kurulum işlemleri gerekenden daha fazla zaman harcamamıza neden olabilmektedir. Bunların hepsi bir araya getirilse bile bu seferde sisteminizde yaptığınız bir işletim sistemi/donanım sürücüsü güncellemesi bütün emeklerin çöpe gitmesi anlamına gelebilmektedir. 
 
-   Bu noktada daha fazla izole/sanal ortama ihtiyaç ortaya çıkmaktadır. Sorunların ortadan kaldırılmasında [Docker](https://www.docker.com) etkin bir çözüm olarak karşımıza çıkmakta ve giderek daha çok geliştirici tarafından tercih edilmektedir. Dahası ekran kartının hesap gücünden faydalanmak isteyen kullanıcıların yardımına bir de [NVIDIA-Docker](https://github.com/NVIDIA/nvidia-docker) koşmaktadır. Çok fazla teknik ayrıntısına boğulmadan gerekli kavramları öğrenerek bu çözümü derin/makina öğrenmesi geliştiricileri için nasıl faydalı bir şekilde kullanılabileceği üzerine odaklanacağız. Teknik ayrıntılar için [Gökhan Şengün](https://www.gokhansengun.com/docker-nedir-nasil-calisir-nerede-kullanilir/) tarafından kaleme alınan yazıya/yazılara başvurabilirsiniz.  Konuyu derin öğrenme özelinde anlatmaya çalışacağım. Özellikle İngilizce kaynak sayısı oldukça fazla olsa da Türkçe kaynak bulmakta sorun yaşanmakta olduğunu değerlendirdiğim için de bu yazıyı Türkçe olarak paylaşıyorum. 
+   Bu noktada daha fazla izole/sanal ortama ihtiyaç ortaya çıkmaktadır. Sorunların ortadan kaldırılmasında [Docker](https://www.docker.com) etkin bir çözüm olarak karşımıza çıkmakta ve giderek daha çok geliştirici tarafından tercih edilmektedir. Dahası ekran kartının hesap gücünden faydalanmak isteyen kullanıcıların yardımına bir de [NVIDIA-Docker](https://github.com/NVIDIA/nvidia-docker) koşmaktadır. Bu yazımızda çok fazla teknik ayrıntısına boğulmadan gerekli kavramları öğrenerek bu çözümü derin/makina öğrenmesi geliştiricileri için nasıl faydalı bir şekilde kullanılabileceği üzerine odaklanacağız. Teknik ayrıntılar için [Gökhan Şengün](https://www.gokhansengun.com/docker-nedir-nasil-calisir-nerede-kullanilir/) tarafından kaleme alınan yazıya/yazılara başvurabilirsiniz.  Konuyu derin öğrenme özelinde anlatmaya çalışacağımı tekrar hatırlatarak özellikle İngilizce kaynak sayısı oldukça fazla olsa da Türkçe kaynak bulmakta sorun yaşanmakta olduğunu değerlendirdiğim için de bu yazıyı Türkçe olarak paylaşıyorum. 
 
 Ana Başlıklar:
 1. Temel Kavramlar
@@ -24,14 +24,14 @@ Ana Başlıklar:
 
 ### Docker nedir?
 
-   Kendi başına çalışabilen, ihtiyaç duyduğu herşeyi (sistem araçları, sistem kütüphaneleri, gerekli paketler, donanım sürücüleri vb.) kendi içinde bulunduran, hafif bir yazılımdır. Dahası içerisinde barındırdığı tüm bileşenleri aynı makine üstünde (ana makine-host) çok farklı ayarlarla istediğiniz sayıda görüntüyü (image) farklı konteyner (container) çalıştırmak mümkün ki bu haliyle her geliştirici için normal şartlarda ayrı ayrı sahip olmak veya ayarlamak çok maliyetli ve zahmetli olabilecek süreçler hem çok ekonomik hem de çok süratli olabilmektedir. 
+   Kendi başına çalışabilen, ihtiyaç duyduğu herşeyi (sistem araçları, sistem kütüphaneleri, gerekli paketler, donanım sürücüleri vb.) kendi içinde bulunduran, hafif bir yazılımdır. Dahası içerisinde barındırdığı tüm bileşenleri aynı makine üstünde (ana makine-host) çok farklı ayarlarla istediğiniz sayıda görüntüyü (image) farklı konteyner (container) içinde çalıştırmak mümkün ki bu haliyle her geliştirici için normal şartlarda ayrı ayrı sahip olmak veya ayarlamak çok maliyetli ve zahmetli olabilecek süreçler hem çok ekonomik hem de çok süratli olabilmektedir. 
 
 #### Görüntü (Image) 
 
    İçerisinde işletim sistemi NVIDIA sürücülerini ve gerekli tüm araç, paket ve programları barındıran yapıdır. Docker kurulumunu anlattıktan sonra ana makine de mevcut görüntüleri (image) nasıl oluşturulacağını, görüntüleneceği ve yapılabilecek işlemlere değineceğiz. 
 
 #### Konteyner (Container)
-   Docker görüntüsünün üzerinde koştuğu izole/sanal çalıştığı ortamdır. Yine çalışan, görüntü içine aktarmayı (commit) veya aktaılmamış olanlar üzerinde yapılan işlemlere ileride değineceğiz. 
+   Docker görüntüsünün üzerinde koştuğu izole/sanal çalıştığı ortamdır. Yine çalışan, görüntü içine aktarmayı (commit) veya aktarılmamış olanlar üzerinde yapılabilecek işlemlere ileride değineceğiz. 
 
 ## 2. Docker, NVIDIA Docker Kurulumu:
    [Docker CE](https://docs.docker.com/install/) sürümünün kurulum yönergelerine bağlantı üzerinden ulaşabilirsiniz. Ben size Ubuntu bash terminal üzerinde kurulumunu göstereceğim.
@@ -66,7 +66,7 @@ $ sudo apt-get install \
 $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 ```
 
-   stable olarak işaretlenmiş paketleri kurmak için ekliyoruz.
+   stable olarak işaretlenmiş paketleri kurmak için depomuza ekliyoruz.
 
 ```shell
 $ sudo add-apt-repository \
@@ -87,7 +87,7 @@ $ sudo apt-get update
 $ sudo apt-get install docker-ce
 ```
 
-   "Merhaba Dünya"sız yapamazdık. Aşağıdaki komut ile henüz bilgisayarımızda olmayan hello-world isimli bir görüntüyü [DockerHub](https://hub.docker.com/) adı verilen geliştiricilerin ve resmi olarak kullanılan görüntülerin paylaşıldığı bir çeşit uygulama dükkanından indirip çalıştırıyoruz ve terminal standart çıktısında aşağıdaki çıktıyı görüyoruz.
+   "_Merhaba_ _Dünya_"sız yapamazdık. Aşağıdaki komut ile henüz bilgisayarımızda olmayan hello-world isimli bir görüntüyü [DockerHub](https://hub.docker.com/) adı verilen geliştiricilerin ve resmi olarak kullanılan görüntülerin paylaşıldığı bir çeşit uygulama dükkanından indirip çalıştırıyoruz ve terminal standart çıktısında aşağıdaki çıktıyı görüyoruz.
 
 ```shell
 $ sudo docker run hello-world
@@ -119,7 +119,7 @@ For more examples and ideas, visit:
  https://docs.docker.com/engine/userguide/
 ```
 
-   Docker kurma işlemimiz sonuçta bitti. Şimdi de derin öğrenme (deep learning) modellerini eğitme işlemimizi kısaltacak önemli bir donanım olan ekran kartı üreticisi NVIDIA'nın hayatımıza soktuğu nimetlerden faydalanmak için bir de [NVIDIA-Docker](https://github.com/NVIDIA/nvidia-docker/blob/master/README.md) kurmaya başlayabiliriz. Bu noktada ana makinemizde (host) NVIDIA ekran kartı sürücüsü kurulmuş olması gerekmektedir.
+   Docker kurma işlemimiz bitti. Şimdi de derin öğrenme (deep learning) modellerini eğitme işlemimizi kısaltacak önemli bir donanım olan ekran kartı üreticisi NVIDIA'nın hayatımıza soktuğu nimetlerden faydalanmak için bir de [NVIDIA-Docker](https://github.com/NVIDIA/nvidia-docker/blob/master/README.md) kurmaya başlayabiliriz. Bu noktada ana makinemizde (host) NVIDIA ekran kartı (CUDA yeteneğine sahip) ve ekran kartı sürücüsü kurulmuş olması gerekmektedir.
 
    Önce eski sürümleri ve o sürümlerin kullandığı konteynerleri kaldırıyoruz.
 ```shell
