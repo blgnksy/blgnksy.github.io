@@ -9,7 +9,7 @@ tags: [NVIDIA-Docker, Docker, Docker Temel Bilgiler, Docker Kurulumu, DockerFile
 
 
 
-   Derin Öğrenme (Deep Learning) ile uğraşmaya başlayan herkesin bir şekilde korkulu rüyası maalesef gerekli paketlerin, araçların kurulması ve birbirlerinin gereksinimleri ile uyumsuzluk yaratmadan çalışabilmesi olmuştur. Hele bir de aynı anda farklı projelerle çalışıyorsanız bunların hepsinin ayrı gereksinimleri varsa işler daha da sorunlu olmaktadır. Bunun için Python paket yönetimi ile sunulan virtualenv [virtualenv](https://virtualenv.pypa.io/en/stable/), [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) kullanımı belli oranda işe yarasa bile bazen sorun geliştirme ortamınızda mevcut ekran kartının(_NVIDIA Cuda_ çekirdeğine sahip olan) _CUDA_ sürücüleri, _cuDNN_ kütüphanesi kurmaya çalıştığınız paketler ile uyumlu olmaması/olamaması kurulum işlemleri gerekenden daha fazla zaman harcamamıza neden olabilmektedir. Bunların hepsi bir araya getirilse bile bu seferde sisteminizde yaptığınız bir işletim sistemi/donanım sürücüsü güncellemesi bütün emeklerin çöpe gitmesi anlamına gelebilmektedir. 
+   Derin Öğrenme (Deep Learning) ile uğraşmaya başlayan herkesin bir şekilde korkulu rüyası maalesef gerekli paketlerin, araçların kurulması ve birbirlerinin gereksinimleri ile uyumsuzluk yaratmadan çalışabilmesi olmuştur. Hele bir de aynı anda farklı projelerle çalışıyorsanız bunların hepsinin ayrı gereksinimleri varsa işler daha da sorunlu olmaktadır. Bunun için Python paket yönetimi ile sunulan virtualenv [virtualenv](https://virtualenv.pypa.io/en/stable/), [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) kullanımı belli oranda işe yarasa bile bazen sorun, geliştirme ortamınızda mevcut ekran kartının(_NVIDIA Cuda_ çekirdeğine sahip olan) _CUDA_ sürücüleri, _cuDNN_ kütüphanesi kurmaya çalıştığınız paketler ile uyumlu olmaması/olamaması nedeniyle kurulum işlemleri gerekenden daha fazla zaman harcamamıza neden olabilmektedir. Bunların hepsi bir araya getirilse bile bu sefer de sisteminizde yaptığınız bir işletim sistemi/donanım sürücüsü güncellemesi bütün emeklerin çöpe gitmesi anlamına gelebilmektedir. 
 
    Bu noktada daha fazla izole/sanal ortama ihtiyaç ortaya çıkmaktadır. Sorunların ortadan kaldırılmasında [Docker](https://www.docker.com) etkin bir çözüm olarak karşımıza çıkmakta ve giderek daha çok geliştirici tarafından tercih edilmektedir. Dahası ekran kartının hesap gücünden faydalanmak isteyen kullanıcıların yardımına bir de [NVIDIA-Docker](https://github.com/NVIDIA/nvidia-docker) koşmaktadır. Bu yazımızda çok fazla teknik ayrıntısına boğulmadan gerekli kavramları öğrenerek bu çözümü derin/makina öğrenmesi geliştiricileri için nasıl faydalı bir şekilde kullanılabileceği üzerine odaklanacağız. Teknik ayrıntılar için [Gökhan Şengün](https://www.gokhansengun.com/docker-nedir-nasil-calisir-nerede-kullanilir/) tarafından kaleme alınan yazıya/yazılara başvurabilirsiniz.  Konuyu derin öğrenme özelinde anlatmaya çalışacağımı tekrar hatırlatarak özellikle İngilizce kaynak sayısı oldukça fazla olsa da Türkçe kaynak bulmakta sorun yaşanmakta olduğunu değerlendirdiğim için de bu yazıyı Türkçe olarak paylaşıyorum. 
 
@@ -24,14 +24,14 @@ Ana Başlıklar:
 
 ### Docker nedir?
 
-   Kendi başına çalışabilen, ihtiyaç duyduğu herşeyi (sistem araçları, sistem kütüphaneleri, gerekli paketler, donanım sürücüleri vb.) kendi içinde bulunduran, hafif bir yazılımdır. Dahası içerisinde barındırdığı tüm bileşenleri aynı makine üstünde (ana makine-host) çok farklı ayarlarla istediğiniz sayıda görüntüyü (image) farklı konteyner (container) içinde çalıştırmak mümkün ki bu haliyle her geliştirici için normal şartlarda ayrı ayrı sahip olmak veya ayarlamak çok maliyetli ve zahmetli olabilecek süreçler hem çok ekonomik hem de çok süratli olabilmektedir. 
+   Kendi başına çalışabilen, ihtiyaç duyduğu herşeyi (sistem araçları, sistem kütüphaneleri, gerekli paketler, donanım sürücüleri vb.) kendi içinde bulunduran, hafif bir yazılımdır. Dahası içerisinde barındırdığı tüm bileşenleri aynı makine üstünde (ana makine-host) çok farklı ayarlarla istediğiniz sayıda görüntüyü (image) farklı konteyner (container) içinde çalıştırmak mümkündür. Sonuç olarak; geliştirici için normal şartlarda ayrı ayrı sahip olmak veya ayarlamak çok maliyetli ve zahmetli olabilecek süreçler hem çok ekonomik hem de çok süratli olabilmektedir. 
 
 #### Görüntü (Image) 
 
-   İçerisinde işletim sistemi NVIDIA sürücülerini ve gerekli tüm araç, paket ve programları barındıran yapıdır. Docker kurulumunu anlattıktan sonra ana makine de mevcut görüntüleri (image) nasıl oluşturulacağını, görüntüleneceği ve yapılabilecek işlemlere değineceğiz. 
+   İçerisinde işletim sistemi NVIDIA sürücülerini ve gerekli tüm araç, paket ve programları barındıran yapıdır. Docker kurulumunu anlattıktan sonra ana makinede mevcut görüntülerin (image) nasıl oluşturulacağını, görüntüleneceğini ve yapılabilecek işlemlere değineceğiz. 
 
 #### Konteyner (Container)
-   Docker görüntüsünün üzerinde koştuğu izole/sanal çalıştığı ortamdır. Yine çalışan, görüntü içine aktarmayı (commit) veya aktarılmamış olanlar üzerinde yapılabilecek işlemlere ileride değineceğiz. 
+   Docker görüntüsünün üzerinde koştuğu izole/sanal ortamdır. Konteyner üzerinde yapılabilecek işlemlere ileride değineceğiz. 
 
 ## 2. Docker, NVIDIA Docker Kurulumu:
    [Docker CE](https://docs.docker.com/install/) sürümünün kurulum yönergelerine bağlantı üzerinden ulaşabilirsiniz. Ben size Ubuntu bash terminal üzerinde kurulumunu göstereceğim.
@@ -167,7 +167,7 @@ Sun May 20 18:33:05 2018
 ## 3. Hazır Görüntülerin(image) Kullanımı:
 [DockerHub](https://hub.docker.com/explore) üzerinden paylaşılmış hazır görüntülere (image) ulaşabilirsiniz. Kolaydan başlayarak zora doğru gideceğimiz için önce hazır depoları kullanacağız. Ben size Tensorflow'un resmi deposundan son sürümünü nasıl kuracağınızı göstereceğim.
 
-   Yine terminal üzerinden aşağıdaki komutu verdiğimizde uzak depo alanından _tensorflow/tensorflow_ isimli deponun son sürümünü(_latest-gpu_) ana makinemize çekip (_pull_) etkileşimli modda çalıştırıp (-p) parametresi ile dış dünya ile 8888 nolu portdan haberleşmesini söylüyoruz. Daha sonra [localhost:8888](localhost:8888) üzerinden çalışan Jupyter Notebook karşımıza çıkıyor. Bundan sonra bu komut her çalıştırdığımızda Docker uzak depo yerel makinemizde olduğu için indirmek yerine doğrudan çalıştırmaya başlayacaktır.
+   Terminal üzerinden aşağıdaki komutu verdiğimizde uzak depo alanından _tensorflow/tensorflow_ isimli deponun son sürümünü(_latest-gpu_) ana makinemize çekip (_pull_) etkileşimli modda çalıştırıp (-p) parametresi ile dış dünya ile 8888 nolu portdan haberleşmesini söylüyoruz. Daha sonra [localhost:8888](localhost:8888) üzerinden çalışan Jupyter Notebook karşımıza çıkıyor. Bundan sonra bu komutu her çalıştırdığımızda Docker, uzak depo yerel makinemize bulunduğu için indirmek yerine doğrudan çalıştırmaya başlayacaktır.
 
 ```shell
 $ nvidia-docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu
@@ -177,9 +177,9 @@ $ nvidia-docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu
    
 ## 4. DockerFile ile Özgün Görüntülerin Kullanılması:
 
-   Her zaman hazır bir depo kullanmak Docker'ın bize sunduğu esnekliği tam anlamıyla kullanmamıza imkan vermeyebilir. Bu noktada tamamıyla kendi istediğimiz bir görüntü oluşturmak gerekecektir. DockerFile bu eksikliği gidermek için kullanılan metin bazlı bir dosya olup içerisinde bulunan Docker'a özel sözdizim kuralları ile tam anlamıyla istediğimiz gibi bir görüntü oluşturmamıza yardım eder. Ben bu noktada DockerFile oluşturma konusunda yine [Gökhan Şengün](https://www.gokhansengun.com/docker-yeni-image-hazirlama/) tarafından kaleme mutlaka göz atmanızı tavsiye edip derin öğrenme merkezli olarak nasıl bir DockerFile kullanabileceğimize değineceğim. 
+   Her zaman hazır bir depo kullanmak Docker'ın bize sunduğu esnekliği tam anlamıyla kullanmamıza imkan vermeyebilir. Bu noktada tamamıyla kendi istediğimiz bir görüntü oluşturmak gerekecektir. DockerFile bu eksikliği gidermek için kullanılan metin bazlı bir dosya olup içerisinde bulunan Docker'a özel sözdizim kuralları ile tam anlamıyla istediğimiz gibi bir görüntü oluşturmamıza yardım eder. Ben bu noktada DockerFile oluşturma konusunda yine [Gökhan Şengün](https://www.gokhansengun.com/docker-yeni-image-hazirlama/) tarafından kaleme alınan yazıya mutlaka göz atmanızı tavsiye edip derin öğrenme merkezli olarak nasıl bir DockerFile kullanabileceğimize değineceğim. 
 
-   Öncelikle örnek bir DockerFile ele alalım. Burada çok kullanılan bir [Floyd Lab](https://github.com/floydhub/dl-docker) tarafından sağlanan bir hazır görüntünün DockerFile dosyasını kullanacağız. [Bağlantıdan](https://github.com/blgnksy/blgnksy.github.io/raw/master/assets/DockerFile.gpu) dosyayı indirebilirsiniz. 
+   Öncelikle örnek bir DockerFile ele alalım. Burada çok kullanılan bir [Floyd Lab](https://github.com/floydhub/dl-docker) tarafından sağlanan hazır bir görüntünün DockerFile dosyasını kullanacağız. [Bağlantıdan](https://github.com/blgnksy/blgnksy.github.io/raw/master/assets/DockerFile.gpu) dosyayı indirebilirsiniz. 
 
    İndirdiğimiz DockerFile.gpu dosyasının olduğu dizine terminalden gelip aşağıdaki komut ile _floydhub/dl-docker_ adından ve _gpu_ etiketli bir görüntü oluşturuyoruz. 
 
@@ -399,7 +399,7 @@ hello-world                    latest                    e38bc07ac18e        5 w
 gcr.io/tensorflow/tensorflow   latest-gpu_changed        f73dd685943c        5 weeks ago         14.8GB
 gcr.io/tensorflow/tensorflow   1.7.0-rc0-devel-gpu-py3   a48c5d8684b3        2 months ago        3.1GB
 ```
-  Görülebileceği gibi benim ana makinem üzerinde 3 adet görüntü var. Dikkat ederseniz aynı isimli ama farklı etikete sahip iki görüntü var. Altta ilk çektiğim (_pull_) hali üstte zaman içinde konteyner da  yaptığım değişiklikleri aktardığım (_commit_) son halinde verdiğim yeni etiketli olan bulunuyor.
+  Görülebileceği gibi benim ana makinem üzerinde 3 adet görüntü var. Dikkat ederseniz aynı isimli ama farklı etikete sahip iki görüntü var. Altta ilk çektiğim (_pull_) hali üstte ise zaman içinde konteyner da yaptığım değişiklikleri aktardığım (_commit_) son halini verdiğim yeni etiketli olan bulunuyor.
 
 ### Konteyner'ı çalıştırmak (_run_)
 
@@ -430,11 +430,11 @@ $ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tenso
 root@2fc479bed67f:/notebooks# 
 ```
 
-Görüldüğü gibi artık konterner içinde terminal ekranına bağlıyız ve artık özelleştirmek istersek şimdi güç bizim elimize geçti. Kullanıcı adımız _root_ ve konteyner anahtar adımız _2fc479bed67f_ (siz de bu alan farklı olacaktır ki bu rasgele verilen bir anahtar) ve aynı Jupyter'de olduğu _/notebook_ klasöründe bulunuyoruz. Terminalde işimiz bittiğinde _exit_ komutu ile çıkıyoruz. 
+Görüldüğü gibi artık konterner içinde terminal ekranına bağlıyız ve artık özelleştirmek istersek şimdi güç bizim elimize geçti. Kullanıcı adımız _root_ ve konteyner anahtar adımız _2fc479bed67f_ (siz de bu alan farklı olacaktır ki bu rasgele verilen bir anahtar) ve aynı Jupyter'de olduğu gibi _/notebook_ klasöründe bulunuyoruz. Terminalde işimiz bittiğinde _exit_ komutu ile çıkıyoruz. 
 
 ### Konteyner'da değişiklik yapmak ve içe aktarmak (_commit_)
 
-Görüntüyü oluşturduk be bir konteyner içinde çalıştırmaya başladık.
+Görüntüyü oluşturduk ve bir konteyner içinde çalıştırmaya başladık.
 
 ```shell
 $ sudo docker ps -a 
