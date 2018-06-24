@@ -123,24 +123,24 @@ For more examples and ideas, visit:
 
    Önce eski sürümleri ve o sürümlerin kullandığı konteynerleri kaldırıyoruz.
 ```shell
-docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
-sudo apt-get purge -y nvidia-docker
+$ docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
+$ sudo apt-get purge -y nvidia-docker
 ```
 
    _apt_ ile gerekli paketleri kuruyoruz ve anahtar zincirimize resmi GPG anahtarını ekliyoruz.
 ```shell
-curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
+$ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
   sudo apt-key add -
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \
+$ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \
   sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-sudo apt-get update
+$ sudo apt-get update
 ```
 
    NVIDIA-Docker kurulumunu yapıyoruz ve eğer daha önce çalışan bir docker işlemi varsa kapatma sinyali gönderiyoruz.
 ```shell
-sudo apt-get install -y nvidia-docker2
-sudo pkill -SIGHUP dockerd
+$ sudo apt-get install -y nvidia-docker2
+$ sudo pkill -SIGHUP dockerd
 ```
 
    Yine kurulumumuzu test etmek için bu sefer NVIDIA'ya ait son CUDA deposunu kendi bilgisayarımıza indirip herhangi bir sorun olmadığına emin oluyoruz. Bu noktada sizin ekran kartı modeli, sürücüsü ve özellikleri ile uyumlu olarak standart çıktıda aşağıdakine benzer bir sonuç alıyoruz. 
