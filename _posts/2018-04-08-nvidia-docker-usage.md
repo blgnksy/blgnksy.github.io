@@ -434,7 +434,7 @@ Görüldüğü gibi artık konterner içinde terminal ekranına bağlıyız ve a
 
 ### Konteyner'da değişiklik yapmak ve içe aktarmak (_commit_)
 
-Görüntüyü oluşturduk ve bir konteyner içinde çalıştırmaya başladık.
+Görüntüyü oluşturduk ve bir konteyner içinde çalıştırmaya başladık. Bu noktaya kadar sahip olduğumuz içe aktarılmayı bekleyen konteynerleri aşağıdaki komut ile listeyelebiliriz. Burada _CONTAINER ID_ ve _NAMES_ docker motoru tarafından verilen rasgele değerlerdir.
 
 ```shell
 $ sudo docker ps -a 
@@ -442,7 +442,15 @@ CONTAINER ID        IMAGE                                             COMMAND   
 2fc479bed67f        gcr.io/tensorflow/tensorflow:latest-gpu_changed   "bash"              5 minutes ago       Exited (130) 10 seconds ago                       musing_saha
 
 ```
+Eğer konteyner içerisinde oluşturulduktan sonra değişiklik yapılmışsa ve bu değişikliği görüntüye aktarmaz isek görüntü her çalıştırıldığında yeni bir konteyner oluşturacağından ve çalışan konteyner diğer konteynerde yapılan değişiklikten haberdar olmadığından bu değişiklikleri daimi olarak kullanmak istememiz halinde içe aktarmamız gerekmektedir. Bunun için aşağıdaki komutu çalıştırmamız yeterli olacaktır.
 
+```shell
+$ sudo docker commit 2fc479bed67f gcr.io/tensorflow/tensorflow:v1
+sha256:0ddddaf2218987e2ed9f5cfa1976b635a7b811d68d986fef193af6e4c7cfcc30
+```
+Bu komut ile _tag_ olarak v1 diye bir etiket tanımladığımız başlangıç görüntüsü üzerinde değişikliklerin eklenmiş olduğu yeni bir görüntüye sahip oluyoruz. İstersek etiketi olduğu gibi kullanıp iki ayrı görüntü yerine başlangıç görüntüsü üzerine de aktarım yapabilirdik. Bu noktada sürekli yeni etiketler vererek yola devam etmek bilgisayarınızda daha fazla depolama alanı gerektirecektir. 
+
+### Kullanılmayan Konteynerları durdurmak ve silmek (_commit_)
 <ul>
   {% for post in site.posts %}
     <li>
@@ -450,4 +458,3 @@ CONTAINER ID        IMAGE                                             COMMAND   
     </li>
   {% endfor %}
 </ul>
-
