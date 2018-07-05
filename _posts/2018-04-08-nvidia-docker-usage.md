@@ -451,6 +451,64 @@ sha256:0ddddaf2218987e2ed9f5cfa1976b635a7b811d68d986fef193af6e4c7cfcc30
 Bu komut ile _tag_ olarak v1 diye bir etiket tanımladığımız başlangıç görüntüsü üzerinde değişikliklerin eklenmiş olduğu yeni bir görüntüye sahip oluyoruz. İstersek etiketi olduğu gibi kullanıp iki ayrı görüntü yerine başlangıç görüntüsü üzerine de aktarım yapabilirdik. Bu noktada sürekli yeni etiketler vererek yola devam etmek bilgisayarınızda daha fazla depolama alanı gerektirecektir. 
 
 ### Kullanılmayan Konteynerları durdurmak ve silmek (_commit_)
+
+Çalışan konteynerlerden işimize yaramayanları veya içe aktarmayı tamamladığınız konteynerleri _CONTAINER ID_ parametresini kullanarak durdurmak ve silmek mümkündür. İlk olarak çalışan konteynerleri yukarıda gösterdiğimiz gibi listeleyelim. 
+
+```shell
+$ sudo docker ps -a
+CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS                     PORTS                                            NAMES
+3a9777814a95        ndeep/dl-docker:cpu   "bash"                   2 days ago          Exited (255) 2 days ago    0.0.0.0:6006->6006/tcp, 0.0.0.0:8888->8888/tcp   festive_chatterjee
+1a9add8b9905        ndeep/dl-docker:cpu   "bash"                   6 weeks ago         Exited (255) 6 weeks ago   0.0.0.0:6006->6006/tcp, 0.0.0.0:8888->8888/tcp   dazzling_ride
+e1a552ab67bf        635015520b19          "bash"                   6 weeks ago         Exited (0) 6 weeks ago                                                      objective_northcutt
+7ea8bd5094c6        635015520b19          "jupyter notebook --…"   2 months ago        Exited (0) 2 months ago                                                     priceless_khorana
+```
+Bu noktada _3a9777814a95_ anahtar alanına sahip konteyneri durdurmak için:
+
+```shell
+$ sudo docker stop 3a9777814a95
+3a9777814a95
+```
+komutunu kullanıyoruz. Durdurduğumuz konteyneri silmek için 
+
+```shell
+$ sudo docker rm 3a9777814a95
+3a9777814a95
+```
+komutunu komut satırına yazmamız gerekiyor. Artık çalışan konteynerleri sıraladığımızda _3a9777814a95_ anahtar alanına sahip konteynerdan kurtulmuş oluyoruz. 
+
+```shell
+$ sudo docker ps -a
+CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS                     PORTS                                            NAMES
+1a9add8b9905        ndeep/dl-docker:cpu   "bash"                   6 weeks ago         Exited (255) 6 weeks ago   0.0.0.0:6006->6006/tcp, 0.0.0.0:8888->8888/tcp   dazzling_ride
+e1a552ab67bf        635015520b19          "bash"                   6 weeks ago         Exited (0) 6 weeks ago                                                      objective_northcutt
+7ea8bd5094c6        635015520b19          "jupyter notebook --…"   2 months ago        Exited (0) 2 months ago                                                     priceless_khorana
+```
+
+### Görüntüleri silmek
+
+Son olarak; artık işimize yaramayacağını düşündüğümüz görüntüleri silme işlemine bakacağız. Bu noktada bir görüntüyü silmek için önce bu görüntünün çalışan tüm konteynerlerinin durdurulması ve silinmesi gerektiğini hatırlattıktan sonra görüntüyü silme işlemine geçelim. Öncelikle görüntüleri listeyelim:
+
+```shell
+$ sudo docker images
+REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
+ndeep/dl-docker      cpu2                8403972b7f68        14 minutes ago      11.6GB
+ndeep/dl-docker      cpu1                0ddddaf22189        22 hours ago        11.6GB
+ndeep/dl-docker      cpu                 e16010eb9c55        6 weeks ago         11.6GB
+floydhub/dl-docker   cpu_changed         4a4e5cbd6476        5 months ago        11.8GB
+ubuntu               14.04               67759a80360c        6 months ago        221MB
+```
+
+Ben _8403972b7f68_ anhtar alanına sahip görüntüyü silmek istiyorum. Bunun için komut satırına:
+
+```shell
+$ docker rmi 8403972b7f68
+Untagged: ndeep/dl-docker:cpu2
+Deleted: sha256:8403972b7f68905eb2bb59efcbee05cefdd8ece92ab28a13d3326d07329437a8
+```
+komutunu yazdıktan sonra görüntümüzü silebiliyoruz.
+
+Sonuç olarak; _docker_/_nvidia-docker_ derin öğrenme alanında geliştirme/araştırma yapanların nasıl bu aracı kullanabileceğine dair temel bilgileri aktarmaya çalıştım. Elbette _docker_/_nvidia-docker_ kendilerine has birçok farklı özelliğe sahipler. Ama umarım kısa sürede çalışan bir geliştirme ortamı oluşturabileceksiniz. _Jupyter_ kurulumuna dair konuları başka bir yazıda aktarmaya çalışacağım. (Umarım en kısa zamanda) Eğer sorunuz olursa lütfen aşağıdaki bölümden bana yazınız. 
+
 <ul>
   {% for post in site.posts %}
     <li>
