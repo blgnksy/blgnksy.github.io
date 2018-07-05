@@ -1,2 +1,1 @@
-https://blgnksy.github.io
 https://blgnksy.github.io/2018/07/05/nvidia-docker-usage.html
