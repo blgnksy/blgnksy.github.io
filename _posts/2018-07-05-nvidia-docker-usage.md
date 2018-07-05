@@ -13,6 +13,8 @@ tags: [NVIDIA-Docker, Docker, Docker Temel Bilgiler, Docker Kurulumu, DockerFile
 
    Bu noktada daha fazla izole/sanal ortama ihtiyaç ortaya çıkmaktadır. Sorunların ortadan kaldırılmasında [Docker](https://www.docker.com) etkin bir çözüm olarak karşımıza çıkmakta ve giderek daha çok geliştirici tarafından tercih edilmektedir. Dahası ekran kartının hesap gücünden faydalanmak isteyen kullanıcıların yardımına bir de [NVIDIA-Docker](https://github.com/NVIDIA/nvidia-docker) koşmaktadır. Bu yazımızda çok fazla teknik ayrıntısına boğulmadan gerekli kavramları öğrenerek bu çözümü derin/makina öğrenmesi geliştiricileri için nasıl faydalı bir şekilde kullanılabileceği üzerine odaklanacağız. Teknik ayrıntılar için [Gökhan Şengün](https://www.gokhansengun.com/docker-nedir-nasil-calisir-nerede-kullanilir/) tarafından kaleme alınan yazıya/yazılara başvurabilirsiniz.  Konuyu derin öğrenme özelinde anlatmaya çalışacağımı tekrar hatırlatarak özellikle İngilizce kaynak sayısı oldukça fazla olsa da Türkçe kaynak bulmakta sorun yaşanmakta olduğunu değerlendirdiğim için de bu yazıyı Türkçe olarak paylaşıyorum. 
 
+![Nvidia-Docker](/assets/img/docker-usage/NVIDIA-GPU-Docker.png)
+
 Ana Başlıklar:
 1. Temel Kavramlar
 2. Docker, NVIDIA Docker Kurulumu
