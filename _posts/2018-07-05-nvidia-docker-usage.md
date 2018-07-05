@@ -165,7 +165,7 @@ Sun May 20 18:33:05 2018
 ```
 
 ## 3. Hazır Görüntülerin(image) Kullanımı:
-[DockerHub](https://hub.docker.com/explore) üzerinden paylaşılmış hazır görüntülere (image) ulaşabilirsiniz. Kolaydan başlayarak zora doğru gideceğimiz için önce hazır depoları kullanacağız. Ben size Tensorflow'un resmi deposundan son sürümünü nasıl kuracağınızı göstereceğim.
+   [DockerHub](https://hub.docker.com/explore) üzerinden paylaşılmış hazır görüntülere (image) ulaşabilirsiniz. Kolaydan başlayarak zora doğru gideceğimiz için önce hazır depoları kullanacağız. Ben size Tensorflow'un resmi deposundan son sürümünü nasıl kuracağınızı göstereceğim.
 
    Terminal üzerinden aşağıdaki komutu verdiğimizde uzak depo alanından _tensorflow/tensorflow_ isimli deponun son sürümünü(_latest-gpu_) ana makinemize çekip (_pull_) etkileşimli modda çalıştırıp (-p) parametresi ile dış dünya ile 8888 nolu portdan haberleşmesini söylüyoruz. Daha sonra [localhost:8888](localhost:8888) üzerinden çalışan Jupyter Notebook karşımıza çıkıyor. Bundan sonra bu komutu her çalıştırdığımızda Docker, uzak depo yerel makinemize bulunduğu için indirmek yerine doğrudan çalıştırmaya başlayacaktır.
 
@@ -399,17 +399,17 @@ hello-world                    latest                    e38bc07ac18e        5 w
 gcr.io/tensorflow/tensorflow   latest-gpu_changed        f73dd685943c        5 weeks ago         14.8GB
 gcr.io/tensorflow/tensorflow   1.7.0-rc0-devel-gpu-py3   a48c5d8684b3        2 months ago        3.1GB
 ```
-  Görülebileceği gibi benim ana makinem üzerinde 3 adet görüntü var. Dikkat ederseniz aynı isimli ama farklı etikete sahip iki görüntü var. Altta ilk çektiğim (_pull_) hali üstte ise zaman içinde konteyner da yaptığım değişiklikleri aktardığım (_commit_) son halini verdiğim yeni etiketli olan bulunuyor.
+   Görülebileceği gibi benim ana makinem üzerinde 3 adet görüntü var. Dikkat ederseniz aynı isimli ama farklı etikete sahip iki görüntü var. Altta ilk çektiğim (_pull_) hali üstte ise zaman içinde konteyner da yaptığım değişiklikleri aktardığım (_commit_) son halini verdiğim yeni etiketli olan bulunuyor.
 
 ### Konteyner'ı çalıştırmak (_run_)
 
-Görüntüyü oluşturduk. Şİmdi görüntüyü bir konteyner da çalıştırmaya sıra geldi.
+   Görüntüyü oluşturduk. Şİmdi görüntüyü bir konteyner da çalıştırmaya sıra geldi.
 
 ```shell
 $ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook --allow-root
 ```
 
-Yukarıdaki komut ile önce docker'a _run_ komutunu _it_ parametreleri ile çalıştırmasını söylüyoruz. _i_ etkileşimli modu ile konteyner çalışınca ona komutlar gönderebilmemiz için STDIN (standart girdiyi) açık tutuyor. _t_ ile konteyner için bir pseudo-TTY tahsis ediliyor. _p_ parametresi ile portların ana makine ile konteyner arasında nasıl yönlendirileceğini söylüyoruz. Burada docker konteynerinin 8888 nolu portu ile ana makinenin 8888. portu ve aynı şekilde 6666. portlarını birbirlerine yönlendirdik. Buna jupyter notebook kullanımında ihtiyaç duyacağız. Sonra hangi görüntünün çalıştırılmasını istediğimizi ve konteyner açılınca _jupyter notebook_ açılmasını istediğimizi docker'a söyledikten sonra işimiz bitiyor. Terminal ekranında aşağıdakine benzer bir çıktı görüyor olmalısınız.
+   Yukarıdaki komut ile önce docker'a _run_ komutunu _it_ parametreleri ile çalıştırmasını söylüyoruz. _i_ etkileşimli modu ile konteyner çalışınca ona komutlar gönderebilmemiz için STDIN (standart girdiyi) açık tutuyor. _t_ ile konteyner için bir pseudo-TTY tahsis ediliyor. _p_ parametresi ile portların ana makine ile konteyner arasında nasıl yönlendirileceğini söylüyoruz. Burada docker konteynerinin 8888 nolu portu ile ana makinenin 8888. portu ve aynı şekilde 6666. portlarını birbirlerine yönlendirdik. Buna jupyter notebook kullanımında ihtiyaç duyacağız. Sonra hangi görüntünün çalıştırılmasını istediğimizi ve konteyner açılınca _jupyter notebook_ açılmasını istediğimizi docker'a söyledikten sonra işimiz bitiyor. Terminal ekranında aşağıdakine benzer bir çıktı görüyor olmalısınız.
 ```shell
 $ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook --allow-root
 [I 14:52:56.460 NotebookApp] Serving notebooks from local directory: /notebooks
@@ -419,22 +419,22 @@ $ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tenso
 [I 14:52:56.460 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
 ```
 
-Şimdi gidip Firefox'u açıp adres satırına "localhost:8888" yazıp sayfaya gittiğimizde aşağıdaki sayfa ile karşılaşıyoruz. Bu sayfada docker konteynerimizin _/notebooks_ klasörünün içeriğine ulaşıyoruz. Docker içerisinde _Jupyter Notebook_ kullanımı ve gerekli ayarların yapılmasını başka bir yazıda aktarmayı planlıyorum. Umarım en kısa zamanda onu da yayımlayacağım. Neyse şimdi konumuza devam edelim. 
+   Şimdi gidip Firefox'u açıp adres satırına "localhost:8888" yazıp sayfaya gittiğimizde aşağıdaki sayfa ile karşılaşıyoruz. Bu sayfada docker konteynerimizin _/notebooks_ klasörünün içeriğine ulaşıyoruz. Docker içerisinde _Jupyter Notebook_ kullanımı ve gerekli ayarların yapılmasını başka bir yazıda aktarmayı planlıyorum. Umarım en kısa zamanda onu da yayımlayacağım. Neyse şimdi konumuza devam edelim. 
 
 ![Jupyter Notebook](/assets/img/docker-usage/initial_jupyter_big.png)
 
-Şimdilik yukarıda sayfanın sağ üstünde bulunan _Logout_ tuşuna basıp bağlantımızı kestikten sonra terminal penceresinde Kontrol+C ile Jupyter sunucusunu ve çalışan docker konteynerimizi kapatıyoruz. Bazen konteyner çalıştığında terminal ekranına çıkmak isteyebilirsiniz. Bu durumda aşağıdaki gibi docker çalıştırma komutumuzun sonuna _bash_ eklemek yeterli olacaktır. 
+   Şimdilik yukarıda sayfanın sağ üstünde bulunan _Logout_ tuşuna basıp bağlantımızı kestikten sonra terminal penceresinde Kontrol+C ile Jupyter sunucusunu ve çalışan docker konteynerimizi kapatıyoruz. Bazen konteyner çalıştığında terminal ekranına çıkmak isteyebilirsiniz. Bu durumda aşağıdaki gibi docker çalıştırma komutumuzun sonuna _bash_ eklemek yeterli olacaktır. 
 
 ```shell
 $ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed bash
 root@2fc479bed67f:/notebooks# 
 ```
 
-Görüldüğü gibi artık konterner içinde terminal ekranına bağlıyız ve artık özelleştirmek istersek şimdi güç bizim elimize geçti. Kullanıcı adımız _root_ ve konteyner anahtar adımız _2fc479bed67f_ (siz de bu alan farklı olacaktır ki bu rasgele verilen bir anahtar) ve aynı Jupyter'de olduğu gibi _/notebook_ klasöründe bulunuyoruz. Terminalde işimiz bittiğinde _exit_ komutu ile çıkıyoruz. 
+   Görüldüğü gibi artık konterner içinde terminal ekranına bağlıyız ve artık özelleştirmek istersek şimdi güç bizim elimize geçti. Kullanıcı adımız _root_ ve konteyner anahtar adımız _2fc479bed67f_ (siz de bu alan farklı olacaktır ki bu rasgele verilen bir anahtar) ve aynı Jupyter'de olduğu gibi _/notebook_ klasöründe bulunuyoruz. Terminalde işimiz bittiğinde _exit_ komutu ile çıkıyoruz. 
 
 ### Konteyner'da değişiklik yapmak ve içe aktarmak (_commit_)
 
-Görüntüyü oluşturduk ve bir konteyner içinde çalıştırmaya başladık. Bu noktaya kadar sahip olduğumuz içe aktarılmayı bekleyen konteynerleri aşağıdaki komut ile listeyelebiliriz. Burada _CONTAINER ID_ ve _NAMES_ docker motoru tarafından verilen rasgele değerlerdir.
+   Görüntüyü oluşturduk ve bir konteyner içinde çalıştırmaya başladık. Bu noktaya kadar sahip olduğumuz içe aktarılmayı bekleyen konteynerleri aşağıdaki komut ile listeyelebiliriz. Burada _CONTAINER ID_ ve _NAMES_ docker motoru tarafından verilen rasgele değerlerdir.
 
 ```shell
 $ sudo docker ps -a 
@@ -442,17 +442,17 @@ CONTAINER ID        IMAGE                                             COMMAND   
 2fc479bed67f        gcr.io/tensorflow/tensorflow:latest-gpu_changed   "bash"              5 minutes ago       Exited (130) 10 seconds ago                       musing_saha
 
 ```
-Eğer konteyner içerisinde oluşturulduktan sonra değişiklik yapılmışsa ve bu değişikliği görüntüye aktarmaz isek görüntü her çalıştırıldığında yeni bir konteyner oluşturacağından ve çalışan konteyner diğer konteynerde yapılan değişiklikten haberdar olmadığından bu değişiklikleri daimi olarak kullanmak istememiz halinde içe aktarmamız gerekmektedir. Bunun için aşağıdaki komutu çalıştırmamız yeterli olacaktır.
+   Eğer konteyner içerisinde oluşturulduktan sonra değişiklik yapılmışsa ve bu değişikliği görüntüye aktarmaz isek görüntü her çalıştırıldığında yeni bir konteyner oluşturacağından ve çalışan konteyner diğer konteynerde yapılan değişiklikten haberdar olmadığından bu değişiklikleri daimi olarak kullanmak istememiz halinde içe aktarmamız gerekmektedir. Bunun için aşağıdaki komutu çalıştırmamız yeterli olacaktır.
 
 ```shell
 $ sudo docker commit 2fc479bed67f gcr.io/tensorflow/tensorflow:v1
 sha256:0ddddaf2218987e2ed9f5cfa1976b635a7b811d68d986fef193af6e4c7cfcc30
 ```
-Bu komut ile _tag_ olarak v1 diye bir etiket tanımladığımız başlangıç görüntüsü üzerinde değişikliklerin eklenmiş olduğu yeni bir görüntüye sahip oluyoruz. İstersek etiketi olduğu gibi kullanıp iki ayrı görüntü yerine başlangıç görüntüsü üzerine de aktarım yapabilirdik. Bu noktada sürekli yeni etiketler vererek yola devam etmek bilgisayarınızda daha fazla depolama alanı gerektirecektir. 
+   Bu komut ile _tag_ olarak v1 diye bir etiket tanımladığımız başlangıç görüntüsü üzerinde değişikliklerin eklenmiş olduğu yeni bir görüntüye sahip oluyoruz. İstersek etiketi olduğu gibi kullanıp iki ayrı görüntü yerine başlangıç görüntüsü üzerine de aktarım yapabilirdik. Bu noktada sürekli yeni etiketler vererek yola devam etmek bilgisayarınızda daha fazla depolama alanı gerektirecektir. 
 
 ### Kullanılmayan Konteynerları durdurmak ve silmek (_commit_)
 
-Çalışan konteynerlerden işimize yaramayanları veya içe aktarmayı tamamladığınız konteynerleri _CONTAINER ID_ parametresini kullanarak durdurmak ve silmek mümkündür. İlk olarak çalışan konteynerleri yukarıda gösterdiğimiz gibi listeleyelim. 
+   Çalışan konteynerlerden işimize yaramayanları veya içe aktarmayı tamamladığınız konteynerleri _CONTAINER ID_ parametresini kullanarak durdurmak ve silmek mümkündür. İlk olarak çalışan konteynerleri yukarıda gösterdiğimiz gibi listeleyelim. 
 
 ```shell
 $ sudo docker ps -a
@@ -462,7 +462,7 @@ CONTAINER ID        IMAGE                 COMMAND                  CREATED      
 e1a552ab67bf        635015520b19          "bash"                   6 weeks ago         Exited (0) 6 weeks ago                                                      objective_northcutt
 7ea8bd5094c6        635015520b19          "jupyter notebook --…"   2 months ago        Exited (0) 2 months ago                                                     priceless_khorana
 ```
-Bu noktada _3a9777814a95_ anahtar alanına sahip konteyneri durdurmak için:
+   Bu noktada _3a9777814a95_ anahtar alanına sahip konteyneri durdurmak için:
 
 ```shell
 $ sudo docker stop 3a9777814a95
@@ -486,7 +486,7 @@ e1a552ab67bf        635015520b19          "bash"                   6 weeks ago  
 
 ### Görüntüleri silmek
 
-Son olarak; artık işimize yaramayacağını düşündüğümüz görüntüleri silme işlemine bakacağız. Bu noktada bir görüntüyü silmek için önce bu görüntünün çalışan tüm konteynerlerinin durdurulması ve silinmesi gerektiğini hatırlattıktan sonra görüntüyü silme işlemine geçelim. Öncelikle görüntüleri listeyelim:
+   Son olarak; artık işimize yaramayacağını düşündüğümüz görüntüleri silme işlemine bakacağız. Bu noktada bir görüntüyü silmek için önce bu görüntünün çalışan tüm konteynerlerinin durdurulması ve silinmesi gerektiğini hatırlattıktan sonra görüntüyü silme işlemine geçelim. Öncelikle görüntüleri listeyelim:
 
 ```shell
 $ sudo docker images
@@ -498,7 +498,7 @@ floydhub/dl-docker   cpu_changed         4a4e5cbd6476        5 months ago       
 ubuntu               14.04               67759a80360c        6 months ago        221MB
 ```
 
-Ben _8403972b7f68_ anhtar alanına sahip görüntüyü silmek istiyorum. Bunun için komut satırına:
+   Ben _8403972b7f68_ anahtar alanına sahip görüntüyü silmek istiyorum. Bunun için komut satırına:
 
 ```shell
 $ docker rmi 8403972b7f68
@@ -507,7 +507,7 @@ Deleted: sha256:8403972b7f68905eb2bb59efcbee05cefdd8ece92ab28a13d3326d07329437a8
 ```
 komutunu yazdıktan sonra görüntümüzü silebiliyoruz.
 
-Sonuç olarak; _docker_/_nvidia-docker_ derin öğrenme alanında geliştirme/araştırma yapanların nasıl bu aracı kullanabileceğine dair temel bilgileri aktarmaya çalıştım. Elbette _docker_/_nvidia-docker_ kendilerine has birçok farklı özelliğe sahipler. Ama umarım kısa sürede çalışan bir geliştirme ortamı oluşturabileceksiniz. _Jupyter_ kurulumuna dair konuları başka bir yazıda aktarmaya çalışacağım. (Umarım en kısa zamanda) Eğer sorunuz olursa lütfen aşağıdaki bölümden bana yazınız. 
+   Sonuç olarak; _docker_/_nvidia-docker_ derin öğrenme alanında geliştirme/araştırma yapanların nasıl bu aracı kullanabileceğine dair temel bilgileri aktarmaya çalıştım. Elbette _docker_/_nvidia-docker_ kendilerine has birçok farklı özelliğe sahipler. Ama umarım kısa sürede çalışan bir geliştirme ortamı oluşturabileceksiniz. _Jupyter_ kurulumuna dair konuları başka bir yazıda aktarmaya çalışacağım. (Umarım en kısa zamanda) Eğer sorunuz olursa lütfen aşağıdaki bölümden bana yazınız. 
 
 <ul>
   {% for post in site.posts %}
