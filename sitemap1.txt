@@ -1,1 +1,2 @@
 https://blgnksy.github.io/2018/07/05/nvidia-docker-usage.html
+https://blgnksy.github.io/2018/07/09/docker-jupyter-config.html
