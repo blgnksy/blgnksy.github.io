@@ -24,20 +24,54 @@ root@2fc479bed67f:/notebooks#
 ```shell
 $ jupyter notebook --generate-config
 ```
-komutu ile ayar dosyasını kolaylıkla oluşturabiliriz. Şimdi bu dosyanın içeriğini standart çıktıya bastıralım:
-   
-```shell
-$ cat jupyter_notebook_config.py
-```
+komutu ile ayar dosyasını kolaylıkla oluşturabiliriz. 
 
 # 2. Şifre Oluşturulması
-   _Jupyter Notebook_'a erişimi şifrelemek doğru bir tercih olacaktır. Bu işlem oldukça basittir. _sha1_ (Secure Hash Algorithm 1) ile şifrelenmiş bir şifreyi <span style="color:red"> _jupyter_notebook_config.py_</span> dosyasının içeriğine eklememiz yeterli olacaktır. Bunun için ilk önce terminal ekranından _ipython_ (etkileşimli olarak Python kodları yazıp çalıştırabildiğimiz bir program) çalıştırılır:
+   _Jupyter Notebook_'a erişimi şifrelemek doğru bir tercih olacaktır. Bu işlem oldukça basittir. _sha1_ (Secure Hash Algorithm 1) ile şifrelenmiş bir şifrenin doğrulama kodunu <span style="color:red"> _jupyter_notebook_config.py_</span> dosyasının içeriğine eklememiz yeterli olacaktır. Bunun için ilk önce terminal ekranından _ipython_ (etkileşimli olarak Python kodları yazıp çalıştırabildiğimiz bir program) çalıştırılır:
    
 ```shell
 $ ipython
 ```
-
+   Daha sonra bize _sha1_ ile şifrelenmiş şifremizi oluşturalacak modülü _import_ edip _passwd()_ metodunu çağıracağız. Dilediğimiz şifreyi girip hücreyi çalıştırdığımızda çıktı olarak _sha1_ ile şifrelenmiş doğrulama kodunu elde etmiş olacağız. Doğrulama kodunu kopyalayıp _ipython_'dan _exit_ metodu ile çıkabiliriz.
 ```ipython
 iPythonPrompt> from IPython.lib import passwd 
 iPythonPrompt> passwd() 
+sha1:fc216:3a35a98ed980b9...
+iPythonPrompt> exit 
 ```
+   
+   _vi_ ile _jupyter_notebook_config.py_ dosyasını düzenlemek için açıyoruz:
+   
+```shell
+$ vi ~/.jupyter/jupyter_notebook_config.py
+```
+
+   Ve aşağıdaki kodları bu dosyaya ekleyip kaydedip kapatıyoruz. Artık _Jupyter Notebook_ her açılışta bir şifre ekranı bizi karşılayacak ve _ipython_ üzerinden girdiğimiz şifre ile ürettiğimiz doğrulama kodunu kullanarak şifrenin doğru olması halinde _Jupyter Notebook_ ulaşmak mümkün olacak.
+
+```
+c = get_config()  # Eğer daha önceden yoksa bu satır eklenecek.
+c.NotebookApp.password = 'sha1:fc216:3a35a98ed980b9...'  #Doğrulama kodunu buraya ekleyeceğiz. 
+```
+
+# 3. Güvenlik, SSL Bağlantısı Oluşturulması
+
+   Bazen _Jupyter Notebook_ ile farklı bilgisayarlardan erişerek çalışmamız gerekebilir. Ben şahsen evdeki bilgisayarımda çalışan NVIDIA-Docker konteynerine uzaktan bağlanmak suretiyle çalışma veya sunum esnasından ulaşarak  _Jupyter Notebook_ kullanıyorum. Şu ana kadar yaptığımız ayarlar şifre hariç bağlantının güvenliğine dair bir işlem barındırmıyor. Bağlantı güvenliği sağlanmaz ise uzak bilgisardan yerel bilgisayara öntanımlı olarak _HTTP_ üzerinden konuşmak mümkün olabilir. Bu noktada _SSL_ ile şifrelenmiş bir bağlantı kullanarak _HTTPS_ üzerinden konuşmak tercih edilmesi tavisye edilmektedir. Son bölümde güvenli bağlantı için gerekli ayarları uygulayacağız.
+   
+   Yukarıda da belirttiğim gibi bağlantının güvenli olması için _ssl_ sertifikası üretmemiz gerekiyor. Bunun için:
+ 
+```shell
+$ cd
+$ mkdir ssl
+$ cd ssl
+$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout "cert.key" -out "cert.pem" -batch
+```   
+komularını kullanarak sırasıyla _ev_ dizinine gidip orada _ssl_ isimli bir dizin oluşturuyoruz. Bu dizinin içerisinde iken _openssl_ ile _365_ gün süreli _rsa:1024_ ile şifrelenmiş bağlantımız için gerekli olan iki dosyayı (_anahtar_ ve _sertifikayı_) oluştuyoruz. Şimdi yine _jupyter_notebook_config.py_ ayar dosyamızı düzenleyip aşağıdaki hale dönüştürüyoruz.
+
+```
+c = get_config()  # Eğer daha önceden yoksa bu satır eklenecek.
+c.NotebookApp.certfile = u'~/ssl/cert.pem' # sertifika dosyasının yolu
+c.NotebookApp.keyfile = u'~/ssl/cert.key' # sertifika anahtar dosyasının yolu
+c.NotebookApp.password = 'sha1:fc216:3a35a98ed980b9...'  #Doğrulama kodunu buraya ekleyeceğiz. 
+```
+   Bu kadar basit bir şekilde güvenli bir bağlantı oluşturuyoruz. 
+
