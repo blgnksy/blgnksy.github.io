@@ -1,7 +1,7 @@
 # SITE CONFIGURATION
 baseurl: ""
 url: "https://blgnksy.github.io"
-title: Bilgin Aksoy# site's title
+title: Blog About Deep/Machine Learning, CUDA, Computer Vision 
 description: "A website with blog posts and pages on mostly on Docker, Computer Vision, Machine Learning, Deep Learning and same kind of software related topics. Çoğunlukla Docker, Bilgisayarlı Görü, Makine Öğrenmesi,Derin Öğrenme ve benzeri yazılımla ilgili konularda bloglar yayımlanan bir websitesi." # used by search engines
 
 
