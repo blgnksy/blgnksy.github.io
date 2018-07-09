@@ -3,7 +3,7 @@ layout: post
 comments: true
 title: NVIDIA Docker Üzerinde Jupyter Ayarları
 header:
-  teaser: "/assets/img/jupy-config/jupyter_logo.png"
+  teaser: /assets/img/jupy-config/jupyter_logo.png
 tags: [NVIDIA-Docker, Docker, Deep Learning, Derin Öğrenme, Tensorflow, Jupyter, Jupyter Config, Jupyter Notebook]
 ---
 
