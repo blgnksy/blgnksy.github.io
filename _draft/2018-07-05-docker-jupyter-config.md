@@ -5,7 +5,7 @@ title: NVIDIA Docker Üzerinde Jupyter Ayarları
 tags: [NVIDIA-Docker, Docker, Deep Learning, Derin Öğrenme, Tensorflow, Jupyter, Jupyter Config, Jupyter Notebook]
 ---
 
-   Python derin/makine öğrenmesi alanında geliştirme yapanların %57'si tarafından tercih edilen bir programlama dili olarak karşımıza çıkmaktadır. (linke ekle) Programlama dili seçiminden sonraki aşama geliştirme ortamının oluşturulması ve geliştirme arayüzünün(IDE-Integrated Developmnent Envirment) seçilmesidir. Geliştirme ortamının oluşturulması hakkında NVIDIA Docker Kullanımı (link ekle) isimli yazı da ayrıntılı bilgiye ulaşabilirsiniz. Alanda bir çok insan özellikle de akademisyenler ve öğrenciler özellikle de sunum imkanlarını da değerlendirerek Jupyter kullanmaktadır. NVIDIA Docker Kullanımı (link ekle) isimli yazıda da görebileceğiniz gibi Docker görüntüsünü çalıştırdığımızda bizi tarayıcı üzerinden Jupyter Notebook sayfasına ulaşabiliyoruz. Ben de kişisel tercih olarak hem geliştirme hem de sunum maksatlı olarak Jupyter Notebook ile çalışıyorum ve oldukça da keyif alıyorum. Bu yazıda Docker/NVIDIA Docker üzerinde koşacak Jupyter Notebook ile ilgili ayarlama (config) işlemlerini aktarmaya çalışacağım. 
+   Python derin/makine öğrenmesi alanında geliştirme yapanların [%57](https://towardsdatascience.com/what-is-the-best-programming-language-for-machine-learning-a745c156d6b7)'si tarafından tercih edilen bir programlama dili olarak karşımıza çıkmaktadır.  Buna elbette çok hızlı artan paket destekleri, öğrenme kolaylığı, sektör stardardı olma yolunda ilerlemesi vb. etkenler katkı sağlamaktadır. Programlama dili seçiminden sonra geliştirme ortamının oluşturulması ve geliştirme arayüzünün (IDE-Integrated Developmnent Envirment) seçilmesi gerekmetedir. Geliştirme ortamının oluşturulması hakkında [NVIDIA-Docker Kullanımı](https://blgnksy.github.io/2018/07/05/nvidia-docker-usage.html) isimli yazım da ayrıntılı bilgiye ulaşabilirsiniz. Özellikle de akademisyenler ve öğrenciler özellikle de sunum imkanlarını da değerlendirilerek geliştirme arayüzü olarak _Jupyter_ tercih edilmektedir. [NVIDIA-Docker Kullanımı](https://blgnksy.github.io/2018/07/05/nvidia-docker-usage.html) isimli yazımda da görebileceğiniz gibi Docker konteynerini çalıştırdığımızda bizi tarayıcı üzerinden _Jupyter Notebook_ sayfasına ulaşabiliyoruz. Ben de kişisel tercih olarak hem geliştirme hem de sunum maksatlı olarak _Jupyter Notebook_ ile çalışıyorum ve oldukça da keyif alıyorum. Bu yazıda Docker/NVIDIA-Docker üzerinde koşacak _Jupyter Notebook_ ile ilgili ayarlama (config) işlemlerini aktarmaya çalışacağım. 
 
 Ana Başlıklar
 1. Ayar Dosyasının Oluşturulması
@@ -13,12 +13,14 @@ Ana Başlıklar
 3. Güvenlik, SSL Bağlantısı Oluşturulması
 
 # 1. Ayar Dosyasının Oluşturulması
+
    Terminal ekranından Docker görüntüsünü _bash_ açılacak şekilde çalıştırmak için aşağıdaki komutu kullanıyoruz:
 
 ```shell
 $ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed bash
 root@2fc479bed67f:/notebooks#
 ```
+
    Konteyner içinde _notebooks_ dizinin içindeyiz. _Jupyter_ her çalıştırıldığında tüm ayarları üzerinde barındıran <span style="color:red">_~/.jupyter_</span> dizinin altında bulunan <span style="color:red"> _jupyter_notebook_config.py_</span> isimli bir dosyayı okur. Bu dosya mevcut değil ise ilk olarak terminal ekranından:
 
 ```shell
@@ -40,7 +42,7 @@ sha1:fc216:3a35a98ed980b9...
 iPythonPrompt> exit 
 ```
    
-   _vi_ ile _jupyter_notebook_config.py_ dosyasını düzenlemek için açıyoruz:
+   _vi_ ile <span style="color:red"> _jupyter_notebook_config.py_</span> dosyasını düzenlemek için açıyoruz:
    
 ```shell
 $ vi ~/.jupyter/jupyter_notebook_config.py
@@ -65,7 +67,7 @@ $ mkdir ssl
 $ cd ssl
 $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout "cert.key" -out "cert.pem" -batch
 ```   
-komularını kullanarak sırasıyla _ev_ dizinine gidip orada _ssl_ isimli bir dizin oluşturuyoruz. Bu dizinin içerisinde iken _openssl_ ile _365_ gün süreli _rsa:1024_ ile şifrelenmiş bağlantımız için gerekli olan iki dosyayı (_anahtar_ ve _sertifikayı_) oluştuyoruz. Şimdi yine _jupyter_notebook_config.py_ ayar dosyamızı düzenleyip aşağıdaki hale dönüştürüyoruz.
+komutlarını kullanarak sırasıyla _ev_ dizinine gidip orada _ssl_ isimli bir dizin oluşturuyoruz. Bu dizinin içerisinde iken _openssl_ ile _365_ gün süreli _rsa:1024_ ile şifrelenmiş bağlantımız için gerekli olan iki dosyayı (_anahtar_ ve _sertifikayı_) oluştuyoruz. Şimdi yine <span style="color:red"> _jupyter_notebook_config.py_</span> ayar dosyamızı düzenleyip aşağıdaki hale dönüştürüyoruz.
 
 ```
 c = get_config()  # Eğer daha önceden yoksa bu satır eklenecek.
