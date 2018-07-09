@@ -33,7 +33,7 @@ komutu ile ayar dosyasını kolaylıkla oluşturabiliriz.
 $ ipython
 ```
    Daha sonra bize _sha1_ ile şifrelenmiş şifremizi oluşturalacak modülü _import_ edip _passwd()_ metodunu çağıracağız. Dilediğimiz şifreyi girip hücreyi çalıştırdığımızda çıktı olarak _sha1_ ile şifrelenmiş doğrulama kodunu elde etmiş olacağız. Doğrulama kodunu kopyalayıp _ipython_'dan _exit_ metodu ile çıkabiliriz.
-```ipython
+```python
 iPythonPrompt> from IPython.lib import passwd 
 iPythonPrompt> passwd() 
 sha1:fc216:3a35a98ed980b9...
