@@ -80,6 +80,9 @@ paginate_path: "blog/page:num"
 # PORTFOLIO
 collections:
 
+#GEMS
+gems:
+- jekyll-language-plugin
 
 # BUILD SETTINGS
 markdown: kramdown
