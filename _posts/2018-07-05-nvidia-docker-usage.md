@@ -123,31 +123,30 @@ For more examples and ideas, visit:
 
    Docker kurma işlemimiz bitti. Şimdi de derin öğrenme (deep learning) modellerini eğitme işlemimizi kısaltacak önemli bir donanım olan ekran kartı üreticisi NVIDIA'nın hayatımıza soktuğu nimetlerden faydalanmak için bir de [NVIDIA-Docker](https://github.com/NVIDIA/nvidia-docker/blob/master/README.md) kurmaya başlayabiliriz. Bu noktada ana makinemizde (host) NVIDIA ekran kartı (CUDA yeteneğine sahip) ve ekran kartı sürücüsü kurulmuş olması gerekmektedir.
 
-   Önce eski sürümleri ve o sürümlerin kullandığı konteynerleri kaldırıyoruz.
+   Önce işletim sistemi dağıtımızı bir eçvre değişkenine yazıyoruz.
 ```shell
-$ docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
-$ sudo apt-get purge -y nvidia-docker
+$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 ```
 
-   _apt_ ile gerekli paketleri kuruyoruz ve anahtar zincirimize resmi GPG anahtarını ekliyoruz.
+   Sonra anahtar zincirimize resmi GPG anahtarını ekliyoruz.
 ```shell
-$ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
-  sudo apt-key add -
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-$ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \
-  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-$ sudo apt-get update
+$ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
 ```
 
-   NVIDIA-Docker kurulumunu yapıyoruz ve eğer daha önce çalışan bir docker işlemi varsa kapatma sinyali gönderiyoruz.
+   Şimdide uygulama kaynaklarımıza nvidia dağıtımlarını ekliyoruz.
 ```shell
-$ sudo apt-get install -y nvidia-docker2
-$ sudo pkill -SIGHUP dockerd
+$ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+```
+
+   NVIDIA-Docker kurulumunu yapıyoruz ve docker servisini yeniden başlatıyoruz.
+```shell
+$ sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+$ sudo systemctl restart docker
 ```
 
    Yine kurulumumuzu test etmek için bu sefer NVIDIA'ya ait son CUDA deposunu kendi bilgisayarımıza indirip herhangi bir sorun olmadığına emin oluyoruz. Bu noktada sizin ekran kartı modeli, sürücüsü ve özellikleri ile uyumlu olarak standart çıktıda aşağıdakine benzer bir sonuç alıyoruz. 
 ```shell
-$ docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
+$ docker run --gpus all --rm nvidia/cuda nvidia-smi
 Sun May 20 18:33:05 2018       
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 384.111                Driver Version: 384.111                   |
@@ -172,7 +171,7 @@ Sun May 20 18:33:05 2018
    Terminal üzerinden aşağıdaki komutu verdiğimizde uzak depo alanından _tensorflow/tensorflow_ isimli deponun son sürümünü(_latest-gpu_) ana makinemize çekip (_pull_) etkileşimli modda çalıştırıp (-p) parametresi ile dış dünya ile 8888 nolu portdan haberleşmesini söylüyoruz. Daha sonra [localhost:8888](localhost:8888) üzerinden çalışan Jupyter Notebook karşımıza çıkıyor. Bundan sonra bu komutu her çalıştırdığımızda Docker, uzak depo yerel makinemize bulunduğu için indirmek yerine doğrudan çalıştırmaya başlayacaktır.
 
 ```shell
-$ nvidia-docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu
+$ docker run -it --gpus all -p 8888:8888 tensorflow/tensorflow:latest-gpu
 # NVIDIA ekran kartı olmayanlar için docker run -it -p 8888:8888 tensorflow/tensorflow ile kurulum yapılabilir.
 ```
    [DockerHub](https://hub.docker.com/) üzerinden ulaştığınız tüm depolarda farklı etiket (tag) varsa farklı sürümleri olduğunu düşünebilirsiniz. Gidip size uygun farklı sürümlerini de denemeniz mümkün olabilir. Görüldüğü gibi sadece parametreleri değiştirerek ana makinemiz (host) üzerinde bir çok farklı bilgisayar varmış gibi görüntüler (image) sayesinde istediğimiz özgürlüğe sahip oluyoruz. 
@@ -186,13 +185,13 @@ $ nvidia-docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu
    İndirdiğimiz DockerFile.gpu dosyasının olduğu dizine terminalden gelip aşağıdaki komut ile _floydhub/dl-docker_ adından ve _gpu_ etiketli bir görüntü oluşturuyoruz. 
 
 ```shell
-$ nvidia-docker build -t floydhub/dl-docker:gpu -f Dockerfile.gpu .
+$ docker build -t floydhub/dl-docker:gpu -f Dockerfile.gpu .
 ```
 
    Daha sonra yukarıda yaptığımız gibi bu görüntüyü bir konteyner içinde çalıştırabiliriz.
 
 ```shell
-$ nvidia-docker run -it -p 8888:8888 floydhub/dl-docker:gpu
+$ docker run -it --gpus all -p 8888:8888 floydhub/dl-docker:gpu
 ```
 
    Şimdi de DockerFile dosyasının içine bakarak neler yaptığını anlamaya ve sonra özelleştirmek için neler yapabileceğimeze bakalım. (Not: Dosya çok uzun olduğundan bazı bölümleri "..." ile belirterek kısalttığımı belirtmek isterim.) 
@@ -395,7 +394,7 @@ CMD ["/bin/bash"]
    Öncelikle var olan görüntülerin listesine terminal üzerinden erişelim:
 ```shell
 #  Sadece docker images da kullanılabilir.
-$ sudo nvidia-docker images
+$ sudo docker images
 REPOSITORY                     TAG                       IMAGE ID            CREATED             SIZE
 hello-world                    latest                    e38bc07ac18e        5 weeks ago         1.85kB
 gcr.io/tensorflow/tensorflow   latest-gpu_changed        f73dd685943c        5 weeks ago         14.8GB
@@ -405,15 +404,15 @@ gcr.io/tensorflow/tensorflow   1.7.0-rc0-devel-gpu-py3   a48c5d8684b3        2 m
 
 ### Konteyner'ı çalıştırmak (_run_)
 
-   Görüntüyü oluşturduk. Şİmdi görüntüyü bir konteyner da çalıştırmaya sıra geldi.
+   Görüntüyü oluşturduk. Şimdi görüntüyü bir konteyner da çalıştırmaya sıra geldi.
 
 ```shell
-$ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook --allow-root
+$ sudo docker run -it --gpus all -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook --allow-root
 ```
 
    Yukarıdaki komut ile önce docker'a _run_ komutunu _it_ parametreleri ile çalıştırmasını söylüyoruz. _i_ etkileşimli modu ile konteyner çalışınca ona komutlar gönderebilmemiz için STDIN (standart girdiyi) açık tutuyor. _t_ ile konteyner için bir pseudo-TTY tahsis ediliyor. _p_ parametresi ile portların ana makine ile konteyner arasında nasıl yönlendirileceğini söylüyoruz. Burada docker konteynerinin 8888 nolu portu ile ana makinenin 8888. portu ve aynı şekilde 6666. portlarını birbirlerine yönlendirdik. Buna jupyter notebook kullanımında ihtiyaç duyacağız. Sonra hangi görüntünün çalıştırılmasını istediğimizi ve konteyner açılınca _jupyter notebook_ açılmasını istediğimizi docker'a söyledikten sonra işimiz bitiyor. Terminal ekranında aşağıdakine benzer bir çıktı görüyor olmalısınız.
 ```shell
-$ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook --allow-root
+$ sudo docker run -it --gpus all -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook --allow-root
 [I 14:52:56.460 NotebookApp] Serving notebooks from local directory: /notebooks
 [I 14:52:56.460 NotebookApp] 0 active kernels
 [I 14:52:56.460 NotebookApp] The Jupyter Notebook is running at:
@@ -428,7 +427,7 @@ $ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tenso
    Şimdilik yukarıda sayfanın sağ üstünde bulunan _Logout_ tuşuna basıp bağlantımızı kestikten sonra terminal penceresinde Kontrol+C ile Jupyter sunucusunu ve çalışan docker konteynerimizi kapatıyoruz. Bazen konteyner çalıştığında terminal ekranına çıkmak isteyebilirsiniz. Bu durumda aşağıdaki gibi docker çalıştırma komutumuzun sonuna _bash_ eklemek yeterli olacaktır. 
 
 ```shell
-$ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed bash
+$ sudo docker run -it --gpus all -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed bash
 root@2fc479bed67f:/notebooks# 
 ```
 
