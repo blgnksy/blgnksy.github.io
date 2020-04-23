@@ -5,7 +5,7 @@ title: NVIDIA Docker Kullanımı
 tags: [NVIDIA-Docker, Docker, Docker Temel Bilgiler, Docker Kurulumu, DockerFile, Deep Learning, Derin Öğrenme, Tensorflow]
 ---
 
-
+**22.04.2020 tarihinde güncellenmiştir.**
 
 
 
