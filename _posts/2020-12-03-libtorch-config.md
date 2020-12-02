@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: true
-title: C++'da Derin Öğrenme-1: Pytorch C++ API LibTorch'a Giriş
+title: C++ Derin Öğrenme-1 Pytorch C++ API LibTorch Giriş
 header:
   teaser: "https://pytorch.org/assets/images/logo-dark.svg"
 tags: [Deep Learning, Derin Öğrenme, PyTorch, LibTorch, PyTorch C++ API, Machine Learning C++, Deep Learning C++, Machine Learning, Makine Öğrenmesi]
