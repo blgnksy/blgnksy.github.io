@@ -48,7 +48,7 @@ Kurulum konusunda iki seçenek söz konusudur:
 
     2. Önce Stable linkine, daha sonra kullandığınız işletim sistemi linkine, daha sonra LibTorch linkine, ardından C++/Java linkine tıklayıp son olarak GPU için CUDA versiyon linkine eğer sadece CPU kullanacaksanız None linkine tıklayıp gelen dosya bağlantısı indirip dilediğiniz bir dizine içeriğini kopyalayın.
 
-         ![Derlenmiş kütüphaneyi indirmek](/mnt/9fb7d2f0-a307-40ff-8656-de4d502a984b/blgnksy.github.io/assets/img/libtorch-intro/start_locally.png)
+         ![Derlenmiş kütüphaneyi indirmek](assets/img/libtorch-intro/start_locally.png)
 
  2. Kaynak [kodundan](https://github.com/pytorch/pytorch#from-source) derlemek: Biraz zahmetli olabilir (aslında epey zahmetli oluyor). Ama kişisel olarak benim tercihim bu seçenektir. GitHub reposunu klonlayıp gerekli adımları uygulayın (Bu bölüm çok uzamaması için ben atlıyorum ama ileride bir yazıyı buna ayırabilirim).
 
