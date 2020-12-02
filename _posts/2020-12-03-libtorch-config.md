@@ -9,8 +9,6 @@ tags: [Deep Learning, Derin Öğrenme, PyTorch, LibTorch, PyTorch C++ API, Machi
 
 Çoğumuz farklı tartışma ortamlarında Makine Öğrenmesi (Machine Learning) ya da popüler alt alanı Derin Öğrenme (Deep Learning) için en iyi dilin (genelde buna bir de en iyi ML kütüphanesi tartışmaları eklenmektedir) hangisi olduğu konusunda çeşitli tartışmalara denk gelmişizdir. Henüz gelmemişseniz çok heveslenmeyin yakında denk geleceksinizdir. Bu soruya verilecek en doğru cevap bence *"duruma göre değişir"* olabilir. Bu noktada bu konuda daha fazla laf kalabalığı yapmak yerine (zaten farklı platformlarda en alası yapılıyor) bu yazıda neler bulabileceğinize geçeceğim. Yazının bölümleri:
 
-[TOC]
-
 # 1. Giriş
 
 Özellikle üretim aşamasında düşük gecikme süreli/yakın gerçek zamanlı modeller kullanmak istediğinizde karşınıza bir kaç sorun çıkmaktadır. Karşılaşılan en kritik sorunların başında *Python*'da yaşanan (yanlış anlaşılması dilin daha farklı bir iddiası yok) hız/gecikme sorunları ve çoklu işlem/iş parçacığı kullanımı (nesnelere erişimde Global Interpreter Lock tarafından kısıtlanan hususları kastediyorum) kaynaklı sorunlar geldiği düşünüyorum. Bu noktada *C++* gibi bir dilin getireceği bazı kolaylıkları kullanmak isteyebilirsiniz. İleride bu noktada *ONNX*, *TensorRT* gibi kütüphanelerinde nasıl işe dahil edilebileceğini açıklayan yazılar yazmayı düşünüyorum. Ama bu yazıda *PyTorch* tarafından geliştiricilere sağlanan ve öğrenme eğrisi çokda dik olmayan *LibTorch* kütüphanesinde bahsedeceğim. Giriş niteliğindeki bu yazıyı tensör işlemleri, çıkarım (inference) yapma ve bir modeli sıfırdan C++'da oluşturmayı/eğitmeyi anlatan ayrı yazılar takip edecek.
