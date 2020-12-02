@@ -3,7 +3,7 @@ layout: post
 comments: true
 title: Pytorch C++ API LibTorch'a Giriş
 header:
-  teaser: "/assets/img/jupy-config/jupyter_logo.png"
+  teaser: "https://pytorch.org/assets/images/logo-dark.svg"
 tags: [Deep Learning, Derin Öğrenme, PyTorch, LibTorch, C++]
 ---
 
