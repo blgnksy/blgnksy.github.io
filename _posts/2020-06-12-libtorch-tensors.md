@@ -247,17 +247,6 @@ int main() {
     end = high_resolution_clock::now();
     time_span = duration_cast<duration<double>>(end - start);
     std::cout << "It took me " << time_span.count() << " seconds (Using data_ptr). Sum = " << sum << "\n";
-
-    sum = 0;
-    start = high_resolution_clock::now();
-    for (int i = 0; i < HEIGHT; i++)
-        for (int j = 0; j < WIDTH; j++)
-            for (int k = 0; k < CH; k++) {
-                sum += (tensorInitAccessor[i][j][k])/1000;
-            }
-    end = high_resolution_clock::now();
-    time_span = duration_cast<duration<double>>(end - start);
-    std::cout << "It took me " << time_span.count() << " seconds (Using data()). Sum = " << sum << "\n";
     
     return 0;
 }
@@ -268,7 +257,6 @@ Sonuçlar aslında beklediğim gibi oldu. En hızlısı veri göstericiyi alıp 
 ```shell
 It took me 18.573 seconds (Using accesscor). Sum = 311033
 It took me 4.24126 seconds (Using data_ptr). Sum = 311033
-It took me 17.0459 seconds (Using data()). Sum = 311033
 ```
 
 Bazen bu verinin belirli elemanlarına erişmek isteyebiliriz. Bu durumda *Python*'dan alışık olduğumuz Indexing API kullanımı daha kolay olacaktır. Bu API'de hem okuma hem de yazma işlemi yapmak mümkündür:
