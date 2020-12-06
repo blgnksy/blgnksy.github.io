@@ -6,7 +6,7 @@ header:
   teaser: "https://pytorch.org/assets/images/logo-dark.svg"
 tags: [Deep Learning, Derin Öğrenme, PyTorch, LibTorch, PyTorch C++ API, Machine Learning C++, Deep Learning C++, Machine Learning, Makine Öğrenmesi, Tensors, Tensör İşlemleri]
 ---
-Yazı dizisinin bu yazısında *LibTorch*'da tensörlerin nasıl oluşturulduğunu, erişildiğini ve değiştirildiğini açıklayacağım. *LibTorch*'un ne olduğunu, neler yapılabildiğini açıkladığım giriş niteliğindeki yazıyı okumadıysanız [o yazıdan](https://blgnksy.github.io/2020/12/03/libtorch-config.html) başlamanızı tavsiye ederim.
+Yazı dizisinin bu yazısında *LibTorch*'da tensörlerin nasıl oluşturulduğunu, erişildiğini ve değiştirildiğini açıklayacağım. *LibTorch*'un ne olduğunu, neler yapılabildiğini açıkladığım giriş niteliğindeki yazıyı okumadıysanız [o yazıdan](https://blgnksy.github.io/2020/12/03/libtorch-config.html) başlamanızı tavsiye ederim. Bu noktada bu yazı çok daha uzun olabilirdi ama olabilen tüm sadeliği ama yeterli bilgiyi sağlayacak şekilde süzüldüğünü ve ana referansın dokümantasyonun kendisi olduğunu unutmayın. 
 
 ATen tensör kütüphanesi *PyTorch*'un tensör işlemleri için  arka planda kullandığı kütüphanedir ve C++14 standartlarına uygun olarak yazılmıştır. Tensör tipleri dinamik olarak çözümlenmektedir. Sonuç olarak içinde tuttuğu veri tipi ne olursa olsun ya da CPU/GPU tensörü olursa olsun tek bir tensör arayüzü bizi karşılamaktadır. Tensör sınıfının arayüzünü [dokümantasyondan](https://pytorch.org/cppdocs/api/classat_1_1_tensor.html#exhale-class-classat-1-1-tensor) inceleyebilirsiniz.
 
@@ -18,7 +18,7 @@ Tensörler üzerinde işlem yapan yüzlerce fonksiyon bulunmaktadır. Bu [fonksi
 
 ## 1.1 Fabrika Fonksiyonlarını Kullanma
 
-Bu fonksiyonlar *Fabrika Tasarım Desenleri*ni kullanan ve sonuçta `torch::Tensor` geri döndüren fonksiyonlardır. Aslında bunlardan bir tanesini ilk [yazıda](https://blgnksy.github.io/2020/12/03/libtorch-config.html) kullanmıştım: `torch::rand()` fonksiyonu argüman olarak aldığı şekile göre bize tensör geri döndürmektedir. Bu fonksiyonlar:
+Bu fonksiyonlar *Fabrika Tasarım Desenleri*nde olduğu gibi çalışıp sonuçta `torch::Tensor` geri döndüren fonksiyonlardır. Aslında bunlardan bir tanesini ilk [yazıda](https://blgnksy.github.io/2020/12/03/libtorch-config.html) kullanmıştım: `torch::rand()` fonksiyonu argüman olarak aldığı şekile göre bize tensör geri döndürmektedir. Bu fonksiyonlar:
 
 - [arange](https://pytorch.org/docs/stable/torch.html#torch.arange): Sıralı tamsayılardan oluşan tensör geri döndürür,
 - [empty](https://pytorch.org/docs/stable/torch.html#torch.empty): İlk değer verilmemiş ,
@@ -33,7 +33,7 @@ Bu fonksiyonlar *Fabrika Tasarım Desenleri*ni kullanan ve sonuçta `torch::Tens
 - [randperm](https://pytorch.org/docs/stable/torch.html#torch.randperm): Returns a tensor filled with a random permutation of integers in some interval,
 - [zeros](https://pytorch.org/docs/stable/torch.html#torch.zeros): Returns a tensor filled with all zeros.
 
-Linkler *Python* dokümantasyonuna bağlantı vermektedir. C++ API'da ki işlevleri, parametreleri ve isimli argümanları aynıdır. İsimli argümanların `torch::TensorOptions` nesnesi vasıtasıyla tanımlanabildiğine, ulaşılabildiğine ve değiştirilebildiğine dikkat edin.
+Linkler *Python* dokümantasyonuna bağlantı vermektedir. C++ API'da ki işlevleri, parametreleri ve isimli argümanları aynıdır. İsimli argümanların `torch::TensorOptions` nesnesi vasıtasıyla tanımlanabildiğine, ulaşılabildiğine ve değiştirilebildiğine dikkat edin. Bunu birazdan `torch:rand()` fonksiyonunda ele alacağım ve diğer fonksiyonlarda da geçerli olacaklar. 
 
 Şimdi kullanışlı fabrika fonksiyonlarına yakından bakalım (Not: İlk fonksiyonu detaylı inceleyeceğim, diğerleri için dokümantasyonu kullanmanızı önereceğim. Çünkü API'lar hızlı değişime uğruyor ve senkron tutmak zahmetli olacaktır.):
 
@@ -176,7 +176,7 @@ auto tDims = tensorInit.dim();
 // dtype() sınıf üye fonksiyonu tensörün veri tipini geri döndürür. Örneğimizde float olarak:
 auto tDtype = tensorInit.dtype();
 
-// sizes() sınıf üye fonksiyonu tensörün tuttuğu verinin şeklini geri döndürür: 
+// sizes() sınıf üye fonksiyonu tensörün tuttuğu verinin şeklini geri döndürür. Örneğimizde  [2, 6] olarak:
 auto f = tensorInit.sizes();
 ```
 
@@ -277,14 +277,14 @@ Bazen bu verinin belirli elemanlarına erişmek isteyebiliriz. Bu durumda *Pytho
 auto randTensor = torch::rand({100, 100, 3});
 
 //1,0,5 konumundaki eleman
-std::cout << randTensorindex({1,0,5}); 
+std::cout << randTensor.index({1,0,5}); 
 
-// Slice fonksiyonuyla 0.boyuttaki verileri 1.indeksten başlayıp 10'a kadar 2'şer artan şekilde alır ve diğer iki eksende 0. indekse denk gelen elemanları gösterir.
+// Slice fonksiyonuyla 0.boyuttaki verileri 1.indeksten başlayıp 10'a kadar 2'şer artan şekilde alır ve diğer iki eksende 0. indekse denk gelen elemanları gösterir. Burada `torch::indexing` isim alanının eklendiğine dikkat edin.  
 using namespace torch::indexing;
-std::cout << randTensorindex({Slice(/*start_idx:*/1, /*stop_idx:*/10, /*step:*/2), 0, 0})}); 
+std::cout << randTensor.index({Slice(/*start_idx:*/1, /*stop_idx:*/10, /*step:*/2), 0, 0})}); 
 
 //1,0,5 konumundaki elemana değer atama
-randTensorindex({1,0,5}) = 0.05
+randTensor.index({1,0,5}) = 0.05
 ```
 
 Indexing API'nin *Python* ve *C++* için kullanımının kıyaslaması için [bağlantıya](https://pytorch.org/cppdocs/notes/tensor_indexing.html) tıklayın. 
@@ -303,7 +303,9 @@ auto floatTensor32 = sourceTensor.to(torch::kFloat32);
 auto gpuTensor = floatTensor32.to(torch::kCUDA);
 ```
 
-Evet yazının sonuna geldik. Yazı dizisinin bir sonraki yazısında artık modellere doğru geçiş yapacağız. 
+Evet yazının sonuna geldik. Yazı dizisinin bir sonraki yazısında artık modellere doğru geçiş yapacağımız yazı hazır olduğunda bu yazının altına bağlantıyı ekleyeceğim. 
+
+
 
 
 
