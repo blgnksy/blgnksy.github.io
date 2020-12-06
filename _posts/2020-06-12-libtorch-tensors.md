@@ -212,7 +212,7 @@ for (int i = 0; i < tensorInitAccessor.size(0); i++)
     }
  ```
 
-Bu kullanımda dikkat edilecek husus `accessor` nesnenin şablon parametrelerine veri tipi olan `float` ve boyutu gösteren `2` göndermemiz gerektiğidir. Yani farklı veri tipi ve boyutlar için bir özelleşme gerekecektir. Yani işleri çokta kısalttığını söyleyemem. Dokümantasyonun iddiası daha hızlı erişim sağladığı yönünde ama içimden bir ses gösterici kullanımının yavaş olmasını pek mümkün görmediğimi için büyük bir tensörde tüm elemanlara ulaşmayı test etmek istedim: 
+Bu kullanımda dikkat edilecek husus `accessor` nesnenin şablon parametrelerine veri tipi olan `float` ve boyutu gösteren `2` göndermemiz gerektiğidir. Yani farklı veri tipi ve boyutlar için bir özelleşme gerekecektir. Yani işleri çokta kısalttığını söyleyemem. Dokümantasyonun iddiası daha hızlı erişim sağladığı yönünde ama gösterici kullanımının yavaş olmasını pek mümkün görmediğim için büyük bir tensörde tüm elemanlara ulaşmayı test etmek istedim: 
 
 ```c++
 #include <iostream>
