@@ -7,7 +7,11 @@ header:
 tags: [Deep Learning, Derin Öğrenme, PyTorch, LibTorch, PyTorch C++ API, Machine Learning C++, Deep Learning C++, Machine Learning, Makine Öğrenmesi]
 ---
 
-Çoğumuz farklı tartışma ortamlarında Makine Öğrenmesi (Machine Learning) ya da popüler alt alanı Derin Öğrenme (Deep Learning) için en iyi dilin (genelde buna bir de en iyi ML kütüphanesi tartışmaları eklenmektedir) hangisi olduğu konusunda çeşitli tartışmalara denk gelmişizdir. Henüz gelmemişseniz çok heveslenmeyin yakında denk geleceksinizdir. Bu soruya verilecek en doğru cevap bence *"duruma göre değişir"* olabilir. Bu noktada bu konuda daha fazla laf kalabalığı yapmak yerine (zaten farklı platformlarda en alası yapılıyor) bu yazıda neler bulabileceğinize geçeceğim. Yazının bölümleri:
+Çoğumuz farklı tartışma ortamlarında Makine Öğrenmesi (Machine Learning) ya da popüler alt alanı Derin Öğrenme (Deep Learning) için en iyi dilin (genelde buna bir de en iyi ML kütüphanesi tartışmaları eklenmektedir) hangisi olduğu konusunda çeşitli tartışmalara denk gelmişizdir. Henüz gelmemişseniz çok heveslenmeyin yakında denk geleceksinizdir. Bu soruya verilecek en doğru cevap bence *"duruma göre değişir"* olabilir. Ayrıca Elon Musk'ın 2 Şubat 2020'de attığı tweet bunun güzel bir göstergesi oldu. 
+
+![](/assets/img/libtorch-intro/elon_musk.png)
+
+Bu noktada bu konuda daha fazla laf kalabalığı yapmak yerine bu yazıda neler bulabileceğinize geçeceğim. Yazının bölümleri:
 
 # 1. Giriş
 
