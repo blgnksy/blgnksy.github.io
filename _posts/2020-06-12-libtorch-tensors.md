@@ -167,8 +167,10 @@ Diğer fabrika fonksiyonlarına dokümantasyona bırakıp şimdi `torch::Tensor`
 Artık elimizde tensörümüz var ve onun hakkında bilgi almak/değişiklik yapmak istiyoruz. Burada `torch::Tensor` sınıfının bize sağladığı sınıf üye fonksiyonlarından en önemlilerine göz atalım:
 
 ```c++
-// 2 boyutlu bir tensör oluşturalım
-auto tensorInit = torch::tensor({{1.0, 2.0, 4.0, 2.0, 3.0, 5.0},{1.0, 2.0, 4.0, 2.0, 3.0, 5.0}});
+// 1 boyutlu bir tensör oluşturalım
+auto tensorInit = torch::tensor({1.0, 2.0, 4.0, 2.0, 3.0, 5.0, 1.0, 2.0, 4.0, 2.0, 3.0, 5.0});
+// 2B tensöre dönüştürelim 
+tensorInit = tensorInit.reshape({2,6});
 
 // dim() sınıf üye fonksiyonu tensörün kaç boyutlu olduğunu geri döndürür. Örneğimizde 2 olarak:
 auto tDims = tensorInit.dim();
@@ -187,7 +189,8 @@ auto f = tensorInit.sizes();
 Tensör elemanlarına erişim için birden fazla yöntem bulunmaktadır. Öncelikle `torch::Tensor` sınıf üye fonksiyonlarından bir tanesi `torch::Tensor.data_ptr()` fonksiyonunu kullanarak tüm veriye erişebiliriz. Alternatif olarak `data()`fonksiyonunu kullanıp *Python*'da olduğu gibi bir elemanına erişmek mümkündür.
 
 ```c++
-auto tensorInit = torch::tensor({{1.0, 2.0, 4.0, 2.0, 3.0, 5.0},{11.0, 12.0, 14.0, 12.0, 13.0, 15.0}});
+auto tensorInit = torch::tensor({1.0, 2.0, 4.0, 2.0, 3.0, 5.0, 11.0, 12.0, 14.0, 12.0, 13.0, 15.0});
+tensorInit = tensorInit.reshape({2,6});
 
 // void* türünden bir gösterici (pointer) geri döndürür
 auto pDataVoid  = tensorInit.data_ptr();
@@ -203,7 +206,8 @@ std::cout << tensorInit.data()[1][1] <<"\n" ; // örnekte 12
 *LibTorch* ile veriye erişim için `torch::Tensor` kütüphanesinin sunduğu bir diğer alternatif ve tavsiye edilen yöntemse `accessor` kullanımıdır. Burada CPU ve GPU için ayrı `accessor` kullanmak gerekmektedir. Önce bir CPU tensörü için ardından da GPU tensörü için bu işlemi kullanalım:
 
  ```c++
-auto tensorInit = torch::tensor({{1.0, 2.0, 4.0, 2.0, 3.0, 5.0},{11.0, 12.0, 14.0, 12.0, 13.0, 15.0}});
+auto tensorInit = torch::tensor({1.0, 2.0, 4.0, 2.0, 3.0, 5.0, 11.0, 12.0, 14.0, 12.0, 13.0, 15.0});
+tensorInit = tensorInit.reshape({2,6});
 
 auto tensorInitAccessor = tensorInit.accessor<float, 2>();
 for (int i = 0; i < tensorInitAccessor.size(0); i++)
