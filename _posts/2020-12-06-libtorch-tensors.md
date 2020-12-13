@@ -297,7 +297,11 @@ auto gpuTensor = floatTensor32.to(torch::kCUDA);
 
 Evet yazının sonuna geldik. Yazı dizisinin bir sonraki yazısında artık modellere doğru geçiş yapacağımız yazı hazır olduğunda bu yazının altına bağlantıyı ekleyeceğim. 
 
+*Dizinin diğer yazıları:*
 
+1. [C++ Derin Öğrenme-1 Pytorch C++ API LibTorch Giriş](https://blgnksy.github.io/2020/12/03/libtorch-config.html)
+
+3. [C++ Derin Öğrenme-3 Pytorch C++ API LibTorch Modelleri Çalıştırma](https://blgnksy.github.io/2020/12/13/libtorch-inference.html)
 
 
 
