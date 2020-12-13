@@ -152,3 +152,4 @@ Yukarıdaki kod satırındaysa `randTensor` `<<` operatörünün sağ operandı 
 *Dizinin diğer yazıları:*
 
 [C++ Derin Öğrenme-2 Pytorch C++ API LibTorch Tensör İşlemleri](https://blgnksy.github.io/2020/12/06/libtorch-tensors.html)
+[C++ Derin Öğrenme-3 Pytorch C++ API LibTorch Modelleri Çalıştırma](https://blgnksy.github.io/2020/12/13/libtorch-inference.html)
