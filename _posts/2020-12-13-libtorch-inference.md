@@ -27,7 +27,7 @@ script.save("./model_zoo/resnet152_sc.pt")
 traced.save("./model_zoo/resnet152_tr.pt")
 ```
 
-Burada modeli `torch`'un `jit` modülünü kullanarak hem `script` modunda hem de `trace` modunda kaydedelim. İleride karşılaştırma için kullanacağım için bunu yapıyorum. Şimdi bunları kullanarak *C++*'da hızlıca çıkarım yapalım:
+Burada modeli `torch`'un `jit` modülünü kullanarak hem `script` modunda hem de `trace` modunda kaydedelim. *Python API*'da `jit` modülünün kullanımı hakkında bilgi sahibi değilseniz kısa bir ara verip [dokümantasyonu](https://pytorch.org/tutorials/beginner/Intro_to_TorchScript_tutorial.html) okumanızı tavsiye ederim. Her ikisini de kaydetme nedenim ileride karşılaştırma için kullanacak olmamdır. Şimdi kaydedilen modelleri kullanarak *C++*'da hızlıca çıkarım yapalım:
 
 ```c++
 #include <torch/script.h>
@@ -101,7 +101,7 @@ Ardından daha önce *Python*'da kaydettiğimiz modelleri dosyadan okuyup bu nes
     }
 ```
 
-Burada model CPU üzerinde çalışacak şekilde kullanıyoruz. İsterseniz aşağıdaki kodu modeli yüklediğiniz satırdan sonraki satıra eklemeniz yeterli olacaktır:
+Burada model CPU üzerinde çalışacak şekilde kullanıyoruz. GPU kullanmak isterseniz aşağıdaki kodu modeli yüklediğiniz satırdan sonraki satıra eklemeniz yeterli olacaktır:
 
 ```c++
 module.to(at::kCUDA);
@@ -139,7 +139,7 @@ for (int i = 0; i < BATCH_SIZE; ++i) {
 }
 ```
 
-Bu noktada bir karşılaştırma yapmakta fayda olacaktır. Bunun için Python'da `jit` modülünü kullanmadan, `script` ve `trace` modunda farklı yığın boyutları için CPU ve GPU'da kaydedilen modeli okuma ve çalışma süreleriyle bu işlemlerin C++'da yaptığımızda elde edeceğimiz süreleri (tüm testler 10 defa çalıştırılıp süre ortalama olarak hesaplanmıştır) görelim. İlk olarak kaydedilen model dosyalarının boyutlarına bakalım. Dosya boyutları arasında anlamlı bir fark bulunmadığını söyleyebiliriz: 
+Bu noktada bir karşılaştırma yapmakta fayda olacaktır. Bunun için Python'da `jit` modülünü kullanmadan, `script` ve `trace` modunda farklı yığın boyutları için CPU ve GPU'da kaydedilen modeli okuma ve çalışma süreleriyle bu işlemlerin C++'da yaptığımızda elde edeceğimiz süreleri (tüm testler 10 defa çalıştırılıp süre ortalama olarak hesaplanmıştır) karşılaştıracağız. İlk olarak kaydedilen model dosyalarının boyutlarına bakalım. Dosya boyutları arasında anlamlı bir fark bulunmadığını söyleyebiliriz: 
 
 | Modül Tipi       | Dosya Boyutu |
 | ---------------- | ------------ |
@@ -154,17 +154,26 @@ Bu noktada bir karşılaştırma yapmakta fayda olacaktır. Bunun için Python'd
 | Script                | 0.985  | 0.449 |
 | Trace                 | 0.912  | 0.356 |
 
-Şİmdi de GPU üzerinde modelin çalıştırılabilir hale getirilmesi için geçen süreye bakalım. Hız farkı azalsa da *C++* hala daha hızlı okuyor:
+Şimdi de model dosyasının okunması ve GPU üzerinde çalıştırılabilir hale getirilmesi için geçen süreye bakalım. Hız farkı azalsa da *C++* hala daha hızlı okuyor ve modeli çalıştırılabilir hale getiriyor:
 
 | GPU Okuma zamanı (ms) | Python | C++   |
 | --------------------- | ------ | ----- |
 | Script                | 2.286  | 2.137 |
 | Trace                 | 2.214  | 2.025 |
 
-Artık yığın işleme sürelerine bakalım. Soldaki çizgede CPU, sağdaki çizgedeyse GPU üzerinde farklı yığın boyutlarında bir örnek için modelin çıkarım süreleri görülmektedir. Test durumlarının %95'inde değişen oranlarda *C++* API'ı daha hızlı çalışmaktadır. CPU üzerinde genelde `script` modunda kaydedilen modeller, GPU tarafındaysa `trace` modunda kaydedilen modeller daha hızlı çalışmışlardır. Bu hesaplamalarda tek işlem/iş parçacığı kullanılmıştır:
+Artık yığın işleme sürelerini inceleyelim. Soldaki çizgede CPU, sağdaki çizgedeyse GPU üzerinde farklı yığın boyutlarında bir örnek için modelin çıkarım süreleri görülmektedir. Test durumlarının %95'inde değişen oranlarda *C++* API'ı daha hızlı çalışmaktadır. CPU üzerinde genelde `script` modunda kaydedilen modeller, GPU tarafındaysa `trace` modunda kaydedilen modeller daha hızlı çalışmışlardır. Bu hesaplamalarda tek işlem/iş parçacığı kullanılmıştır:
 
 
 
 ![](/assets/img/libtorch_infer/cpu_gpu.png)
 
 Sonuç olarak aslında *C++ API* kullanarak modelleri çalıştırmanın hiç de zahmetli olmadığını gördüğünüzü düşünüyorum. Aslında sıfırdan bir modeli *C++* üzerinde geliştirmekte çok zor değil. Sonraki yazılarda bunu da açıklamaya çalışacağım. Ama öncelikle verilerle nasıl başa çıkacağımızı incelemenin daha iyi olacağını düşünüyorum. Sonraki yazıda verileri (resim, video, csv, metin vb.) okumayı ve *LibTorch*'a çıkarım ve eğitim sırasında bu verileri nasıl sağlayacağımızı açıklayacağım. 
+
+*Dizinin diğer yazıları:*
+
+1. [C++ Derin Öğrenme-1 Pytorch C++ API LibTorch Giriş](https://blgnksy.github.io/2020/12/03/libtorch-config.html)
+
+2. [C++ Derin Öğrenme-2 Pytorch C++ API LibTorch Tensör İşlemleri](https://blgnksy.github.io/2020/12/06/libtorch-tensors.html)
+
+
+
