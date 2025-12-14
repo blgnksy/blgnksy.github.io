@@ -62,6 +62,19 @@
         </li>
         {% endif %}
         
+        {% if page.translations %}
+        {% for translation in page.translations %}
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="{{ translation.url }}">
+                {{ translation.lang | upcase }}
+            </a>
+        </li>
+        {% endfor %}
+        {% endif %}
+        
     </ul>
         
 	</nav>

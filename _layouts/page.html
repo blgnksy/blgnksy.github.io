@@ -20,4 +20,24 @@ layout: default
   {% capture tag_list %}{{ page.tags | join: "|"}}{% endcapture %}
   {% include tags_list.html tags=tag_list %}
     
+  <!-- Structured Data for Page -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "{{ page.title }}",
+    "url": "{{ page.url | absolute_url }}",
+    "description": "{{ page.excerpt | default: site.theme_settings.description }}",
+    "inLanguage": "{{ page.lang | default: site.active_lang }}",
+    "mainEntity": {
+      "@type": "Article",
+      "headline": "{{ page.title }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ page.author | default: site.author }}"
+      }
+    }
+  }
+  </script>
+    
 </article>

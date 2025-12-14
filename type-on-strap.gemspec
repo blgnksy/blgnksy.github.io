@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "jekyll", "~> 3.3"
   spec.add_runtime_dependency "jekyll-paginate", "~> 1.1"
   spec.add_runtime_dependency "jekyll-seo-tag", "~> 2.3"
+  spec.add_runtime_dependency "kramdown-parser-gfm"
   
   spec.add_dependency "bundler", ">= 2.2.33"
   spec.add_dependency "rake", ">= 12.3.3"

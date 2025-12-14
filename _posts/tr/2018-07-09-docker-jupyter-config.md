@@ -2,8 +2,9 @@
 layout: post
 comments: true
 title: NVIDIA Docker Üzerinde Jupyter Ayarları
+lang: tr
 header:
-  teaser: "/assets/img/jupy-config/jupyter_logo.png"
+  teaser: /assets/img/jupy-config/jupyter_logo.png
 tags: [NVIDIA-Docker, Docker, Deep Learning, Derin Öğrenme, Tensorflow, Jupyter, Jupyter Config, Jupyter Notebook]
 ---
 
@@ -40,10 +41,14 @@ $ ipython
    Daha sonra bize _sha1_ ile şifrelenmiş şifremizi oluşturalacak modülü _import_ edip _passwd()_ metodunu çağıracağız. Dilediğimiz şifreyi girip hücreyi çalıştırdığımızda çıktı olarak _sha1_ ile şifrelenmiş doğrulama kodunu elde etmiş olacağız. Doğrulama kodunu kopyalayıp _ipython_'dan _exit_ metodu ile çıkabiliriz.
    
 ```python
-iPythonPrompt> from IPython.lib import passwd 
-iPythonPrompt> passwd() 
-sha1:fc216:3a35a98ed980b9...
-iPythonPrompt> exit 
+In [1]: from IPython.lib import passwd
+
+In [2]: passwd()
+Enter password: 
+Verify password:  
+Out[2]: 'sha1:004ca25bc95e:13156f91c50e71b8e5fd6f7f3a92527dc735bdc2'
+
+In [3]: exit
 ```
    
    _vi_ ile <span style="color:red"> _jupyter_notebook_config.py_</span> dosyasını düzenlemek için açıyoruz:

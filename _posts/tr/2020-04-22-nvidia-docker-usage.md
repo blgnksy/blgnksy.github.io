@@ -2,6 +2,7 @@
 layout: post
 comments: true
 title: NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı
+lang: tr
 tags: [NVIDIA-Docker, Docker, Docker Temel Bilgiler, Docker Kurulumu, DockerFile, Deep Learning, Derin Öğrenme, Tensorflow]
 ---
 

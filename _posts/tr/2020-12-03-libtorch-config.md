@@ -2,6 +2,7 @@
 layout: post
 comments: true
 title: C++ Derin Öğrenme-1 Pytorch C++ API LibTorch Giriş
+lang: tr
 header:
   teaser: "https://pytorch.org/assets/images/logo-dark.svg"
 tags: [Deep Learning, Derin Öğrenme, PyTorch, LibTorch, PyTorch C++ API, Machine Learning C++, Deep Learning C++, Machine Learning, Makine Öğrenmesi]
@@ -151,6 +152,6 @@ Yukarıdaki kod satırındaysa `randTensor` `<<` operatörünün sağ operandı 
 
 *Dizinin diğer yazıları:*
 
-2. [C++ Derin Öğrenme-2 Pytorch C++ API LibTorch Tensör İşlemleri](https://blgnksy.github.io/2020/12/06/libtorch-tensors.html)
+2. [C++ Derin Öğrenme-2 Pytorch C++ API LibTorch Tensör İşlemleri](https://blgnksy.github.io/tr/2020/12/06/libtorch-tensors.html)
 
-3. [C++ Derin Öğrenme-3 Pytorch C++ API LibTorch Modelleri Çalıştırma](https://blgnksy.github.io/2020/12/13/libtorch-inference.html)
+3. [C++ Derin Öğrenme-3 Pytorch C++ API LibTorch Modelleri Çalıştırma](https://blgnksy.github.io/tr/2020/12/13/libtorch-inference.html)

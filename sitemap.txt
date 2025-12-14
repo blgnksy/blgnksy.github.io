@@ -1,2 +1,14 @@
 https://blgnksy.github.io
-https://blgnksy.github.io/2018/07/05/nvidia-docker-usage.html
+https://blgnksy.github.io/tr/
+https://blgnksy.github.io/tr/2018/07/09/docker-jupyter-config.html
+https://blgnksy.github.io/tr/2020/04/22/nvidia-docker-usage.html
+https://blgnksy.github.io/tr/2020/12/03/libtorch-config.html
+https://blgnksy.github.io/tr/2020/12/06/libtorch-tensors.html
+https://blgnksy.github.io/tr/2020/12/13/libtorch-inference.html
+https://blgnksy.github.io/tr/about/
+https://blgnksy.github.io/tr/tags/
+https://blgnksy.github.io/2020/12/03/libtorch-config.html
+https://blgnksy.github.io/2020/12/06/libtorch-tensors.html
+https://blgnksy.github.io/2020/12/13/libtorch-inference.html
+https://blgnksy.github.io/about/
+https://blgnksy.github.io/tags/

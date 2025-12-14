@@ -92,3 +92,20 @@ layout: page
 
     </div>
 </div>
+
+<!-- Structured Data for Tags Page -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{{ page.title }}",
+  "url": "{{ page.url | absolute_url }}",
+  "description": "Browse posts and pages by tags on {{ site.theme_settings.title }}",
+  "inLanguage": "{{ page.lang | default: site.active_lang }}",
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "Tags",
+    "description": "List of tags used in the blog"
+  }
+}
+</script>
