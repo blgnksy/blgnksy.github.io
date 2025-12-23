@@ -12,3 +12,4 @@ https://blgnksy.github.io/2020/12/06/libtorch-tensors.html
 https://blgnksy.github.io/2020/12/13/libtorch-inference.html
 https://blgnksy.github.io/about/
 https://blgnksy.github.io/tags/
+https://blgnksy.github.io/2025/12/22/minimal-os.html
