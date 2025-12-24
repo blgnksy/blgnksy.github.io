@@ -2,7 +2,7 @@
 layout: post
 comments: true
 title: Minimalist OS
-lang: eng
+lang: en
 header:
   teaser: "https://blgnksy.github.io/assets/img/linux/Tux.svg"
 tags: [Linux, Busybox, Boot Sequence]
