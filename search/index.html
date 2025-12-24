@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- JQuery (used for bootstrap and jekyll search) -->
+    <script src="/assets/js/jquery-3.2.1.min.js" ></script>
+
+    <!-- Main JS (navbar.js and katex_init.js)-->
+    <script defer=true src="/assets/js/main.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://blgnksy.github.io/search/">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/atom+xml" title="NDeep" href="https://blgnksy.github.io///feed.xml"/>
+
+    <!-- Font Awesome -->
+    <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+    
+
+    <!-- KaTeX 0.8.3 -->
+    
+    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/katex.min.css">
+    <script src="/assets/js/katex.min.js">
+    </script>
+    
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPYEC2Z49"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NWPYEC2Z49');
+    </script>
+
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'G-NWPYEC2Z49', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    
+
+    <!-- seo tags -->
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Search | Blog About Deep/Machine Learning, CUDA, Computer Vision</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Search" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A website with blog posts and pages on mostly on Docker, Computer Vision, Machine Learning, Deep Learning and same kind of software related topics. Çoğunlukla Docker, Bilgisayarlı Görü, Makine Öğrenmesi,Derin Öğrenme ve benzeri yazılımla ilgili konularda bloglar yayımlanan bir websitesi." />
+<meta property="og:description" content="A website with blog posts and pages on mostly on Docker, Computer Vision, Machine Learning, Deep Learning and same kind of software related topics. Çoğunlukla Docker, Bilgisayarlı Görü, Makine Öğrenmesi,Derin Öğrenme ve benzeri yazılımla ilgili konularda bloglar yayımlanan bir websitesi." />
+<link rel="canonical" href="https://blgnksy.github.io/search/" />
+<meta property="og:url" content="https://blgnksy.github.io/search/" />
+<meta property="og:site_name" content="Blog About Deep/Machine Learning, CUDA, Computer Vision" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Search" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"A website with blog posts and pages on mostly on Docker, Computer Vision, Machine Learning, Deep Learning and same kind of software related topics. Çoğunlukla Docker, Bilgisayarlı Görü, Makine Öğrenmesi,Derin Öğrenme ve benzeri yazılımla ilgili konularda bloglar yayımlanan bir websitesi.","headline":"Search","url":"https://blgnksy.github.io/search/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- Manual seo tags -->
+    <!--
+    <title>Search | NDeep</title>
+    <meta name="description" content="">
+    -->
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "NDeep",
+      "url": "https://blgnksy.github.io",
+      "description": "",
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://blgnksy.github.io/search/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+</head>
+
+  <body>
+    <header class="site-header">
+    
+    <!-- Logo and title -->
+	<div class="branding">
+		<a href="/">
+			<img class="avatar" src="/assets/img/triangle.svg" alt=""/>
+		</a>
+
+		<h1 class="site-title">
+			<a href="/">NDeep</a>
+		</h1>
+	</div>
+    
+    <!-- Toggle menu -->
+    <nav class="clear">
+    <a id="pull" class="toggle" href="#">
+    <i class="fa fa-bars fa-lg"></i>
+    </a>
+    
+    <!-- Menu -->
+    <ul>
+        
+        
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="/about/">
+                About Me
+            </a>
+        </li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+         
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/tags">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        
+        
+    </ul>
+        
+	</nav>
+</header>
+
+    <div class="content">
+      <article class="feature-image">
+  <header id="main" style="background-image: url('/assets/img/pexels/search-map.jpeg')">
+    <h1 id="Search" class="title">
+        Search
+    </h1>
+    
+    
+    <h2 class="subtitle">What are you looking for?</h2>
+    
+      
+  </header>
+  <section class="post-content"><!-- Html Elements for Search -->
+<input type="text" id="search-input" placeholder="Enter keywords..." class="search-bar">
+<br>
+<br>
+<ul id="results-container"></ul>
+
+<section>
+    <!-- Script pointing to jekyll-search.js -->
+    <script src="/assets/js/simple-jekyll-search.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        SimpleJekyllSearch({
+            searchInput: document.getElementById('search-input'),
+            resultsContainer: document.getElementById('results-container'),
+            json: [
+                    
+                     
+                        {
+                          "title"    : "Minimalist OS",
+                          "category" : "",
+                          "tags"     : " Linux, Busybox, Boot Sequence",
+                          "url"      : "/2025/12/22/minimal-os.html",
+                          "date"     : "December 22, 2025",
+                          "excerpt"  : "I have been using Linux as my daily driver—both professionally and personally—for many years. My fascination with kernel internals has led me to build the kernel myself and boot it inside a virtual machine (I use QEMU). I’m planning another blog p...",
+                          "content"  : "I have been using Linux as my daily driver—both professionally and personally—for many years. My fascination with kernel internals has led me to build the kernel myself and boot it inside a virtual machine (I use QEMU). I’m planning another blog post about kernel compilation, but for now I’ll focus on how to create a bootable ISO image for Linux.The example use‑cases of the need to create an ISO image will be defined later, but first let’s review the general boot process:      Firmware initialization (BIOS/UEFI)When the system powers on, the firmware runs POST, initializes hardware, and looks for a bootable device.Legacy BIOS loads the first‑stage bootloader into RAM; modern systems with UEFI load an EFI application (e.g., bootx64.efi).        Bootloader (GRUB, Windows Boot Manager, etc.)The bootloader switches the CPU to the appropriate execution mode, loads the Linux kernel image (bzImage) and the initial RAM filesystem (initramfs, usually initrd.img), then transfers control to the kernel entry point.        Kernel decompression and early initializationThe kernel decompresses itself to its final location, jumps to the architecture‑specific entry point, and calls start_kernel(). This routine sets up memory management, the scheduler, interrupt handling, core subsystems, and mounts the temporary root filesystem (the initramfs) in preparation for userspace.        Early userspace (initramfs)The kernel runs the first userspace program, trying the following in order:          /init      /sbin/init      /etc/init      /bin/init      /bin/sh        During this phase the initramfs populates /dev (normally via udev), loads any required kernel modules, and mounts the virtual filesystems /proc and /sys.        Root‑filesystem handoffOnce the real root filesystem is ready, the kernel switches to it using pivot_root or switch_root, then re‑executes the init process from the new root. This marks the transition from early userspace to the main userspace environment.        Init system startupPID 1 (usually systemd, but it could be OpenRC, SysVinit, etc.) starts system services and configures console devices.        Shell executionAfter the init system finishes, a login shell is presented. The system is now fully booted, and any userspace program can be launched.  As I mentioned before, there would be some other use cases where a user needs to create an ISO image.Use cases  Creating your own distro,  Creating system recovery and rescue environments,  Implementing/testing/debugging new kernel features      Educational and research needs  Preparing the ISOFirst, locate a kernel image and its initramfs. In a shell, list the contents of /boot:ls -la /bootTypical output (Fedora 43 example):total 625628dr-xr-xr-x. 6 root root      4096 Dec 21 09:31 .dr-xr-xr-x. 1 root root       192 Dec 22 14:32 ..-rw-r--r--. 1 root root    292973 Dec 13 01:00 config-6.17.12-300.fc43.x86_64-rw-r--r--. 1 root root    292938 Oct  6 02:00 config-6.17.1-300.fc43.x86_64drwx------. 4 root root      4096 Jan  1  1970 efidrwx------. 3 root root      4096 Dec 22 15:36 grub2-rw-------. 1 root root 270890527 Dec 20 15:51 initramfs-0-rescue-70a9f446bdd94bfb904e2762ff2f9046.img-rw-------. 1 root root 146082930 Dec 21 09:31 initramfs-6.17.12-300.fc43.x86_64.img-rw-------. 1 root root 146076670 Dec 21 09:30 initramfs-6.17.1-300.fc43.x86_64.imgdrwxr-xr-x. 3 root root      4096 Dec 20 15:49 loaderdrwx------. 2 root root     16384 Dec 20 15:46 lost+foundlrwxrwxrwx. 1 root root        47 Dec 20 16:17 symvers-6.17.12-300.fc43.x86_64.xz -&gt; /lib/modules/6.17.12-300.fc43.x86_64/symvers.xzlrwxrwxrwx. 1 root root        46 Dec 20 15:49 symvers-6.17.1-300.fc43.x86_64.xz -&gt; /lib/modules/6.17.1-300.fc43.x86_64/symvers.xz-rw-r--r--. 1 root root  11127277 Dec 13 01:00 System.map-6.17.12-300.fc43.x86_64-rw-r--r--. 1 root root  12017392 Oct  6 02:00 System.map-6.17.1-300.fc43.x86_64-rwxr-xr-x. 1 root root  18184232 Dec 13 01:00 vmlinuz-6.17.12-300.fc43.x86_64-rwxr-xr-x. 1 root root  17807720 Oct  6 02:00 vmlinuz-6.17.1-300.fc43.x86_64The file you’ll need now is the kernel image (vmlinuz‑). Create a working directory and copy the kernel:mkdir custom_iso &amp;&amp; cd custom_isocp /boot/vmlinuz-6.17.12-300.fc43.x86_64 bzImage   # rename as you likeAdding a Minimal BusyBox UserspaceIf you’re not familiar with BusyBox, see its documentation: https://busybox.net/about.html. We’ll use it as a tiny, static userspace.# Download and extract BusyBoxwget https://busybox.net/downloads/busybox-1.37.0.tar.bz2tar xf busybox-1.37.0.tar.bz2cd busybox-1.37.0# Default config → enable static linkingmake defconfigsed -i 's/# CONFIG_STATIC is not set/CONFIG_STATIC=y/' .config# Build a statically linked binaryLDFLAGS=\"--static\" make -j$(nproc) busyboxcd ..Building the InitramfsCreate the minimal root filesystem hierarchy:mkdir -p initrd/{bin,dev,proc,sys,root}Populate /bin with BusyBox and symlinks for each provided utility:cd initrd/bincp ../../busybox-1.37.0/busybox .chmod +x busybox# Create a symlink for every BusyBox appletfor util in $(./busybox --list); do    ln -s ./busybox \"$util\"donecd ..We only need to craft our initialization script. A detailed list of responsibilities of a PID 1 are:  Starts/monitors essential system processes,  Handles the signals such as SIGTERM, SIGINT, SIGCHLD,  Mounts virtual filesystems (/proc, /sys, /dev),  Loads kernel modules,  Ensures /dev/console exists,  Sets up stdin/stdout/stderr,  Starts login or shell on consoles,  Establishes base environment variables,  Mounts the real root filesystem,  Performs switch_root or pivot_root,  Fees initramfs memory,  Handles poweroff, reboot, halt requests, Ctrl-Alt-Del behavior as well as SIGPWR, and SIGWINCH,  Invokes kernel reboot/poweroff.We want out initialization script (our PID 1) to mount virtual filesystem, to provide device nodes, to set some kernel logging configuration up, and to run a shell.Write a very small init script (PID 1) that mounts the virtual filesystems and drops to a shell:cat &gt; init &lt;&lt;'EOF'#!/bin/shmount -t sysfs sysfs /sysmount -t proc proc /procmount -t devtmpfs udev /devsysctl -w kernel.printk=\"2 4 1 7\"clearexec /bin/shEOFchmod +x initPackage the initramfs using cpio (newc format is required by the Linux kernel):chmod -R 777 .find . | cpio -o -H newc &gt; ../initrd.imgcd ..Testing the kernel and initial ram disk with qemuqemu-system-x86_64 -m 4096 -smp 6  -kernel bzImage -initrd initrd.img You should be able to see the command prompt:Actually this is enough to test/debug the kernel. You don’t need an ISO.Creating the Bootable ISO with GRUB# Directory layout expected by grub-mkrescuemkdir -p iso/boot/grub# Copy kernel and initramfscp bzImage iso/boot/cp initrd.img iso/boot/# GRUB configurationcat &gt; iso/boot/grub/grub.cfg &lt;&lt;'EOF'set timeout=5set default=0menuentry \"Custom Linux with BusyBox userspace\" {    linux /boot/bzImage    initrd /boot/initrd.img}EOF# Build the ISOgrub2-mkrescue -o custom_os.iso iso/ # On some distributions the command is grub-mkrescue; use whichever is available.Testing the ISO with QEMUqemu-system-x86_64 -m 4096 -smp 4 -cdrom custom_os.iso -boot dYou should see a simple prompt provided by BusyBox:"
+                        } ,
+                     
+                        {
+                          "title"    : "C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models",
+                          "category" : "",
+                          "tags"     : " Deep Learning, PyTorch, LibTorch, PyTorch C++ API, Machine Learning C++, Deep Learning C++, Machine Learning, Inference",
+                          "url"      : "/2020/12/13/libtorch-inference.html",
+                          "date"     : "December 13, 2020",
+                          "excerpt"  : "In this article of the series, we will see how to run models using LibTorch, how to use it for inference. In the first article of the series, while explaining usage scenarios, I mentioned that you can use a model trained in Python for inference in...",
+                          "content"  : "In this article of the series, we will see how to run models using LibTorch, how to use it for inference. In the first article of the series, while explaining usage scenarios, I mentioned that you can use a model trained in Python for inference in C++ and overcome some bottlenecks. Now we will train a model in Python (to not waste time, I will use a pre-trained model), save it, load it in C++ and perform inference.First, let’s assume we trained a model in Python and the model is held in the resnet152 object. As I said, I will use a pre-trained model directly:import torchvision.models as modelsimport torchresnet152 = models.resnet152(pretrained=True)script = torch.jit.script(resnet152)traced = torch.jit.trace(resnet152, torch.rand(1, 3, 224, 224)) #Sample input must be provided for traced model.script.save(\"./model_zoo/resnet152_sc.pt\")traced.save(\"./model_zoo/resnet152_tr.pt\")Here, let’s save the model using torch’s jit module in both script mode and trace mode. If you are not familiar with the use of the jit module in the Python API, I recommend taking a short break and reading the documentation. The reason I save both is that I will use them for comparison later. Now let’s quickly perform inference in C++ using the saved models:#include &lt;torch/script.h&gt;#include &lt;iostream&gt;int main(int argc, const char* argv[]) {    if (argc != 2) {        std::cerr &lt;&lt; \"Usage: infer &lt;path-to-exported-script-module&gt;\n\";        return -1;    }    at::globalContext().setBenchmarkCuDNN(1);    torch::jit::script::Module module;    try {        // Deserialize the ScriptModule from a file.        module = torch::jit::load(argv[1]);        std::cout &lt;&lt; \"Module loaded successfully.\n\";        module.eval();    }    catch (const c10::Error&amp; e) {        std::cerr &lt;&lt; \"Error loading the model.\n\";        return -1;    }	    //RESNET input shape (BATCH_SIZE, 3, 224, 224)    const int BATCH_SIZE = 8, CHANNELS = 3, HEIGHT = 224, WIDTH = 224;     torch::NoGradGuard no_grad;    // Create a vector of inputs.    std::vector&lt;torch::jit::IValue&gt; inputs;    inputs.emplace_back(torch::ones({BATCH_SIZE, CHANNELS, HEIGHT, WIDTH}));    // Execute the model and turn its output into a tensor.    auto output = module.forward(inputs).toTensor();    for (int i = 0; i &lt; BATCH_SIZE; ++i) {        std::cout &lt;&lt; i &lt;&lt; \"th element class: \" &lt;&lt; torch::argmax(output.data()[i]).item&lt;long&gt;() &lt;&lt; \"\n\";    }	return 0;}Let’s compile and run this code, then examine the code:$ ./infer ./model_zoo/resnet152_sc.ptModule loaded successfully.Class of 0th element: 600Class of 1th element: 600Class of 2th element: 600Class of 3th element: 600Class of 4th element: 600If we examine the code from the beginning, first we include the torch/script.h header file in our code. Then we create an instance of the torch::jit::script::Module class. This is actually the torch.nn.Module class we use in Python. As a result, it carries the model object and allows us to use the features provided by the Python API:torch::jit::script::Module module;Then we read the models we saved earlier in Python from the file and transfer them to this object. We take the saved model as an argument from the command line and read the model using error catching mechanism:    try {        // Deserialize the ScriptModule from a file.        module = torch::jit::load(argv[1]);        std::cout &lt;&lt; \"Module loaded successfully.\n\";    }    catch (const c10::Error&amp; e) {        std::cerr &lt;&lt; \"Error loading the model.\n\";        return -1;    }Here we use the model to run on CPU. If you want to use GPU, it is sufficient to add the following code to the line after you load the model:module.to(at::kCUDA);We will prepare the vector we need to feed our inputs to the model. The forward function of the torch::jit::script::Module class expects a vector of type std::vector&lt;torch::jit::IValue&gt;. I would like to remind that since the function uses the vector argument with std::move() move semantics, it aims to keep memory usage and speed loss at the lowest possible level:std::vector&lt;torch::jit::IValue&gt; inputs;inputs.push_back(torch::ones({BATCH_SIZE, CHANNELS, HEIGHT, WIDTH}));//for GPU tensors://inputs.push_back(torch::ones({BATCH_SIZE, CHANNELS, HEIGHT, WIDTH}).to(at::kCUDA));torch::jit::IValue is defined as a class. As an abbreviation of Interpreter Value, the IValue class wraps all basic types supported by the TorchScript interpreter. The IValue class is used for inputs and outputs of models. Although the interface of this class is quite wide, you can look below for its two basic functions:///   // Make the IValuetorch::IValue my_ivalue(26);std::cout &lt;&lt; my_ivalue &lt;&lt; \"\n\";//////   // Unwrap the IValueint64_t my_int = my_ivalue.toInt() //toX() instead of X use appropriate data type for wrapped data.std::cout &lt;&lt; my_int &lt;&lt; \"\n\";If we come to why such a class is needed at this point, the types provided by LibTorch are different from the basic types provided by C++. It helps to ensure compatibility between Python API and C++ API, thus facilitating learning/using/getting used to.Finally, we feed the inputs to the model and print the most probable class for each element in the batch to the standard output:auto output = module.forward(inputs).toTensor();for (int i = 0; i &lt; BATCH_SIZE; ++i) {    std::cout &lt;&lt; \"Class of \" &lt;&lt; i &lt;&lt; \"th element: \" &lt;&lt; torch::argmax(output.data()[i]).item&lt;long&gt;() &lt;&lt; \"\n\";}At this point, it would be beneficial to make a comparison. For this, we will compare the times to read and run the model saved in CPU and GPU for different batch sizes without using the jit module in Python, in script and trace modes (all tests were run 10 times and the time was calculated as average). First, let’s look at the sizes of the saved model files. We can say that there is no significant difference between file sizes:            Module Type      File Size                  torch.nn.Module      241.6 MB              torch.jit.script      242 MB              torch.jit.trace      242.2 MB      Now let’s look at the time it takes to read the model file from disk and make the model executable on CPU. As seen, we can read much faster in C++ first:            CPU Read Time (ms)      Python      C++                  Script      0.985      0.449              Trace      0.912      0.356      Now let’s look at the time it takes to read the model file and make it executable on GPU. Although the speed difference decreases, C++ still reads and makes the model executable faster:            GPU Read Time (ms)      Python      C++                  Script      2.286      2.137              Trace      2.214      2.025      Now let’s examine the batch processing times. In the chart on the left, CPU, on the right, GPU shows the inference times of the model for different batch sizes for one sample. In 95% of the test cases, C++ API runs faster at varying rates. On CPU, models saved in script mode generally ran faster, on GPU side, models saved in trace mode ran faster. Single thread was used in these calculations:As a result, I think you have seen that running models using C++ API is not troublesome at all. In fact, developing a model from scratch on C++ is not very difficult. I will try to explain this in the following articles. But I think it would be better to examine how to deal with data first. In the next article, I will explain how to read data (image, video, csv, text, etc.) and how to provide this data to LibTorch during inference and training.Other articles in the series:      C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction        C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations  "
+                        } ,
+                     
+                        {
+                          "title"    : "C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations",
+                          "category" : "",
+                          "tags"     : " Deep Learning, PyTorch, LibTorch, PyTorch C++ API, Machine Learning C++, Deep Learning C++, Machine Learning, Tensors, Tensor Operations",
+                          "url"      : "/2020/12/06/libtorch-tensors.html",
+                          "date"     : "December 6, 2020",
+                          "excerpt"  : "In this article of the series, I will explain how tensors are created, accessed, and modified in LibTorch. If you haven’t read the introductory article where I explained what LibTorch is and what can be done, I recommend starting from that article...",
+                          "content"  : "In this article of the series, I will explain how tensors are created, accessed, and modified in LibTorch. If you haven’t read the introductory article where I explained what LibTorch is and what can be done, I recommend starting from that article. At this point, remember that this article could have been much longer, but it has been filtered to provide all possible simplicity but sufficient information, and the main reference is the documentation itself.The ATen tensor library is the library that PyTorch uses in the background for tensor operations and is written in accordance with C++14 standards. Tensor types are resolved dynamically. As a result, regardless of the data type it holds or whether it is a CPU/GPU tensor, a single tensor interface meets us. You can examine the interface of the tensor class from the documentation.There are hundreds of functions that operate on tensors. You can reach the list of these functions using the link. Regarding function naming, I want to draw your attention to the point that functions ending with the _ character make changes on the tensor, that is, the tensor is passed as a left-side reference (lvalue reference) in C++ when this function is called. Now let’s start using this class:1. Tensor Creation:1.1 Using Factory FunctionsThese functions work as in Factory Design Patterns and ultimately return torch::Tensor. In fact, I used one of them in the first article: the torch::rand() function returns a tensor according to the shape it takes as an argument. These functions are:  arange: Returns a tensor of sequential integers,  empty: Uninitialized,  eye: Returns an identity matrix,  full: Returns a tensor filled with a single value,  linspace: Returns a tensor with values linearly spaced in some interval,  logspace: Returns a tensor with values logarithmically spaced in some interval,  ones: Returns a tensor filled with all ones,  rand: Returns a tensor filled with values drawn from a uniform distribution on [0, 1).  randint: Returns a tensor with integers randomly drawn from an interval,  randn: Returns a tensor filled with values drawn from a unit normal distribution,  randperm: Returns a tensor filled with a random permutation of integers in some interval,  zeros: Returns a tensor filled with all zeros.The links give connections to the Python documentation. The functions, parameters, and named arguments in the C++ API are the same. Note that named arguments can be defined, accessed, and modified via the torch::TensorOptions object. I will cover this in the torch:rand() function shortly, and it will be valid for other functions as well.Now let’s take a closer look at useful factory functions (Note: I will examine the first function in detail, I recommend using the documentation for the others. Because APIs are subject to rapid change and it is tedious to keep them synchronized.):1.1.1. torch::rand()This function produces random floating-point numbers in the range [0,1). Let’s look at the function’s prototype: torch::rand(*size, *, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor.Parameters  size (int): The parameter that determines the shape of the tensor. Takes integer values.Named Arguments- out (Tensor, optional) – The output tensor.  dtype (torch.dtype, optional) – The tensor data type.  layout (torch.layout, optional) – The tensor’s memory storage method (dense/strided). This option is planned to be removed in future versions.  device (torch.device, optional) – Which device the tensor will be stored on (CPU/GPU).  requires_grad (bool, optional) – Whether the returned tensor will be subject to automatic gradient computation.Usage:The simplest usage is to give the shape and use the tensor.torch::Tensor randTensor = torch::rand(/*size:*/{2, 3});As you remember from the first article, this usage returned a CPU tensor with shape 2, 3. If we print this tensor to the standard output stream, we get the following output (remember that the floating-point numbers in the outputs will be random):0.6147  0.6752  0.89630.5627  0.4836  0.5589[ CPUFloatType{2,3} ]For the use of named arguments, we first need to define these options within a torch::TensorOptions object. Reminding that these options are used in the same way in other factory functions let’s look at the values they can take:  dtype: kUInt8, kInt8, kInt16, kInt32, kInt64, kFloat32 and kFloat64,  layout: kStrided and kSparse,  device: kCPU or kCUDA (takes device index if you have multiple GPUs),  requires_grad: true or false.Now let’s create a tensor using the options. To obtain a tensor with 32-bit floating-point numbers in strided memory layout, on GPU 0, that will be included in automatic gradient, we can use the following code block:auto options = torch::TensorOptions()            .dtype(torch::kFloat32)            .layout(torch::kStrided)            .device(torch::kCUDA, 0)            .requires_grad(true);torch::Tensor randTensor = torch::rand(/*size:*/{2, 3}, options);You can also use one or several of these options directly as functions. These functions return torch::TensorOptions object as expected:torch::Tensor randTensor = torch::rand(/*size:*/{2, 3}, torch::TensorOptions().dtype(torch::kFloat32));/* ortorch::Tensor randTensor = torch::rand({2, 3}, torch::dtype(torch::kFloat32));torch::Tensor randTensor = torch::rand({2, 3}, torch::dtype(torch::kFloat32).device(torch::kCUDA, 0));*/1.1.2. torch::randint()This function returns a tensor of integers drawn uniformly from a given interval. Let’s look at its usage immediately:auto intTensor = torch::randint(/*low:*/1, /*high:*/9, /*size:*/{3});With the above definition, we create a tensor that will be a vector with 3 elements between 1 and 9. If we look at the output of this tensor: 6 1 1[ CPUFloatType{3} ]Let’s create a 3D tensor (you can think of it as a tensor carrying typical image data):auto intTensor = torch::randint(/*low:*/1, /*high:*/9, /*size:*/{1920, 1080, 3});1.1.3. torch::ones()/torch::zeros()As their names suggest, these functions allow you to create tensors consisting of ones or zeros. Their usage is similar to other functions again. For example:auto onesTensor = torch::ones(/*size:*/{5, 10});auto zerosTensor = torch::zeros(/*size:*/{1, 5, 10});1.1.4. torch::from_blob()Mostly, we read the data that will create the tensor from another source and transfer it to this tensor. To do this, there is a useful function that takes the data as void* and returns the tensor.:float data[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 8.0, 9.0, 10.0};auto blobData = torch::from_blob(data, /*size:*/{2, 5});/*  1   2   3   4   5  6   7   8   9  10[ CPUFloatType{2,5} ]*/This function does not take ownership of the data sent to its argument. However, when the tensor object’s life ends, it also deletes the original object from memory. Again, if you wish, you can use tensor options.auto blobDataD = torch::from_blob(data, {1, 10}, torch::requires_grad(False));1.1.5. torch::tensor functionThis function, which directly uses the constructor functions of the class, also allows creating tensors.auto tensorInit = torch::tensor({1.0, 2.0, 4.0, 2.0, 3.0, 5.0});Leaving other factory functions to the documentation, now let’s examine the member functions of the torch::Tensor class.2. torch::Tensor Class Member FunctionsNow we have our tensor and we want to get information about it/modify it. Here, let’s look at the most important member functions provided by the torch::Tensor class:// Let's create a 1D tensorauto tensorInit = torch::tensor({1.0, 2.0, 4.0, 2.0, 3.0, 5.0, 1.0, 2.0, 4.0, 2.0, 3.0, 5.0});// Convert to 2D tensortensorInit = tensorInit.reshape({2,6});// The dim() class member function returns how many dimensions the tensor has. In our example, 2:auto tDims = tensorInit.dim();// The dtype() class member function returns the data type of the tensor. In our example, float:auto tDtype = tensorInit.dtype();// The sizes() class member function returns the shape of the data held by the tensor. In our example, [2, 6]:auto f = tensorInit.sizes();3. Tensor Element Access, Indexing and ModificationThere are multiple methods for accessing tensor elements. First, using one of the torch::Tensor class member functions torch::Tensor.data_ptr() function, we can access all data. Alternatively, it is possible to use the data() function and access one of its elements as in Python.auto tensorInit = torch::tensor({1.0, 2.0, 4.0, 2.0, 3.0, 5.0, 11.0, 12.0, 14.0, 12.0, 13.0, 15.0});tensorInit = tensorInit.reshape({2,6});// Returns a pointer of type void*auto pDataVoid  = tensorInit.data_ptr();// Assuming the data type is float, we can convert and access elements using the pointer.auto pDataFloat = static_cast&lt;float*&gt;(pDataVoid);std::cout &lt;&lt; pDataFloat[7] &lt;&lt; \"\n\"; // In two dimensions [1][1], in one dimension 7th element, i.e. 12// Alternatively// We can also access the data directly at index 1,0 using the data function.std::cout &lt;&lt; tensorInit.data()[1][1] &lt;&lt;\"\n\" ; // in the example 12Another alternative and recommended method offered by the LibTorch library for data access is the use of accessor. Here, separate accessor must be used for CPU and GPU. First, let’s use this operation for a CPU tensor, then for a GPU tensor:auto tensorInit = torch::tensor({1.0, 2.0, 4.0, 2.0, 3.0, 5.0, 11.0, 12.0, 14.0, 12.0, 13.0, 15.0});tensorInit = tensorInit.reshape({2,6});auto tensorInitAccessor = tensorInit.accessor&lt;float, 2&gt;();for (int i = 0; i &lt; tensorInitAccessor.size(0); i++)    for (int j = 0; j &lt; tensorInitAccessor.size(1); j++) {        std::cout &lt;&lt; \"Data in position \" &lt;&lt; i &lt;&lt; \"-\" &lt;&lt; j &lt;&lt; \": \" &lt;&lt; tensorInitAccessor[i][j] &lt;&lt; \"\n\";    }The point to be careful about in this usage is that we need to send the data type float and the dimension 2 to the template parameters of the accessor object. So, specialization will be required for different data types and dimensions. So I can’t say it shortens things a lot. The documentation claims that it provides faster access, but since I don’t think pointer usage is slow, I wanted to test accessing all elements in a large tensor:#include &lt;iostream&gt;#include &lt;torch/torch.h&gt;#include &lt;chrono&gt;int main() {    using namespace std::chrono;        const int HEIGHT = 1920, WIDTH = 1080, CH = 300;    long double sum = 0;        auto randBigTensor = torch::rand({HEIGHT, WIDTH, CH});        auto start = high_resolution_clock::now();    auto tensorInitAccessor = randBigTensor.accessor&lt;float, 3&gt;();    for (int i = 0; i &lt; tensorInitAccessor.size(0); i++)        for (int j = 0; j &lt; tensorInitAccessor.size(1); j++)            for (int k = 0; k &lt; tensorInitAccessor.size(2); k++) {                sum += (tensorInitAccessor[i][j][k]) / 1000;            }    auto end = high_resolution_clock::now();    duration&lt;double&gt; time_span = duration_cast&lt;duration&lt;double&gt;&gt;(end - start);    std::cout &lt;&lt; \"It took me \" &lt;&lt; time_span.count() &lt;&lt; \" seconds (Using accesscor). Sum = \" &lt;&lt; sum &lt;&lt; \"\n\";    sum = 0;    start = high_resolution_clock::now();    auto pDataVoid = randBigTensor.data_ptr();    auto pDataFloat = static_cast&lt;float *&gt;(pDataVoid);    for (int i = 0; i &lt; (HEIGHT * WIDTH * CH); i++)        sum += (pDataFloat[i]) / 1000;    end = high_resolution_clock::now();    time_span = duration_cast&lt;duration&lt;double&gt;&gt;(end - start);    std::cout &lt;&lt; \"It took me \" &lt;&lt; time_span.count() &lt;&lt; \" seconds (Using data_ptr). Sum = \" &lt;&lt; sum &lt;&lt; \"\n\";        return 0;}The results were actually as I expected. The fastest was to take the data pointer and access the data. But I think it would be more logical to test this with different sizes, even ideally with tensor sizes you will use in your application.It took me 18.573 seconds (Using accesscor). Sum = 311033It took me 4.24126 seconds (Using data_ptr). Sum = 311033Sometimes we may want to access certain elements of this data. In this case, using the Indexing API we are familiar with from Python will be easier. Both reading and writing operations are possible in this API:auto randTensor = torch::rand({100, 100, 3});// Element at position 1,0,5std::cout &lt;&lt; randTensor.index({1,0,5}); // Using the Slice function, it takes the data in dimension 0 starting from index 1 up to 10 in steps of 2, and shows the elements corresponding to index 0 in the other two axes. Note that the torch::indexing namespace is added here.using namespace torch::indexing;std::cout &lt;&lt; randTensor.index({Slice(/*start_idx:*/1, /*stop_idx:*/10, /*step:*/2), 0, 0})}); // Assign value to element at position 1,0,5randTensor.index({1,0,5}) = 0.05For comparison of Indexing API usage for Python and C++, click on the link.4. Conversion OperationsBefore ending this article, finally, let’s look at the conversion operations of tensors. Here, it is possible to convert the tensor options we determined during initial creation.auto sourceTensor = torch::randn({2, 3}, torch::kFloat16);// Data type conversionauto floatTensor32 = sourceTensor.to(torch::kFloat32);// Conversion according to device typeauto gpuTensor = floatTensor32.to(torch::kCUDA);Yes, we have come to the end of the article. In the next article of the series, we will transition to models, and when the article is ready, I will add the link under this article.Other articles in the series:      C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction        C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models  "
+                        } ,
+                     
+                        {
+                          "title"    : "C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction",
+                          "category" : "",
+                          "tags"     : " Deep Learning, PyTorch, LibTorch, PyTorch C++ API, Machine Learning C++, Deep Learning C++, Machine Learning",
+                          "url"      : "/2020/12/03/libtorch-config.html",
+                          "date"     : "December 3, 2020",
+                          "excerpt"  : "Many of us have encountered various discussions in different forums about which is the best language for Machine Learning or its popular subfield Deep Learning (and usually the best ML library discussions are added to it). If you haven’t encounter...",
+                          "content"  : "Many of us have encountered various discussions in different forums about which is the best language for Machine Learning or its popular subfield Deep Learning (and usually the best ML library discussions are added to it). If you haven’t encountered it yet, don’t get too excited, you will soon. In my opinion, the most accurate answer to this question can be “it depends on the situation”. Also, Elon Musk’s tweet on February 2, 2020, was a good indicator of this.At this point, instead of making more noise on this topic, I will move on to what you can find in this article. The sections of the article:1. IntroductionEspecially when you want to use models with low latency/near real-time in the production phase, you encounter a few problems. I think the most critical problems are the speed/latency issues experienced in Python (I don’t mean that the language has a different claim) and problems arising from multi-process/thread usage (I mean the issues restricted by Global Interpreter Lock in object access). At this point, you may want to use some conveniences provided by a language like C++. I plan to write articles explaining how libraries like ONNX, TensorRT can be included in this regard. But in this article, I will talk about the LibTorch library provided by PyTorch to developers, which has a not too steep learning curve. This introductory article will be followed by separate articles explaining tensor operations, performing inference, and creating/training a model from scratch in C++.The LibTorch library is the C++ API of PyTorch that entered our lives with PyTorch 1.0 version. It is used by Facebook for both research and production. Almost all features used on the Python side are also available in the C++ API. However, although a bit behind, I generally observe that the features used in PyTorch are added to the C++ API with a 1-version difference. In its own documentation, it emphasizes that we should evaluate this feature as “beta” and that PyTorch’s Python interface is more stable. However, I have been using it for a long time and I would like to state that I have not experienced any significant problems.So what does LibTorch offer us:  An interface to define machine learning models (equivalent to torch.nn.Module in Python),  A standard library for the most common modules (convolution, recurrent networks, batch normalization, etc.),  Optimization API (SGD, Adam, etc.),  Data sets and data pipelines that allow parallel processing on CPU cores,  Ability to automatically parallelize models on GPU (torch.nn.parallel.DataParallel),  Ability to easily use C++ models in Python,  Use of TorchScript JIT compiler,  ATen (basic tensor interface) and Autograd API (API that automatically calculates gradients on the computational graph).You can reach the list and definitions of the components it offers from its documentation.2. Usage ScenariosSo what can be the usage scenarios of LibTorch in C++?  In my opinion, first of all, in the production phase, a model that is completely developed, trained, and saved in Python can be read and inference can be performed directly. Meanwhile, you can use advantages like multi-process/thread usage, low latency. I will cover its use for direct inference in the 3rd article of this series. Of course, you will be able to find different comparisons in that article.  The model can be created/trained from scratch in C++. In the 4th article of the series, I will write and train the model from scratch in C++.  You can write your own extensions on PyTorch.3. InstallationThere are two options for installation:      Download the compiled library:                  Click on the link.                    First click on the Stable link, then on the operating system link you use, then on the LibTorch link, then on the C++/Java link, and finally on the CUDA version link for GPU or None link if you will only use CPU, and download the file link that comes and copy its contents to any directory you want.                          Compile from source code: It can be a bit troublesome (actually quite troublesome). But personally, this is my preference. Clone the GitHub repo and follow the necessary steps (I skip this section so it doesn’t get too long, but I can dedicate an article to this in the future).  4. Hello LibTorchWhat I will explain in this article series will include using Clion as the development editor and the cmake tool on Linux operating system, but you can adapt the same procedures to your own operating system and compilation tool. Let’s start and first create a file named CMakeLists.txt and add the following content:cmake_minimum_required(VERSION 3.17) # You can use your current cmake installation as long as the cmake version is at least 3.0project(libtorchHelloWorld)set(CMAKE_CXX_STANDARD 14)find_package(Torch 1.7.0 REQUIRED) # Currently the available version is 1.7.0, correct this if you use a different versionset(CMAKE_CXX_FLAGS \"${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}\")add_executable(libtorchHelloWorld main.cpp) target_link_libraries(libtorchHelloWorld ${TORCH_LIBRARIES})Now let’s add our source codes in main.cpp:#include &lt;iostream&gt;#include &lt;torch/torch.h&gt;int main() {    torch::Tensor randTensor = torch::rand({2, 3});        std::cout &lt;&lt; \"Hello LibTorch\n\" &lt;&lt; \"Torch Tensor: \" &lt;&lt; randTensor &lt;&lt; \"\n\";}And let’s create a directory to contain the compilation outputs and start compiling in it (-DCMAKE_PREFIX_PATH=/absolute/path/libtorch the path you specify should be the directory where you copied the content from the installation section):$ mkdir build$ cd build$ cmake -DCMAKE_PREFIX_PATH=/absolute/path/libtorch ..$ cmake --build . --config DebugNow let’s run our compiled file and fulfill the Hello World classic:$ ./libtorchHelloWorldHello LibtorchTorch Tensor:  0.6147  0.6752  0.8963 0.5627  0.4836  0.5589[ CPUFloatType{2,3} ]Now let’s take a closer look at the API by looking at this short application. First, the torch/torch.h header file contains the torch/all.h header file that includes all other header files of LibTorch:#pragma once#include &lt;torch/all.h&gt;#ifdef TORCH_API_INCLUDE_EXTENSION_H#include &lt;torch/extension.h&gt;#endif // defined(TORCH_API_INCLUDE_EXTENSION_H)If we examine the torch/all.h header file, we see that we have all the necessary header files. At this point, we have seen that we do not need any other header file besides the torch/torch.h header file:#pragma once#include &lt;torch/cuda.h&gt;#include &lt;torch/data.h&gt;#include &lt;torch/enum.h&gt;#include &lt;torch/jit.h&gt;#include &lt;torch/nn.h&gt;#include &lt;torch/optim.h&gt;#include &lt;torch/serialize.h&gt;#include &lt;torch/types.h&gt;#include &lt;torch/utils.h&gt;#include &lt;torch/autograd.h&gt;Actually, as a tip, if I say that when using PyTorch, you mostly write valid code for the C++ API by changing the . operator you use to ::, I don’t think it would be too misleading. Therefore, the variable named randTensor we defined in the main function is an instance of the torch.tensor class we are familiar with from the Python API. I will examine this class in more detail later.	torch::Tensor randTensor = torch::rand({2, 3});With the above code, we obtain a tensor filled with random values in the shape of 2, 3 by using one of the different overloads of the rand function defined in the torch namespace.	std::cout &lt;&lt; \"Hello LibTorch\n\" &lt;&lt; \"Torch Tensor: \" &lt;&lt; randTensor &lt;&lt; \"\n\";In the above line of code, when randTensor is the right operand of the &lt;&lt; operator, it calls the print function in the at namespace (this namespace contains the ATen library, which is the basic tensor library used by LibTorch and PyTorch) and writes the tensor data, data type, and shape to the standard output. The torch::Tensor class provides a lot of things just like in the Python API. But they will be in the next article. We have reached the end of this article. As I mentioned in the introduction, this article will be followed by a series of articles. After writing the new sections, I will add their links under this article.Other articles in the series:      C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations        C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models  "
+                        } ,
+                     
+                        {
+                          "title"    : "NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı",
+                          "category" : "",
+                          "tags"     : " NVIDIA-Docker, Docker, Docker Temel Bilgiler, Docker Kurulumu, DockerFile, Deep Learning, Derin Öğrenme, Tensorflow",
+                          "url"      : "/2020/04/22/nvidia-docker-usage.html",
+                          "date"     : "April 22, 2020",
+                          "excerpt"  : "22.04.2020 tarihinde güncellenmiştir.Derin Öğrenme (Deep Learning) ile uğraşmaya başlayan herkesin bir şekilde korkulu rüyası maalesef gerekli paketlerin, araçların kurulması ve birbirlerinin gereksinimleri ile uyumsuzluk yaratmadan çalışabilmesi ...",
+                          "content"  : "22.04.2020 tarihinde güncellenmiştir.Derin Öğrenme (Deep Learning) ile uğraşmaya başlayan herkesin bir şekilde korkulu rüyası maalesef gerekli paketlerin, araçların kurulması ve birbirlerinin gereksinimleri ile uyumsuzluk yaratmadan çalışabilmesi olmuştur. Hele bir de aynı anda farklı projelerle çalışıyorsanız bunların hepsinin ayrı gereksinimleri varsa işler daha da sorunlu olmaktadır. Bunun için Python paket yönetimi ile sunulan virtualenv virtualenv, virtualenvwrapper kullanımı belli oranda işe yarasa bile bazen sorun, geliştirme ortamınızda mevcut ekran kartının(NVIDIA Cuda çekirdeğine sahip olan) CUDA sürücüleri, cuDNN kütüphanesi kurmaya çalıştığınız paketler ile uyumlu olmaması/olamaması nedeniyle kurulum işlemleri gerekenden daha fazla zaman harcamamıza neden olabilmektedir. Bunların hepsi bir araya getirilse bile bu sefer de sisteminizde yaptığınız bir işletim sistemi/donanım sürücüsü güncellemesi bütün emeklerin çöpe gitmesi anlamına gelebilmektedir.Bu noktada daha fazla izole/sanal ortama ihtiyaç ortaya çıkmaktadır. Sorunların ortadan kaldırılmasında Docker etkin bir çözüm olarak karşımıza çıkmakta ve giderek daha çok geliştirici tarafından tercih edilmektedir. Dahası ekran kartının hesap gücünden faydalanmak isteyen kullanıcıların yardımına bir de NVIDIA-Docker koşmaktadır. Bu yazımızda çok fazla teknik ayrıntısına boğulmadan gerekli kavramları öğrenerek bu çözümü derin/makina öğrenmesi geliştiricileri için nasıl faydalı bir şekilde kullanılabileceği üzerine odaklanacağız. Teknik ayrıntılar için Gökhan Şengün tarafından kaleme alınan yazıya/yazılara başvurabilirsiniz.  Konuyu derin öğrenme özelinde anlatmaya çalışacağımı tekrar hatırlatarak özellikle İngilizce kaynak sayısı oldukça fazla olsa da Türkçe kaynak bulmakta sorun yaşanmakta olduğunu değerlendirdiğim için de bu yazıyı Türkçe olarak paylaşıyorum.Ana Başlıklar:  Temel Kavramlar  Docker, NVIDIA Docker Kurulumu  Hazır görüntülerin(image) kullanımı  DockerFile ile özgün görüntülerin kullanılması  Komut satırı üzerinden Docker ile etkileşim1. Temel Kavramlar:Docker nedir?Kendi başına çalışabilen, ihtiyaç duyduğu herşeyi (sistem araçları, sistem kütüphaneleri, gerekli paketler, donanım sürücüleri vb.) kendi içinde bulunduran, hafif bir yazılımdır. Dahası içerisinde barındırdığı tüm bileşenleri aynı makine üstünde (ana makine-host) çok farklı ayarlarla istediğiniz sayıda görüntüyü (image) farklı konteyner (container) içinde çalıştırmak mümkündür. Sonuç olarak; geliştirici için normal şartlarda ayrı ayrı sahip olmak veya ayarlamak çok maliyetli ve zahmetli olabilecek süreçler hem çok ekonomik hem de çok süratli olabilmektedir.Görüntü (Image)İçerisinde işletim sistemi NVIDIA sürücülerini ve gerekli tüm araç, paket ve programları barındıran yapıdır. Docker kurulumunu anlattıktan sonra ana makinede mevcut görüntülerin (image) nasıl oluşturulacağını, görüntüleneceğini ve yapılabilecek işlemlere değineceğiz.Konteyner (Container)Docker görüntüsünün üzerinde koştuğu izole/sanal ortamdır. Konteyner üzerinde yapılabilecek işlemlere ileride değineceğiz.2. Docker, NVIDIA Docker Kurulumu:Docker CE sürümünün kurulum yönergelerine bağlantı üzerinden ulaşabilirsiniz. Ben size Ubuntu bash terminal üzerinde kurulumunu göstereceğim.  İlk önce daha önce kurulan Docker CE sürümünü apt ile kaldırıyoruz.$ sudo apt-get remove docker docker-engine docker.io  Daha sonra Docker CE kurulumuna geçiyoruz ve aşağıdaki komutları sıra ile terminalden uyguluyoruz.apt paket endekslerini güncelliyoruz.$ sudo apt-get updateapt ile gerekli paketleri kuruyoruz.$ sudo apt-get install \    apt-transport-https \    ca-certificates \    curl \    software-properties-commonDocker’ın resmi GPG anahtarını kendi anahtar zincirimize ekliyoruz.$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -stable olarak işaretlenmiş paketleri kurmak için depomuza ekliyoruz.$ sudo add-apt-repository \   \"deb [arch=amd64] https://download.docker.com/linux/ubuntu \   $(lsb_release -cs) \   stable\"apt paket endekslerini tekrar güncelliyoruz.$ sudo apt-get updateVe sonunda Docker CE’nin son sürümünü kuruyoruz.$ sudo apt-get install docker-ce“Merhaba Dünya“sız yapamazdık. Aşağıdaki komut ile henüz bilgisayarımızda olmayan hello-world isimli bir görüntüyü DockerHub adı verilen geliştiricilerin ve resmi olarak kullanılan görüntülerin paylaşıldığı bir çeşit uygulama dükkanından indirip çalıştırıyoruz ve terminal standart çıktısında aşağıdaki çıktıyı görüyoruz.$ sudo docker run hello-worldUnable to find image 'hello-world:latest' locallylatest: Pulling from library/hello-world9bb5a5d4561a: Pull complete Digest: sha256:f5233545e43561214ca4891fd1157e1c3c563316ed8e237750d59bde73361e77Status: Downloaded newer image for hello-world:latestHello from Docker!This message shows that your installation appears to be working correctly.To generate this message, Docker took the following steps: 1. The Docker client contacted the Docker daemon. 2. The Docker daemon pulled the \"hello-world\" image from the Docker Hub.    (amd64) 3. The Docker daemon created a new container from that image which runs the    executable that produces the output you are currently reading. 4. The Docker daemon streamed that output to the Docker client, which sent it    to your terminal.To try something more ambitious, you can run an Ubuntu container with: $ docker run -it ubuntu bashShare images, automate workflows, and more with a free Docker ID: https://hub.docker.com/For more examples and ideas, visit: https://docs.docker.com/engine/userguide/Docker kurma işlemimiz bitti. Şimdi de derin öğrenme (deep learning) modellerini eğitme işlemimizi kısaltacak önemli bir donanım olan ekran kartı üreticisi NVIDIA’nın hayatımıza soktuğu nimetlerden faydalanmak için bir de NVIDIA-Docker kurmaya başlayabiliriz. Bu noktada ana makinemizde (host) NVIDIA ekran kartı (CUDA yeteneğine sahip) ve ekran kartı sürücüsü kurulmuş olması gerekmektedir.Önce işletim sistemi dağıtımızı bir eçvre değişkenine yazıyoruz.$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)Sonra anahtar zincirimize resmi GPG anahtarını ekliyoruz.$ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -Şimdide uygulama kaynaklarımıza nvidia dağıtımlarını ekliyoruz.$ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.listNVIDIA-Docker kurulumunu yapıyoruz ve docker servisini yeniden başlatıyoruz.$ sudo apt-get update &amp;&amp; sudo apt-get install -y nvidia-container-toolkit$ sudo systemctl restart dockerYine kurulumumuzu test etmek için bu sefer NVIDIA’ya ait son CUDA deposunu kendi bilgisayarımıza indirip herhangi bir sorun olmadığına emin oluyoruz. Bu noktada sizin ekran kartı modeli, sürücüsü ve özellikleri ile uyumlu olarak standart çıktıda aşağıdakine benzer bir sonuç alıyoruz.$ docker run --gpus all --rm nvidia/cuda nvidia-smiSun May 20 18:33:05 2018       +-----------------------------------------------------------------------------+| NVIDIA-SMI 384.111                Driver Version: 384.111                   ||-------------------------------+----------------------+----------------------+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC || Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. ||===============================+======================+======================||   0  GeForce GTX 1070    Off  | 00000000:0A:00.0  On |                  N/A ||  0%   49C    P8    11W / 200W |    359MiB /  8110MiB |      7%      Default |+-------------------------------+----------------------+----------------------+                                                                               +-----------------------------------------------------------------------------+| Processes:                                                       GPU Memory ||  GPU       PID   Type   Process name                             Usage      ||=============================================================================|+-----------------------------------------------------------------------------+3. Hazır Görüntülerin(image) Kullanımı:DockerHub üzerinden paylaşılmış hazır görüntülere (image) ulaşabilirsiniz. Kolaydan başlayarak zora doğru gideceğimiz için önce hazır depoları kullanacağız. Ben size Tensorflow’un resmi deposundan son sürümünü nasıl kuracağınızı göstereceğim.Terminal üzerinden aşağıdaki komutu verdiğimizde uzak depo alanından tensorflow/tensorflow isimli deponun son sürümünü(latest-gpu) ana makinemize çekip (pull) etkileşimli modda çalıştırıp (-p) parametresi ile dış dünya ile 8888 nolu portdan haberleşmesini söylüyoruz. Daha sonra localhost:8888 üzerinden çalışan Jupyter Notebook karşımıza çıkıyor. Bundan sonra bu komutu her çalıştırdığımızda Docker, uzak depo yerel makinemize bulunduğu için indirmek yerine doğrudan çalıştırmaya başlayacaktır.$ docker run -it --gpus all -p 8888:8888 tensorflow/tensorflow:latest-gpu# NVIDIA ekran kartı olmayanlar için docker run -it -p 8888:8888 tensorflow/tensorflow ile kurulum yapılabilir.DockerHub üzerinden ulaştığınız tüm depolarda farklı etiket (tag) varsa farklı sürümleri olduğunu düşünebilirsiniz. Gidip size uygun farklı sürümlerini de denemeniz mümkün olabilir. Görüldüğü gibi sadece parametreleri değiştirerek ana makinemiz (host) üzerinde bir çok farklı bilgisayar varmış gibi görüntüler (image) sayesinde istediğimiz özgürlüğe sahip oluyoruz.4. DockerFile ile Özgün Görüntülerin Kullanılması:Her zaman hazır bir depo kullanmak Docker’ın bize sunduğu esnekliği tam anlamıyla kullanmamıza imkan vermeyebilir. Bu noktada tamamıyla kendi istediğimiz bir görüntü oluşturmak gerekecektir. DockerFile bu eksikliği gidermek için kullanılan metin bazlı bir dosya olup içerisinde bulunan Docker’a özel sözdizim kuralları ile tam anlamıyla istediğimiz gibi bir görüntü oluşturmamıza yardım eder. Ben bu noktada DockerFile oluşturma konusunda yine Gökhan Şengün tarafından kaleme alınan yazıya mutlaka göz atmanızı tavsiye edip derin öğrenme merkezli olarak nasıl bir DockerFile kullanabileceğimize değineceğim.Öncelikle örnek bir DockerFile ele alalım. Burada çok kullanılan bir Floyd Lab tarafından sağlanan hazır bir görüntünün DockerFile dosyasını kullanacağız. Bağlantıdan dosyayı indirebilirsiniz.İndirdiğimiz DockerFile.gpu dosyasının olduğu dizine terminalden gelip aşağıdaki komut ile floydhub/dl-docker adından ve gpu etiketli bir görüntü oluşturuyoruz.$ docker build -t floydhub/dl-docker:gpu -f Dockerfile.gpu .Daha sonra yukarıda yaptığımız gibi bu görüntüyü bir konteyner içinde çalıştırabiliriz.$ docker run -it --gpus all -p 8888:8888 floydhub/dl-docker:gpuŞimdi de DockerFile dosyasının içine bakarak neler yaptığını anlamaya ve sonra özelleştirmek için neler yapabileceğimeze bakalım. (Not: Dosya çok uzun olduğundan bazı bölümleri “…” ile belirterek kısalttığımı belirtmek isterim.)  Öncelikle NVIDIA tarafından sağlanan CUDA’nın 8. sürümü ve cuDNN kütüphanesinin 5. sürümünü kullanan Ubuntu’nun 14.04 sürümünü görüntü içine kuruyor.  Daha sonra kullanacağı bazı parametreleri ARG ile belirliyor.  apt ile gerekli kütüphaneleri kuruyor.  Python paket yöneticisini ve gerekli kütüphaneleri kuruyor.  Tensorflow, Caffe, Theano, Keras, Lasagne, Torch ve Lua derin öğrenme kütüphanelerini kuruyor ve ihtiyaç duyduğu bazı ortam değişkenlerini ayarlıyor.  Açık kaynak bilgisayarlı görü kütüphanelerinden OpenCV kurulumunu yapıyor.  Jupyter Notebook için ayar dosyasını ve Jupyter Notebook kullanımı root kullanıcı için sorunlu olduğundan küçük bir betik dosyası olan  dosyasını kopyalıyor. (Not: Kurulumdan önce floydhub/dl-docker deposundan jupyter_notebook_config.py dosyasını ve birazdan kullanacağımız run_jupyter.sh dosyasını da DockerFile.gpu ile aynı dizine koymamız gerekiyor.  Daha sonra ana makine ile konuşmak üzere 6006 ve 8888 nolu portları açıyor. Genelde 6006 nolu port Tensorboard, 8888 nolu port ise Jupyter Notebook tarafından kullanılmaktadır.  Son olarak görüntü çalıştığında terminalden bash ile bizi karşılayacak komutu yazıyor.$ cat DockerFile.gpuFROM nvidia/cuda:8.0-cudnn5-devel-ubuntu14.04 MAINTAINER Sai Soundararaj &lt;saip@outlook.com&gt;ARG THEANO_VERSION=rel-0.8.2ARG TENSORFLOW_VERSION=0.12.1ARG TENSORFLOW_ARCH=gpu......# Install some dependenciesRUN apt-get update &amp;&amp; apt-get install -y \		bc \		build-essential \		cmake \		curl \		g++ \		gfortran \		git \		libffi-dev \		libfreetype6-dev \		libhdf5-dev \		libjpeg-dev \		liblcms2-dev \		libopenblas-dev \		liblapack-dev \		...		python-dev \		...		&amp;&amp; \	apt-get clean &amp;&amp; \	apt-get autoremove &amp;&amp; \	rm -rf /var/lib/apt/lists/* &amp;&amp; \# Link BLAS library to use OpenBLAS using the alternatives mechanism (https://www.scipy.org/scipylib/building/linux.html#debian-ubuntu)	update-alternatives --set libblas.so.3 /usr/lib/openblas-base/libblas.so.3# Install pipRUN curl -O https://bootstrap.pypa.io/get-pip.py &amp;&amp; \	python get-pip.py &amp;&amp; \	rm get-pip.py# Add SNI support to PythonRUN pip --no-cache-dir install \		pyopenssl \		ndg-httpsclient \		pyasn1# Install useful Python packages using apt-get to avoid version incompatibilities with Tensorflow binary# especially numpy, scipy, skimage and sklearn (see https://github.com/tensorflow/tensorflow/issues/2034)RUN apt-get update &amp;&amp; apt-get install -y \		python-numpy \		python-scipy \		python-nose \		...		&amp;&amp; \	apt-get clean &amp;&amp; \	apt-get autoremove &amp;&amp; \	rm -rf /var/lib/apt/lists/*# Install other useful Python packages using pipRUN pip --no-cache-dir install --upgrade ipython &amp;&amp; \	pip --no-cache-dir install \		Cython \		ipykernel \		jupyter \		path.py \		...		&amp;&amp; \	python -m ipykernel.kernelspec# Install TensorFlowRUN pip --no-cache-dir install \	https://storage.googleapis.com/tensorflow/linux/${TENSORFLOW_ARCH}/tensorflow_${TENSORFLOW_ARCH}-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl# Install dependencies for CaffeRUN apt-get update &amp;&amp; apt-get install -y \		libboost-all-dev \		libgflags-dev \		libgoogle-glog-dev \		libhdf5-serial-dev \		...		&amp;&amp; \	apt-get clean &amp;&amp; \	apt-get autoremove &amp;&amp; \	rm -rf /var/lib/apt/lists/*# Install CaffeRUN git clone -b ${CAFFE_VERSION} --depth 1 https://github.com/BVLC/caffe.git /root/caffe &amp;&amp; \	cd /root/caffe &amp;&amp; \	cat python/requirements.txt | xargs -n1 pip install &amp;&amp; \	mkdir build &amp;&amp; cd build &amp;&amp; \	cmake -DUSE_CUDNN=1 -DBLAS=Open .. &amp;&amp; \	make -j\"$(nproc)\" all &amp;&amp; \	make install# Set up Caffe environment variablesENV CAFFE_ROOT=/root/caffeENV PYCAFFE_ROOT=$CAFFE_ROOT/pythonENV PYTHONPATH=$PYCAFFE_ROOT:$PYTHONPATH \	PATH=$CAFFE_ROOT/build/tools:$PYCAFFE_ROOT:$PATHRUN echo \"$CAFFE_ROOT/build/lib\" &gt;&gt; /etc/ld.so.conf.d/caffe.conf &amp;&amp; ldconfig# Install Theano and set up Theano config (.theanorc) for CUDA and OpenBLASRUN pip --no-cache-dir install git+git://github.com/Theano/Theano.git@${THEANO_VERSION} &amp;&amp; \	\	echo \"[global]\ndevice=gpu\nfloatX=float32\noptimizer_including=cudnn\nmode=FAST_RUN \		\n[lib]\ncnmem=0.95 \		\n[nvcc]\nfastmath=True \		\n[blas]\nldflag = -L/usr/lib/openblas-base -lopenblas \		\n[DebugMode]\ncheck_finite=1\" \	&gt; /root/.theanorc# Install KerasRUN pip --no-cache-dir install git+git://github.com/fchollet/keras.git@${KERAS_VERSION}# Install LasagneRUN pip --no-cache-dir install git+git://github.com/Lasagne/Lasagne.git@${LASAGNE_VERSION}# Install TorchRUN git clone https://github.com/torch/distro.git /root/torch --recursive &amp;&amp; \	cd /root/torch &amp;&amp; \	bash install-deps &amp;&amp; \	yes no | ./install.sh# Export the LUA evironment variables manuallyENV LUA_PATH='/root/.luarocks/share/lua/5.1/?.lua;/root/.luarocks/share/lua/5.1/?/init.lua;/root/torch/install/share/lua/5.1/?.lua;/root/torch/install/share/lua/5.1/?/init.lua;./?.lua;/root/torch/install/share/luajit-2.1.0-beta1/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua' \	LUA_CPATH='/root/.luarocks/lib/lua/5.1/?.so;/root/torch/install/lib/lua/5.1/?.so;./?.so;/usr/local/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so' \	PATH=/root/torch/install/bin:$PATH \	LD_LIBRARY_PATH=/root/torch/install/lib:$LD_LIBRARY_PATH \	DYLD_LIBRARY_PATH=/root/torch/install/lib:$DYLD_LIBRARY_PATHENV LUA_CPATH='/root/torch/install/lib/?.so;'$LUA_CPATH# Install the latest versions of nn, cutorch, cunn, cuDNN bindings and iTorchRUN luarocks install nn &amp;&amp; \	luarocks install cutorch &amp;&amp; \	luarocks install cunn &amp;&amp; \    luarocks install loadcaffe &amp;&amp; \	\	cd /root &amp;&amp; git clone https://github.com/soumith/cudnn.torch.git &amp;&amp; cd cudnn.torch &amp;&amp; \	git checkout R4 &amp;&amp; \	luarocks make &amp;&amp; \	\	cd /root &amp;&amp; git clone https://github.com/facebook/iTorch.git &amp;&amp; \	cd iTorch &amp;&amp; \	luarocks make# Install OpenCVRUN git clone --depth 1 https://github.com/opencv/opencv.git /root/opencv &amp;&amp; \	cd /root/opencv &amp;&amp; \	mkdir build &amp;&amp; \	cd build &amp;&amp; \	cmake -DWITH_QT=ON -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON .. &amp;&amp; \	make -j\"$(nproc)\"  &amp;&amp; \	make install &amp;&amp; \	ldconfig &amp;&amp; \	echo 'ln /dev/null /dev/raw1394' &gt;&gt; ~/.bashrc# Set up notebook configCOPY jupyter_notebook_config.py /root/.jupyter/# Jupyter has issues with being run directly: https://github.com/ipython/ipython/issues/7062COPY run_jupyter.sh /root/# Expose Ports for TensorBoard (6006), Ipython (8888)EXPOSE 6006 8888WORKDIR \"/root\"CMD [\"/bin/bash\"]Bazılarınız hazırladığı özgün DockerFile dosyasını uzak depoya göndermek (push) isteyebilir. Yine ayrıntılar için Gökhan Şengün bağlantısından Basit Image Hazırlama ve DockerHub’a Push Etme bölümünde ulaşabilirsiniz.5. Komut Satırı Üzerinden Docker ile EtkileşimÖncelikle var olan görüntülerin listesine terminal üzerinden erişelim:#  Sadece docker images da kullanılabilir.$ sudo docker imagesREPOSITORY                     TAG                       IMAGE ID            CREATED             SIZEhello-world                    latest                    e38bc07ac18e        5 weeks ago         1.85kBgcr.io/tensorflow/tensorflow   latest-gpu_changed        f73dd685943c        5 weeks ago         14.8GBgcr.io/tensorflow/tensorflow   1.7.0-rc0-devel-gpu-py3   a48c5d8684b3        2 months ago        3.1GBGörülebileceği gibi benim ana makinem üzerinde 3 adet görüntü var. Dikkat ederseniz aynı isimli ama farklı etikete sahip iki görüntü var. Altta ilk çektiğim (pull) hali üstte ise zaman içinde konteyner da yaptığım değişiklikleri aktardığım (commit) son halini verdiğim yeni etiketli olan bulunuyor.Konteyner’ı çalıştırmak (run)Görüntüyü oluşturduk. Şimdi görüntüyü bir konteyner da çalıştırmaya sıra geldi.$ sudo docker run -it --gpus all -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook --allow-rootYukarıdaki komut ile önce docker’a run komutunu it parametreleri ile çalıştırmasını söylüyoruz. i etkileşimli modu ile konteyner çalışınca ona komutlar gönderebilmemiz için STDIN (standart girdiyi) açık tutuyor. t ile konteyner için bir pseudo-TTY tahsis ediliyor. p parametresi ile portların ana makine ile konteyner arasında nasıl yönlendirileceğini söylüyoruz. Burada docker konteynerinin 8888 nolu portu ile ana makinenin 8888. portu ve aynı şekilde 6666. portlarını birbirlerine yönlendirdik. Buna jupyter notebook kullanımında ihtiyaç duyacağız. Sonra hangi görüntünün çalıştırılmasını istediğimizi ve konteyner açılınca jupyter notebook açılmasını istediğimizi docker’a söyledikten sonra işimiz bitiyor. Terminal ekranında aşağıdakine benzer bir çıktı görüyor olmalısınız.$ sudo docker run -it --gpus all -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook --allow-root[I 14:52:56.460 NotebookApp] Serving notebooks from local directory: /notebooks[I 14:52:56.460 NotebookApp] 0 active kernels[I 14:52:56.460 NotebookApp] The Jupyter Notebook is running at:[I 14:52:56.460 NotebookApp] https://[all ip addresses on your system]:8888/[I 14:52:56.460 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).Şimdi gidip Firefox’u açıp adres satırına “localhost:8888” yazıp sayfaya gittiğimizde aşağıdaki sayfa ile karşılaşıyoruz. Bu sayfada docker konteynerimizin /notebooks klasörünün içeriğine ulaşıyoruz. Docker içerisinde Jupyter Notebook kullanımı ve gerekli ayarların yapılmasını başka bir yazıda aktarmayı planlıyorum. Umarım en kısa zamanda onu da yayımlayacağım. Neyse şimdi konumuza devam edelim.Şimdilik yukarıda sayfanın sağ üstünde bulunan Logout tuşuna basıp bağlantımızı kestikten sonra terminal penceresinde Kontrol+C ile Jupyter sunucusunu ve çalışan docker konteynerimizi kapatıyoruz. Bazen konteyner çalıştığında terminal ekranına çıkmak isteyebilirsiniz. Bu durumda aşağıdaki gibi docker çalıştırma komutumuzun sonuna bash eklemek yeterli olacaktır.$ sudo docker run -it --gpus all -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed bashroot@2fc479bed67f:/notebooks# Görüldüğü gibi artık konterner içinde terminal ekranına bağlıyız ve artık özelleştirmek istersek şimdi güç bizim elimize geçti. Kullanıcı adımız root ve konteyner anahtar adımız 2fc479bed67f (siz de bu alan farklı olacaktır ki bu rasgele verilen bir anahtar) ve aynı Jupyter’de olduğu gibi /notebook klasöründe bulunuyoruz. Terminalde işimiz bittiğinde exit komutu ile çıkıyoruz.Konteyner’da değişiklik yapmak ve içe aktarmak (commit)Görüntüyü oluşturduk ve bir konteyner içinde çalıştırmaya başladık. Bu noktaya kadar sahip olduğumuz içe aktarılmayı bekleyen konteynerleri aşağıdaki komut ile listeyelebiliriz. Burada CONTAINER ID ve NAMES docker motoru tarafından verilen rasgele değerlerdir.$ sudo docker ps -a CONTAINER ID        IMAGE                                             COMMAND             CREATED             STATUS                        PORTS               NAMES2fc479bed67f        gcr.io/tensorflow/tensorflow:latest-gpu_changed   \"bash\"              5 minutes ago       Exited (130) 10 seconds ago                       musing_sahaEğer konteyner içerisinde oluşturulduktan sonra değişiklik yapılmışsa ve bu değişikliği görüntüye aktarmaz isek görüntü her çalıştırıldığında yeni bir konteyner oluşturacağından ve çalışan konteyner diğer konteynerde yapılan değişiklikten haberdar olmadığından bu değişiklikleri daimi olarak kullanmak istememiz halinde içe aktarmamız gerekmektedir. Bunun için aşağıdaki komutu çalıştırmamız yeterli olacaktır.$ sudo docker commit 2fc479bed67f gcr.io/tensorflow/tensorflow:v1sha256:0ddddaf2218987e2ed9f5cfa1976b635a7b811d68d986fef193af6e4c7cfcc30Bu komut ile tag olarak v1 diye bir etiket tanımladığımız başlangıç görüntüsü üzerinde değişikliklerin eklenmiş olduğu yeni bir görüntüye sahip oluyoruz. İstersek etiketi olduğu gibi kullanıp iki ayrı görüntü yerine başlangıç görüntüsü üzerine de aktarım yapabilirdik. Bu noktada sürekli yeni etiketler vererek yola devam etmek bilgisayarınızda daha fazla depolama alanı gerektirecektir.Kullanılmayan Konteynerları durdurmak ve silmek (commit)Çalışan konteynerlerden işimize yaramayanları veya içe aktarmayı tamamladığınız konteynerleri CONTAINER ID parametresini kullanarak durdurmak ve silmek mümkündür. İlk olarak çalışan konteynerleri yukarıda gösterdiğimiz gibi listeleyelim.$ sudo docker ps -aCONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS                     PORTS                                            NAMES3a9777814a95        ndeep/dl-docker:cpu   \"bash\"                   2 days ago          Exited (255) 2 days ago    0.0.0.0:6006-&gt;6006/tcp, 0.0.0.0:8888-&gt;8888/tcp   festive_chatterjee1a9add8b9905        ndeep/dl-docker:cpu   \"bash\"                   6 weeks ago         Exited (255) 6 weeks ago   0.0.0.0:6006-&gt;6006/tcp, 0.0.0.0:8888-&gt;8888/tcp   dazzling_ridee1a552ab67bf        635015520b19          \"bash\"                   6 weeks ago         Exited (0) 6 weeks ago                                                      objective_northcutt7ea8bd5094c6        635015520b19          \"jupyter notebook --…\"   2 months ago        Exited (0) 2 months ago                                                     priceless_khoranaBu noktada 3a9777814a95 anahtar alanına sahip konteyneri durdurmak için:$ sudo docker stop 3a9777814a953a9777814a95komutunu kullanıyoruz. Durdurduğumuz konteyneri silmek için$ sudo docker rm 3a9777814a953a9777814a95komutunu komut satırına yazmamız gerekiyor. Artık çalışan konteynerleri sıraladığımızda 3a9777814a95 anahtar alanına sahip konteynerdan kurtulmuş oluyoruz.$ sudo docker ps -aCONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS                     PORTS                                            NAMES1a9add8b9905        ndeep/dl-docker:cpu   \"bash\"                   6 weeks ago         Exited (255) 6 weeks ago   0.0.0.0:6006-&gt;6006/tcp, 0.0.0.0:8888-&gt;8888/tcp   dazzling_ridee1a552ab67bf        635015520b19          \"bash\"                   6 weeks ago         Exited (0) 6 weeks ago                                                      objective_northcutt7ea8bd5094c6        635015520b19          \"jupyter notebook --…\"   2 months ago        Exited (0) 2 months ago                                                     priceless_khoranaGörüntüleri silmekSon olarak; artık işimize yaramayacağını düşündüğümüz görüntüleri silme işlemine bakacağız. Bu noktada bir görüntüyü silmek için önce bu görüntünün çalışan tüm konteynerlerinin durdurulması ve silinmesi gerektiğini hatırlattıktan sonra görüntüyü silme işlemine geçelim. Öncelikle görüntüleri listeyelim:$ sudo docker imagesREPOSITORY           TAG                 IMAGE ID            CREATED             SIZEndeep/dl-docker      cpu2                8403972b7f68        14 minutes ago      11.6GBndeep/dl-docker      cpu1                0ddddaf22189        22 hours ago        11.6GBndeep/dl-docker      cpu                 e16010eb9c55        6 weeks ago         11.6GBfloydhub/dl-docker   cpu_changed         4a4e5cbd6476        5 months ago        11.8GBubuntu               14.04               67759a80360c        6 months ago        221MBBen 8403972b7f68 anahtar alanına sahip görüntüyü silmek istiyorum. Bunun için komut satırına:$ docker rmi 8403972b7f68Untagged: ndeep/dl-docker:cpu2Deleted: sha256:8403972b7f68905eb2bb59efcbee05cefdd8ece92ab28a13d3326d07329437a8komutunu yazdıktan sonra görüntümüzü silebiliyoruz.Sonuç olarak; docker/nvidia-docker derin öğrenme alanında geliştirme/araştırma yapanların nasıl bu aracı kullanabileceğine dair temel bilgileri aktarmaya çalıştım. Elbette docker/nvidia-docker kendilerine has birçok farklı özelliğe sahipler. Ama umarım kısa sürede çalışan bir geliştirme ortamı oluşturabileceksiniz. Jupyter kurulumuna dair konuları başka bir yazıda aktarmaya çalışacağım. (Umarım en kısa zamanda) Eğer sorunuz olursa lütfen aşağıdaki bölümden bana yazınız.            Minimalist OS                C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models                C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations                C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction                NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı                NVIDIA Docker Üzerinde Jupyter Ayarları      "
+                        } ,
+                     
+                        {
+                          "title"    : "NVIDIA Docker Üzerinde Jupyter Ayarları",
+                          "category" : "",
+                          "tags"     : " NVIDIA-Docker, Docker, Deep Learning, Derin Öğrenme, Tensorflow, Jupyter, Jupyter Config, Jupyter Notebook",
+                          "url"      : "/2018/07/09/docker-jupyter-config.html",
+                          "date"     : "July 9, 2018",
+                          "excerpt"  : "Python derin/makine öğrenmesi alanında geliştirme yapanların %57‘si tarafından tercih edilen bir programlama dili olarak karşımıza çıkmaktadır.  Buna elbette üssel artan yeni paketler, öğrenme kolaylığı vb. etkenler katkı sağlamaktadır. Programlam...",
+                          "content"  : "Python derin/makine öğrenmesi alanında geliştirme yapanların %57‘si tarafından tercih edilen bir programlama dili olarak karşımıza çıkmaktadır.  Buna elbette üssel artan yeni paketler, öğrenme kolaylığı vb. etkenler katkı sağlamaktadır. Programlama dili seçiminden sonra geliştirme ortamının oluşturulması ve geliştirme arayüzünün (IDE-Integrated Developmnent Envirment) kurulması gerekmetedir. Geliştirme ortamının oluşturulması hakkında NVIDIA-Docker Kullanımı isimli yazım da ayrıntılı bilgiye ulaşabilirsiniz. Özellikle de akademisyenler ve öğrenciler özellikle de sunum imkanlarını da değerlendirilerek geliştirme arayüzü olarak Jupyter tercih edilmektedir. NVIDIA-Docker Kullanımı isimli yazımda da görebileceğiniz gibi Docker konteynerini çalıştırdığımızda bizi tarayıcı üzerinden Jupyter Notebook sayfasına ulaşabiliyoruz. Ben de kişisel tercih olarak hem geliştirme hem de sunum maksatlı olarak Jupyter Notebook ile çalışıyorum ve oldukça da keyif alıyorum. Bu yazıda Docker/NVIDIA-Docker üzerinde koşacak Jupyter Notebook ile ilgili ayarlama (config) işlemlerini aktarmaya çalışacağım.Ana Başlıklar  Ayar Dosyasının Oluşturulması  Şifre Oluşturulması  Güvenlik, SSL Bağlantısı Oluşturulması1. Ayar Dosyasının OluşturulmasıTerminal ekranından Docker görüntüsünü bash açılacak şekilde çalıştırmak için aşağıdaki komutu kullanıyoruz:$ sudo nvidia-docker run -it  -p 8888:8888  -p 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed bashroot@2fc479bed67f:/notebooks#Konteyner içinde notebooks dizinin içindeyiz. Jupyter her çalıştırıldığında tüm ayarları üzerinde barındıran ~/.jupyter dizinin altında bulunan  jupyter_notebook_config.py isimli bir dosyayı okur. Bu dosya mevcut değil ise ilk olarak terminal ekranından:$ jupyter notebook --generate-configkomutu ile ayar dosyasını kolaylıkla oluşturabiliriz.2. Şifre OluşturulmasıJupyter Notebook‘a erişimi şifrelemek doğru bir tercih olacaktır. Bu işlem oldukça basittir. sha1 (Secure Hash Algorithm 1) ile şifrelenmiş bir şifrenin doğrulama kodunu  jupyter_notebook_config.py dosyasının içeriğine eklememiz yeterli olacaktır. Bunun için ilk önce terminal ekranından ipython (etkileşimli olarak Python kodları yazıp çalıştırabildiğimiz bir program) çalıştırılır:$ ipythonDaha sonra bize sha1 ile şifrelenmiş şifremizi oluşturalacak modülü import edip passwd() metodunu çağıracağız. Dilediğimiz şifreyi girip hücreyi çalıştırdığımızda çıktı olarak sha1 ile şifrelenmiş doğrulama kodunu elde etmiş olacağız. Doğrulama kodunu kopyalayıp ipython‘dan exit metodu ile çıkabiliriz.In [1]: from IPython.lib import passwdIn [2]: passwd()Enter password: Verify password:  Out[2]: 'sha1:004ca25bc95e:13156f91c50e71b8e5fd6f7f3a92527dc735bdc2'In [3]: exitvi ile  jupyter_notebook_config.py dosyasını düzenlemek için açıyoruz:$ vi ~/.jupyter/jupyter_notebook_config.pyVe aşağıdaki kodları bu dosyaya ekleyip kaydedip kapatıyoruz. Artık Jupyter Notebook her açılışta bir şifre ekranı bizi karşılayacak ve ipython üzerinden girdiğimiz şifre ile ürettiğimiz doğrulama kodunu kullanarak şifrenin doğru olması halinde Jupyter Notebook ulaşmak mümkün olacak.c = get_config()  # Eğer daha önceden yoksa bu satır eklenecek.c.NotebookApp.password = 'sha1:fc216:3a35a98ed980b9...'  #Doğrulama kodunu buraya ekleyeceğiz. Bundan sonra Jupyter Notebook her açıldığında bizi aşağıdaki gibi bir ekran karşılayacak.3. Güvenlik, SSL Bağlantısı OluşturulmasıBazen Jupyter Notebook ile farklı bilgisayarlardan erişerek çalışmamız gerekebilir. Ben şahsen evdeki bilgisayarımda çalışan NVIDIA-Docker konteynerine uzaktan bağlanmak suretiyle çalışma veya sunum esnasından ulaşarak  Jupyter Notebook kullanıyorum. Şu ana kadar yaptığımız ayarlar şifre hariç bağlantının güvenliğine dair bir tedbir barındırmıyor. Bağlantı güvenliği sağlanmaz ise uzak bilgisardan yerel bilgisayara öntanımlı olarak HTTP üzerinden konuşmak mümkün olabilir. Bu noktada SSL ile şifrelenmiş bir bağlantı kullanarak HTTPS üzerinden konuşmak tercih edilmesi tavisye edilmektedir. Son bölümde güvenli bağlantı için gerekli ayarları uygulayacağız.Öncelikle bağlantının güvenli olması (uçtan uca şifrelenecek olan paketler) için ssl sertifikası üretmemiz gerekiyor. Bunun için:$ cd$ mkdir ssl$ cd ssl$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout \"cert.key\" -out \"cert.pem\" -batchkomutlarını kullanarak sırasıyla ev dizinine gidip orada ssl isimli bir dizin oluşturuyoruz. Bu dizinin içerisinde iken openssl ile 365 gün süreli rsa:1024 ile şifrelenmiş bağlantımız için gerekli olan iki dosyayı (sertifika anahtarı ve sertifika) oluştuyoruz. Şimdi yine  jupyter_notebook_config.py ayar dosyamızı düzenleyip aşağıdaki hale dönüştürüyoruz.c = get_config()  # Eğer daha önceden yoksa bu satır eklenecek.c.NotebookApp.certfile = u'~/ssl/cert.pem' # sertifika dosyasının yoluc.NotebookApp.keyfile = u'~/ssl/cert.key' # sertifika anahtar dosyasının yoluc.NotebookApp.password = 'sha1:fc216:3a35a98ed980b9...'  #Doğrulama kodunu buraya ekleyeceğiz. Artık geliştirmeye başlayabiliriz.  İlk defa Jupyter sunucusuna bağlandığınızda aşağıdaki ekran ile karşılaşabilirsiniz. Bu sizin ürettiğiniz sertikanın tanınmamasından kaynaklanıyor. Eğer tarayıcınızdan istisna eklerseniz bir daha sizi bu ekran karşılamayacaktır.    Bu arada tüm bu yaptıklarınızı çalışan konteynerdan çıktıktan sonra her seferinde çalışabilmesi için içe aktarmayı (commit) unutmayın. Aksi halde Docker görüntüsünü çalıştırdığınız zaman içe aktarılmamış değişikliklerin konteyner de geçerli olmayacaktır.NOT: Jupyter sunucusunun çalıştığı ağa bağlanmak için bilgisayarınızda/modeminizde/yönlendiricinizde sabit IP, port yönlendirme vb. bir takım ayarlar yapmanız gerekebilir. Bunun için işletim sistemi/modem marka ve modeline uygun ayarlar için ilgili yönergeleri takip edebilirsiniz. Yine de bu konuda dahil bir sorunuz olursa bana ulaşabilirsiniz."
+                        } 
+                     ,
+                     
+                    
+                  ],
+            searchResultTemplate: '<div class="search-title"><a href="{url}"><h3> {title}</h3></a><div class="meta">{date} <div class="right"><i class="fa fa-tag"></i> {tags}</div></div><p>{excerpt}</p></div><hr> ',
+            noResultsText: 'No results found',
+            limit: 10,
+            fuzzy: false,
+            exclude: []
+        })
+    </script>
+</section>
+</section>
+    
+    
+  <!-- Tag list for portfolio -->
+  
+  
+
+
+<footer>
+  <div class="tag-list"></div>
+</footer>
+
+    
+  <!-- Structured Data for Page -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Search",
+    "url": "https://blgnksy.github.io/search/",
+    "description": "",
+    "inLanguage": "en",
+    "mainEntity": {
+      "@type": "Article",
+      "headline": "Search",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      }
+    }
+  }
+  </script>
+    
+</article>
+
+    </div>
+    
+<footer class="site-footer">
+    <p class="text">Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
+</p>
+            <div class="footer-icons">
+                <ul>
+                <!-- Social icons from Font Awesome, if enabled -->
+                
+
+
+<li>
+	<a href="mailto:bilgin.aksoy@metu.edu.tr" title="Email">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="https://bitbucket.org/blgnksy" title="Follow on Bitbucket">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-bitbucket fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/blgnksy" title="Follow on GitHub">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.linkedin.com/in/bilgin-aksoy-a61a90110" title="Follow on LinkedIn">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/blgnksy" title="Follow on Twitter" class="type">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+                </ul>
+            </div>
+</footer>
+
+
+
+
+  </body>
+</html>
+<script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+      //var disqus_developer = 1; // Comment out when the site is live
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+      }());
+    </script>

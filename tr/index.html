@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- JQuery (used for bootstrap and jekyll search) -->
+    <script src="/assets/js/jquery-3.2.1.min.js" ></script>
+
+    <!-- Main JS (navbar.js and katex_init.js)-->
+    <script defer=true src="/assets/js/main.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/tr/assets/css/main.css">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="/tr/assets/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://blgnksy.github.io/tr/">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/atom+xml" title="NDeep" href="https://blgnksy.github.io/tr///feed.xml"/>
+
+    <!-- Font Awesome -->
+    <!-- <link href="/tr//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="/tr/assets/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    
+    <link href="/tr//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+    
+
+    <!-- KaTeX 0.8.3 -->
+    
+    <!--<link rel="stylesheet" href="/tr//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="/tr/assets/css/katex.min.css">
+    <script src="/assets/js/katex.min.js">
+    </script>
+    
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPYEC2Z49"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NWPYEC2Z49');
+    </script>
+
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'G-NWPYEC2Z49', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    
+
+    <!-- seo tags -->
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Blog About Deep/Machine Learning, CUDA, Computer Vision | A website with blog posts and pages on mostly on Docker, Computer Vision, Machine Learning, Deep Learning and same kind of software related topics. Çoğunlukla Docker, Bilgisayarlı Görü, Makine Öğrenmesi,Derin Öğrenme ve benzeri yazılımla ilgili konularda bloglar yayımlanan bir websitesi.</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Blog About Deep/Machine Learning, CUDA, Computer Vision" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A website with blog posts and pages on mostly on Docker, Computer Vision, Machine Learning, Deep Learning and same kind of software related topics. Çoğunlukla Docker, Bilgisayarlı Görü, Makine Öğrenmesi,Derin Öğrenme ve benzeri yazılımla ilgili konularda bloglar yayımlanan bir websitesi." />
+<meta property="og:description" content="A website with blog posts and pages on mostly on Docker, Computer Vision, Machine Learning, Deep Learning and same kind of software related topics. Çoğunlukla Docker, Bilgisayarlı Görü, Makine Öğrenmesi,Derin Öğrenme ve benzeri yazılımla ilgili konularda bloglar yayımlanan bir websitesi." />
+<link rel="canonical" href="https://blgnksy.github.io/tr/" />
+<meta property="og:url" content="https://blgnksy.github.io/" />
+<meta property="og:site_name" content="Blog About Deep/Machine Learning, CUDA, Computer Vision" />
+<meta property="og:type" content="website" />
+<link rel="next" href="https://blgnksy.github.io/tr/blog/page2" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Blog About Deep/Machine Learning, CUDA, Computer Vision" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"A website with blog posts and pages on mostly on Docker, Computer Vision, Machine Learning, Deep Learning and same kind of software related topics. Çoğunlukla Docker, Bilgisayarlı Görü, Makine Öğrenmesi,Derin Öğrenme ve benzeri yazılımla ilgili konularda bloglar yayımlanan bir websitesi.","headline":"Blog About Deep/Machine Learning, CUDA, Computer Vision","name":"Blog About Deep/Machine Learning, CUDA, Computer Vision","url":"https://blgnksy.github.io/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- Manual seo tags -->
+    <!--
+    <title> NDeep</title>
+    <meta name="description" content="">
+    -->
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "NDeep",
+      "url": "https://blgnksy.github.io",
+      "description": "",
+      "inLanguage": "tr",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://blgnksy.github.io/search/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+</head>
+
+  <body>
+    <header class="site-header">
+    
+    <!-- Logo and title -->
+	<div class="branding">
+		<a href="/tr/">
+			<img class="avatar" src="/assets/img/triangle.svg" alt=""/>
+		</a>
+
+		<h1 class="site-title">
+			<a href="/tr/">NDeep</a>
+		</h1>
+	</div>
+    
+    <!-- Toggle menu -->
+    <nav class="clear">
+    <a id="pull" class="toggle" href="#">
+    <i class="fa fa-bars fa-lg"></i>
+    </a>
+    
+    <!-- Menu -->
+    <ul>
+        
+        
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="/tr/about/">
+                Hakkımda
+            </a>
+        </li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+         
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/tr/search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/tr/tags">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        
+        
+    </ul>
+        
+	</nav>
+</header>
+
+    <div class="content">
+      <div class="home">
+  
+  <div id="main" class="call-out"
+  style="background-image: url('/assets/img/pexels/triangular.jpeg')">
+    <p>Machine/Deep Learning, Computer Vision, Image Processing, CUDA Programming.</p>
+
+  </div>
+  
+
+  <div class="posts">
+    
+    
+    <div class="post-teaser">
+      
+      <span>
+          <header>
+            <h1>
+              <a class="post-link" href="/tr/2020/12/13/libtorch-inference.html">
+                C++ Derin Öğrenme-3 Pytorch C++ API LibTorch Modelleri Çalıştırma
+              </a>
+            </h1>
+            <p class="meta">
+              December 13, 2020
+            </p>
+          </header>
+          <div class="excerpt">
+              Yazı dizisinin bu yazısında LibTorch‘u kullanarak modelleri nasıl çalıştıracağımızı, çıkarım (inference) için nasıl kullanacağımızı göreceğiz. Yazı dizisinin ilk yazısında kullanım senaryolarını açıklarken Python‘da eğitilen modeli C++‘da çıkarım için kullanıp bazı darboğazları atlatabileceğinizi aktarmıştım. Şimdi Python‘da bir modeli eğitip (bununla zaman kaybetmemek için öneğitimli bir modeli kullanacağım), kaydedip C++‘da yükleyip çıkarım yapacağız.
+
+
+            <!--Yazı dizisinin bu yazısında LibTorch‘u kullanarak modelleri nasıl çalıştıracağımızı, çıkarım (inference) için nasıl kullanacağımızı göreceğiz. Yazı dizisinin ilk yazısında kullanım senaryolarını açıklarken Python‘da eğitilen modeli C++‘da çıkarım ...-->
+            <!--<a class="button" href="/tr/2020/12/13/libtorch-inference.html">
+              Continue reading
+            </a>-->
+          </div>
+      </span>
+    </div>
+    
+    <div class="post-teaser">
+      
+      <span>
+          <header>
+            <h1>
+              <a class="post-link" href="/tr/2020/12/06/libtorch-tensors.html">
+                C++ Derin Öğrenme-2 Pytorch C++ API LibTorch Tensör İşlemleri
+              </a>
+            </h1>
+            <p class="meta">
+              December 6, 2020
+            </p>
+          </header>
+          <div class="excerpt">
+              Yazı dizisinin bu yazısında LibTorch‘da tensörlerin nasıl oluşturulduğunu, erişildiğini ve değiştirildiğini açıklayacağım. LibTorch‘un ne olduğunu, neler yapılabildiğini açıkladığım giriş niteliğindeki yazıyı okumadıysanız o yazıdan başlamanızı tavsiye ederim. Bu noktada bu yazı çok daha uzun olabilirdi ama olabilen tüm sadeliği ama yeterli bilgiyi sağlayacak şekilde süzüldüğünü ve ana referansın dokümantasyonun kendisi olduğunu unutmayın.
+
+
+            <!--Yazı dizisinin bu yazısında LibTorch‘da tensörlerin nasıl oluşturulduğunu, erişildiğini ve değiştirildiğini açıklayacağım. LibTorch‘un ne olduğunu, neler yapılabildiğini açıkladığım giriş niteliğindeki yazıyı okumadıysanız o yazıdan başlamanızı ta...-->
+            <!--<a class="button" href="/tr/2020/12/06/libtorch-tensors.html">
+              Continue reading
+            </a>-->
+          </div>
+      </span>
+    </div>
+    
+    <div class="post-teaser">
+      
+      <span>
+          <header>
+            <h1>
+              <a class="post-link" href="/tr/2020/12/03/libtorch-config.html">
+                C++ Derin Öğrenme-1 Pytorch C++ API LibTorch Giriş
+              </a>
+            </h1>
+            <p class="meta">
+              December 3, 2020
+            </p>
+          </header>
+          <div class="excerpt">
+              Çoğumuz farklı tartışma ortamlarında Makine Öğrenmesi (Machine Learning) ya da popüler alt alanı Derin Öğrenme (Deep Learning) için en iyi dilin (genelde buna bir de en iyi ML kütüphanesi tartışmaları eklenmektedir) hangisi olduğu konusunda çeşitli tartışmalara denk gelmişizdir. Henüz gelmemişseniz çok heveslenmeyin yakında denk geleceksinizdir. Bu soruya verilecek en doğru cevap bence “duruma göre değişir” olabilir. Ayrıca Elon Musk’ın 2 Şubat 2020’de attığı tweet bunun güzel bir göstergesi oldu.
+
+
+            <!--Çoğumuz farklı tartışma ortamlarında Makine Öğrenmesi (Machine Learning) ya da popüler alt alanı Derin Öğrenme (Deep Learning) için en iyi dilin (genelde buna bir de en iyi ML kütüphanesi tartışmaları eklenmektedir) hangisi olduğu konusunda çeşitl...-->
+            <!--<a class="button" href="/tr/2020/12/03/libtorch-config.html">
+              Continue reading
+            </a>-->
+          </div>
+      </span>
+    </div>
+    
+    <div class="post-teaser">
+      
+      <span>
+          <header>
+            <h1>
+              <a class="post-link" href="/tr/2020/04/22/nvidia-docker-usage.html">
+                NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı
+              </a>
+            </h1>
+            <p class="meta">
+              April 22, 2020
+            </p>
+          </header>
+          <div class="excerpt">
+              22.04.2020 tarihinde güncellenmiştir.
+
+
+            <!--22.04.2020 tarihinde güncellenmiştir.
+
+Derin Öğrenme (Deep Learning) ile uğraşmaya başlayan herkesin bir şekilde korkulu rüyası maalesef gerekli paketlerin, araçların kurulması ve birbirlerinin gereksinimleri ile uyumsuzluk yaratmadan çalışabilmes...-->
+            <!--<a class="button" href="/tr/2020/04/22/nvidia-docker-usage.html">
+              Continue reading
+            </a>-->
+          </div>
+      </span>
+    </div>
+    
+    <div class="post-teaser">
+      
+      <span>
+          <header>
+            <h1>
+              <a class="post-link" href="/tr/2018/07/09/docker-jupyter-config.html">
+                NVIDIA Docker Üzerinde Jupyter Ayarları
+              </a>
+            </h1>
+            <p class="meta">
+              July 9, 2018
+            </p>
+          </header>
+          <div class="excerpt">
+              Python derin/makine öğrenmesi alanında geliştirme yapanların %57‘si tarafından tercih edilen bir programlama dili olarak karşımıza çıkmaktadır.  Buna elbette üssel artan yeni paketler, öğrenme kolaylığı vb. etkenler katkı sağlamaktadır. Programlama dili seçiminden sonra geliştirme ortamının oluşturulması ve geliştirme arayüzünün (IDE-Integrated Developmnent Envirment) kurulması gerekmetedir. Geliştirme ortamının oluşturulması hakkında NVIDIA-Docker Kullanımı isimli yazım da ayrıntılı bilgiye ulaşabilirsiniz. Özellikle de akademisyenler ve öğrenciler özellikle de sunum imkanlarını da değerlendirilerek geliştirme arayüzü olarak Jupyter tercih edilmektedir. NVIDIA-Docker Kullanımı isimli yazımda da görebileceğiniz gibi Docker konteynerini çalıştırdığımızda bizi tarayıcı üzerinden Jupyter Notebook sayfasına ulaşabiliyoruz. Ben de kişisel tercih olarak hem geliştirme hem de sunum maksatlı olarak Jupyter Notebook ile çalışıyorum ve oldukça da keyif alıyorum. Bu yazıda Docker/NVIDIA-Docker üzerinde koşacak Jupyter Notebook ile ilgili ayarlama (config) işlemlerini aktarmaya çalışacağım.
+
+
+            <!--Python derin/makine öğrenmesi alanında geliştirme yapanların %57‘si tarafından tercih edilen bir programlama dili olarak karşımıza çıkmaktadır.  Buna elbette üssel artan yeni paketler, öğrenme kolaylığı vb. etkenler katkı sağlamaktadır. Programlam...-->
+            <!--<a class="button" href="/tr/2018/07/09/docker-jupyter-config.html">
+              Continue reading
+            </a>-->
+          </div>
+      </span>
+    </div>
+    
+  </div>
+
+  
+  <div class="pagination">
+    
+    
+    <a href="/tr/blog/page2" class="button" >
+      Next
+      <i class="fa fa-chevron-right"></i>
+    </a>
+    
+  </div>
+  
+</div>
+
+<!-- Structured Data for Blog Homepage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "NDeep",
+  "url": "https://blgnksy.github.io",
+  "description": "",
+  "inLanguage": "tr",
+  "blogPost": [
+    
+    
+    {
+      "@type": "BlogPosting",
+      "headline": "C++ Derin Öğrenme-3 Pytorch C++ API LibTorch Modelleri Çalıştırma",
+      "url": "https://blgnksy.github.io/2020/12/13/libtorch-inference.html",
+      "datePublished": "2020-12-13T00:00:00+00:00",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      }
+    },
+    
+    {
+      "@type": "BlogPosting",
+      "headline": "C++ Derin Öğrenme-2 Pytorch C++ API LibTorch Tensör İşlemleri",
+      "url": "https://blgnksy.github.io/2020/12/06/libtorch-tensors.html",
+      "datePublished": "2020-12-06T00:00:00+00:00",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      }
+    },
+    
+    {
+      "@type": "BlogPosting",
+      "headline": "C++ Derin Öğrenme-1 Pytorch C++ API LibTorch Giriş",
+      "url": "https://blgnksy.github.io/2020/12/03/libtorch-config.html",
+      "datePublished": "2020-12-03T00:00:00+00:00",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      }
+    },
+    
+    {
+      "@type": "BlogPosting",
+      "headline": "NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı",
+      "url": "https://blgnksy.github.io/2020/04/22/nvidia-docker-usage.html",
+      "datePublished": "2020-04-22T00:00:00+00:00",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      }
+    },
+    
+    {
+      "@type": "BlogPosting",
+      "headline": "NVIDIA Docker Üzerinde Jupyter Ayarları",
+      "url": "https://blgnksy.github.io/2018/07/09/docker-jupyter-config.html",
+      "datePublished": "2018-07-09T00:00:00+00:00",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      }
+    }
+    
+  ]
+}
+</script>
+
+    </div>
+    
+<footer class="site-footer">
+    <p class="text">Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
+</p>
+            <div class="footer-icons">
+                <ul>
+                <!-- Social icons from Font Awesome, if enabled -->
+                
+
+
+<li>
+	<a href="mailto:bilgin.aksoy@metu.edu.tr" title="Email">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="https://bitbucket.org/blgnksy" title="Follow on Bitbucket">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-bitbucket fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/blgnksy" title="Follow on GitHub">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.linkedin.com/in/bilgin-aksoy-a61a90110" title="Follow on LinkedIn">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/blgnksy" title="Follow on Twitter" class="type">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+                </ul>
+            </div>
+</footer>
+
+
+
+
+  </body>
+</html>
+<script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+      //var disqus_developer = 1; // Comment out when the site is live
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+      }());
+    </script>

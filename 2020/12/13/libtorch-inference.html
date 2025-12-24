@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- JQuery (used for bootstrap and jekyll search) -->
+    <script src="/assets/js/jquery-3.2.1.min.js" ></script>
+
+    <!-- Main JS (navbar.js and katex_init.js)-->
+    <script defer=true src="/assets/js/main.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://blgnksy.github.io/2020/12/13/libtorch-inference.html">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/atom+xml" title="NDeep" href="https://blgnksy.github.io///feed.xml"/>
+
+    <!-- Font Awesome -->
+    <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+    
+
+    <!-- KaTeX 0.8.3 -->
+    
+    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/katex.min.css">
+    <script src="/assets/js/katex.min.js">
+    </script>
+    
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPYEC2Z49"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NWPYEC2Z49');
+    </script>
+
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'G-NWPYEC2Z49', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    
+
+    <!-- seo tags -->
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models | Blog About Deep/Machine Learning, CUDA, Computer Vision</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="In this article of the series, we will see how to run models using LibTorch, how to use it for inference. In the first article of the series, while explaining usage scenarios, I mentioned that you can use a model trained in Python for inference in C++ and overcome some bottlenecks. Now we will train a model in Python (to not waste time, I will use a pre-trained model), save it, load it in C++ and perform inference." />
+<meta property="og:description" content="In this article of the series, we will see how to run models using LibTorch, how to use it for inference. In the first article of the series, while explaining usage scenarios, I mentioned that you can use a model trained in Python for inference in C++ and overcome some bottlenecks. Now we will train a model in Python (to not waste time, I will use a pre-trained model), save it, load it in C++ and perform inference." />
+<link rel="canonical" href="https://blgnksy.github.io/2020/12/13/libtorch-inference.html" />
+<meta property="og:url" content="https://blgnksy.github.io/2020/12/13/libtorch-inference.html" />
+<meta property="og:site_name" content="Blog About Deep/Machine Learning, CUDA, Computer Vision" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-13T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2020-12-13T00:00:00+00:00","datePublished":"2020-12-13T00:00:00+00:00","description":"In this article of the series, we will see how to run models using LibTorch, how to use it for inference. In the first article of the series, while explaining usage scenarios, I mentioned that you can use a model trained in Python for inference in C++ and overcome some bottlenecks. Now we will train a model in Python (to not waste time, I will use a pre-trained model), save it, load it in C++ and perform inference.","headline":"C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models","mainEntityOfPage":{"@type":"WebPage","@id":"https://blgnksy.github.io/2020/12/13/libtorch-inference.html"},"url":"https://blgnksy.github.io/2020/12/13/libtorch-inference.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- Manual seo tags -->
+    <!--
+    <title>C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models | NDeep</title>
+    <meta name="description" content="In this article of the series, we will see how to run models using LibTorch, how to use it for inference. In the first article of the series, while explainin...">
+    -->
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "NDeep",
+      "url": "https://blgnksy.github.io",
+      "description": "",
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://blgnksy.github.io/search/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+</head>
+
+  <body>
+    <header class="site-header">
+    
+    <!-- Logo and title -->
+	<div class="branding">
+		<a href="/">
+			<img class="avatar" src="/assets/img/triangle.svg" alt=""/>
+		</a>
+
+		<h1 class="site-title">
+			<a href="/">NDeep</a>
+		</h1>
+	</div>
+    
+    <!-- Toggle menu -->
+    <nav class="clear">
+    <a id="pull" class="toggle" href="#">
+    <i class="fa fa-bars fa-lg"></i>
+    </a>
+    
+    <!-- Menu -->
+    <ul>
+        
+        
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="/about/">
+                About Me
+            </a>
+        </li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+         
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/tags">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        
+        
+    </ul>
+        
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header id="main" style="background-image: url('/')">
+    <h1 id="C%2B%2B+Deep+Learning-3+PyTorch+C%2B%2B+API+LibTorch+Running+Models" class="title">C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models</h1>
+    <p class="meta">
+    December 13, 2020
+    
+    </p>
+  </header>
+  <section class="post-content"><p>In this article of the series, we will see how to run models using <em>LibTorch</em>, how to use it for inference. In the first article of the series, while explaining usage scenarios, I mentioned that you can use a model trained in <em>Python</em> for inference in <em>C++</em> and overcome some bottlenecks. Now we will train a model in <em>Python</em> (to not waste time, I will use a pre-trained model), save it, load it in <em>C++</em> and perform inference.</p>
+
+<p>First, let’s assume we trained a model in <em>Python</em> and the model is held in the <code class="language-plaintext highlighter-rouge">resnet152</code> object. As I said, I will use a pre-trained model directly:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torchvision.models</span> <span class="k">as</span> <span class="n">models</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">resnet152</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">resnet152</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">script</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">jit</span><span class="p">.</span><span class="n">script</span><span class="p">(</span><span class="n">resnet152</span><span class="p">)</span>
+<span class="n">traced</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">jit</span><span class="p">.</span><span class="n">trace</span><span class="p">(</span><span class="n">resnet152</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">))</span> <span class="c1">#Sample input must be provided for traced model.
+</span>
+<span class="n">script</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="s">"./model_zoo/resnet152_sc.pt"</span><span class="p">)</span>
+<span class="n">traced</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="s">"./model_zoo/resnet152_tr.pt"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Here, let’s save the model using <code class="language-plaintext highlighter-rouge">torch</code>’s <code class="language-plaintext highlighter-rouge">jit</code> module in both <code class="language-plaintext highlighter-rouge">script</code> mode and <code class="language-plaintext highlighter-rouge">trace</code> mode. If you are not familiar with the use of the <code class="language-plaintext highlighter-rouge">jit</code> module in the <em>Python API</em>, I recommend taking a short break and reading the <a href="https://pytorch.org/tutorials/beginner/Intro_to_TorchScript_tutorial.html">documentation</a>. The reason I save both is that I will use them for comparison later. Now let’s quickly perform inference in <em>C++</em> using the saved models:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;torch/script.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Usage: infer &lt;path-to-exported-script-module&gt;</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">at</span><span class="o">::</span><span class="n">globalContext</span><span class="p">().</span><span class="n">setBenchmarkCuDNN</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">torch</span><span class="o">::</span><span class="n">jit</span><span class="o">::</span><span class="n">script</span><span class="o">::</span><span class="n">Module</span> <span class="n">module</span><span class="p">;</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="c1">// Deserialize the ScriptModule from a file.</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">jit</span><span class="o">::</span><span class="n">load</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Module loaded successfully.</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+        <span class="n">module</span><span class="p">.</span><span class="n">eval</span><span class="p">();</span>
+    <span class="p">}</span>    <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">c10</span><span class="o">::</span><span class="n">Error</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Error loading the model.</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+	
+    <span class="c1">//RESNET input shape (BATCH_SIZE, 3, 224, 224)</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">CHANNELS</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">HEIGHT</span> <span class="o">=</span> <span class="mi">224</span><span class="p">,</span> <span class="n">WIDTH</span> <span class="o">=</span> <span class="mi">224</span><span class="p">;</span> 
+
+    <span class="n">torch</span><span class="o">::</span><span class="n">NoGradGuard</span> <span class="n">no_grad</span><span class="p">;</span>
+    <span class="c1">// Create a vector of inputs.</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">torch</span><span class="o">::</span><span class="n">jit</span><span class="o">::</span><span class="n">IValue</span><span class="o">&gt;</span> <span class="n">inputs</span><span class="p">;</span>
+    <span class="n">inputs</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">ones</span><span class="p">({</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">CHANNELS</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="n">WIDTH</span><span class="p">}));</span>
+
+    <span class="c1">// Execute the model and turn its output into a tensor.</span>
+    <span class="k">auto</span> <span class="n">output</span> <span class="o">=</span> <span class="n">module</span><span class="p">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inputs</span><span class="p">).</span><span class="n">toTensor</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">BATCH_SIZE</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">"th element class: "</span> <span class="o">&lt;&lt;</span> <span class="n">torch</span><span class="o">::</span><span class="n">argmax</span><span class="p">(</span><span class="n">output</span><span class="p">.</span><span class="n">data</span><span class="p">()[</span><span class="n">i</span><span class="p">]).</span><span class="n">item</span><span class="o">&lt;</span><span class="kt">long</span><span class="o">&gt;</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    <span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Let’s compile and run this code, then examine the code:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./infer ./model_zoo/resnet152_sc.pt
+Module loaded successfully.
+Class of 0th element: 600
+Class of 1th element: 600
+Class of 2th element: 600
+Class of 3th element: 600
+Class of 4th element: 600
+</code></pre></div></div>
+
+<p>If we examine the code from the beginning, first we include the <code class="language-plaintext highlighter-rouge">torch/script.h</code> header file in our code. Then we create an instance of the <code class="language-plaintext highlighter-rouge">torch::jit::script::Module</code> class. This is actually the <code class="language-plaintext highlighter-rouge">torch.nn.Module</code> class we use in <em>Python</em>. As a result, it carries the model object and allows us to use the features provided by the <em>Python API</em>:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">torch</span><span class="o">::</span><span class="n">jit</span><span class="o">::</span><span class="n">script</span><span class="o">::</span><span class="n">Module</span> <span class="n">module</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Then we read the models we saved earlier in <em>Python</em> from the file and transfer them to this object. We take the saved model as an argument from the command line and read the model using error catching mechanism:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">try</span> <span class="p">{</span>
+        <span class="c1">// Deserialize the ScriptModule from a file.</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">jit</span><span class="o">::</span><span class="n">load</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Module loaded successfully.</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">c10</span><span class="o">::</span><span class="n">Error</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Error loading the model.</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Here we use the model to run on CPU. If you want to use GPU, it is sufficient to add the following code to the line after you load the model:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">module</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">at</span><span class="o">::</span><span class="n">kCUDA</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>We will prepare the vector we need to feed our inputs to the model. The <code class="language-plaintext highlighter-rouge">forward</code> function of the <code class="language-plaintext highlighter-rouge">torch::jit::script::Module</code> class expects a vector of type <code class="language-plaintext highlighter-rouge">std::vector&lt;torch::jit::IValue&gt;</code>. I would like to remind that since the function uses the vector argument with <code class="language-plaintext highlighter-rouge">std::move()</code> move semantics, it aims to keep memory usage and speed loss at the lowest possible level:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">torch</span><span class="o">::</span><span class="n">jit</span><span class="o">::</span><span class="n">IValue</span><span class="o">&gt;</span> <span class="n">inputs</span><span class="p">;</span>
+<span class="n">inputs</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">ones</span><span class="p">({</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">CHANNELS</span><span class="p">,</span> <span class="n">HEIGHT</span><span class="p">,</span> <span class="n">WIDTH</span><span class="p">}));</span>
+<span class="c1">//for GPU tensors:</span>
+<span class="c1">//inputs.push_back(torch::ones({BATCH_SIZE, CHANNELS, HEIGHT, WIDTH}).to(at::kCUDA));</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">torch::jit::IValue</code> is defined as a class. As an abbreviation of <em>Interpreter Value</em>, the <code class="language-plaintext highlighter-rouge">IValue</code> class wraps all basic types supported by the <em>TorchScript interpreter</em>. The <code class="language-plaintext highlighter-rouge">IValue</code> class is used for inputs and outputs of models. Although the interface of this class is quite wide, you can look below for its two basic functions:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">///   // Make the IValue</span>
+<span class="n">torch</span><span class="o">::</span><span class="n">IValue</span> <span class="nf">my_ivalue</span><span class="p">(</span><span class="mi">26</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">my_ivalue</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="c1">///</span>
+<span class="c1">///   // Unwrap the IValue</span>
+<span class="kt">int64_t</span> <span class="n">my_int</span> <span class="o">=</span> <span class="n">my_ivalue</span><span class="p">.</span><span class="n">toInt</span><span class="p">()</span> <span class="c1">//toX() instead of X use appropriate data type for wrapped data.</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">my_int</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>If we come to why such a class is needed at this point, the types provided by <em>LibTorch</em> are different from the basic types provided by <em>C++</em>. It helps to ensure compatibility between <em>Python API</em> and <em>C++ API</em>, thus facilitating learning/using/getting used to.</p>
+
+<p>Finally, we feed the inputs to the model and print the most probable class for each element in the batch to the standard output:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">output</span> <span class="o">=</span> <span class="n">module</span><span class="p">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inputs</span><span class="p">).</span><span class="n">toTensor</span><span class="p">();</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">BATCH_SIZE</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Class of "</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">"th element: "</span> <span class="o">&lt;&lt;</span> <span class="n">torch</span><span class="o">::</span><span class="n">argmax</span><span class="p">(</span><span class="n">output</span><span class="p">.</span><span class="n">data</span><span class="p">()[</span><span class="n">i</span><span class="p">]).</span><span class="n">item</span><span class="o">&lt;</span><span class="kt">long</span><span class="o">&gt;</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>At this point, it would be beneficial to make a comparison. For this, we will compare the times to read and run the model saved in CPU and GPU for different batch sizes without using the <code class="language-plaintext highlighter-rouge">jit</code> module in Python, in <code class="language-plaintext highlighter-rouge">script</code> and <code class="language-plaintext highlighter-rouge">trace</code> modes (all tests were run 10 times and the time was calculated as average). First, let’s look at the sizes of the saved model files. We can say that there is no significant difference between file sizes:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Module Type</th>
+      <th>File Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>torch.nn.Module</td>
+      <td>241.6 MB</td>
+    </tr>
+    <tr>
+      <td>torch.jit.script</td>
+      <td>242 MB</td>
+    </tr>
+    <tr>
+      <td>torch.jit.trace</td>
+      <td>242.2 MB</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now let’s look at the time it takes to read the model file from disk and make the model executable on CPU. As seen, we can read much faster in C++ first:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>CPU Read Time (ms)</th>
+      <th>Python</th>
+      <th>C++</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Script</td>
+      <td>0.985</td>
+      <td>0.449</td>
+    </tr>
+    <tr>
+      <td>Trace</td>
+      <td>0.912</td>
+      <td>0.356</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now let’s look at the time it takes to read the model file and make it executable on GPU. Although the speed difference decreases, <em>C++</em> still reads and makes the model executable faster:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>GPU Read Time (ms)</th>
+      <th>Python</th>
+      <th>C++</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Script</td>
+      <td>2.286</td>
+      <td>2.137</td>
+    </tr>
+    <tr>
+      <td>Trace</td>
+      <td>2.214</td>
+      <td>2.025</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Now let’s examine the batch processing times. In the chart on the left, CPU, on the right, GPU shows the inference times of the model for different batch sizes for one sample. In 95% of the test cases, <em>C++</em> API runs faster at varying rates. On CPU, models saved in <code class="language-plaintext highlighter-rouge">script</code> mode generally ran faster, on GPU side, models saved in <code class="language-plaintext highlighter-rouge">trace</code> mode ran faster. Single thread was used in these calculations:</p>
+
+<p><img src="/assets/img/libtorch_infer/cpu_gpu.png" alt="" /></p>
+
+<p>As a result, I think you have seen that running models using <em>C++ API</em> is not troublesome at all. In fact, developing a model from scratch on <em>C++</em> is not very difficult. I will try to explain this in the following articles. But I think it would be better to examine how to deal with data first. In the next article, I will explain how to read data (image, video, csv, text, etc.) and how to provide this data to <em>LibTorch</em> during inference and training.</p>
+
+<p><em>Other articles in the series:</em></p>
+
+<ol>
+  <li>
+    <p><a href="https://blgnksy.github.io/2020/12/03/libtorch-config.html">C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction</a></p>
+  </li>
+  <li>
+    <p><a href="https://blgnksy.github.io/2020/12/06/libtorch-tensors.html">C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations</a></p>
+  </li>
+</ol>
+</section>
+   
+   <!-- Tag list -->
+  
+  
+
+
+<footer>
+  <div class="tag-list">
+    
+      <div class="meta">Tags</div>
+    
+
+    
+    <a class="button" href="/tags#Deep Learning">
+      <p><i class="fa fa-tag fa-fw"></i> Deep Learning</p>
+    </a>
+    
+    <a class="button" href="/tags#Deep Learning C++">
+      <p><i class="fa fa-tag fa-fw"></i> Deep Learning C++</p>
+    </a>
+    
+    <a class="button" href="/tags#Inference">
+      <p><i class="fa fa-tag fa-fw"></i> Inference</p>
+    </a>
+    
+    <a class="button" href="/tags#LibTorch">
+      <p><i class="fa fa-tag fa-fw"></i> LibTorch</p>
+    </a>
+    
+    <a class="button" href="/tags#Machine Learning">
+      <p><i class="fa fa-tag fa-fw"></i> Machine Learning</p>
+    </a>
+    
+    <a class="button" href="/tags#Machine Learning C++">
+      <p><i class="fa fa-tag fa-fw"></i> Machine Learning C++</p>
+    </a>
+    
+    <a class="button" href="/tags#PyTorch">
+      <p><i class="fa fa-tag fa-fw"></i> PyTorch</p>
+    </a>
+    
+    <a class="button" href="/tags#PyTorch C++ API">
+      <p><i class="fa fa-tag fa-fw"></i> PyTorch C++ API</p>
+    </a>
+    
+  </div>
+</footer>
+
+    
+  <!-- Structured Data for Blog Post -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models",
+    "author": {
+      "@type": "Person",
+      "name": ""
+    },
+    "datePublished": "2020-12-13T00:00:00+00:00",
+    "dateModified": "2020-12-13T00:00:00+00:00",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://blgnksy.github.io/2020/12/13/libtorch-inference.html"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "NDeep",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://blgnksy.github.io/assets/favicon.ico"
+      }
+    },
+    "image": "https://blgnksy.github.io",
+    "articleSection": "",
+    "keywords": "Deep Learning, PyTorch, LibTorch, PyTorch C++ API, Machine Learning C++, Deep Learning C++, Machine Learning, Inference",
+    "inLanguage": "en"
+  }
+  </script>
+    
+</article>
+
+<!-- Disqus -->
+
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+        /*var disqus_developer = 1; // Comment out when the site is live*/
+        var disqus_identifier = "/2020/12/13/libtorch-inference.html";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+<!-- Post navigation -->
+
+  <div id="post-nav">
+  
+  <div id="previous-post" class="post-nav-post">
+      <p>Previous post</p>
+      <a href="/2020/12/06/libtorch-tensors.html">
+        C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations
+      </a>
+  </div>
+  
+  
+  <div id="next-post" class="post-nav-post">
+      <p>Next post</p>
+      <a href="/2025/12/22/minimal-os.html">
+        Minimalist OS
+      </a>
+  </div>
+  
+</div>
+
+
+    </div>
+    
+<footer class="site-footer">
+    <p class="text">Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
+</p>
+            <div class="footer-icons">
+                <ul>
+                <!-- Social icons from Font Awesome, if enabled -->
+                
+
+
+<li>
+	<a href="mailto:bilgin.aksoy@metu.edu.tr" title="Email">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="https://bitbucket.org/blgnksy" title="Follow on Bitbucket">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-bitbucket fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/blgnksy" title="Follow on GitHub">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.linkedin.com/in/bilgin-aksoy-a61a90110" title="Follow on LinkedIn">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/blgnksy" title="Follow on Twitter" class="type">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+                </ul>
+            </div>
+</footer>
+
+
+
+
+  </body>
+</html>
+<script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+      //var disqus_developer = 1; // Comment out when the site is live
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+      }());
+    </script>

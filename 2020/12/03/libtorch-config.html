@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- JQuery (used for bootstrap and jekyll search) -->
+    <script src="/assets/js/jquery-3.2.1.min.js" ></script>
+
+    <!-- Main JS (navbar.js and katex_init.js)-->
+    <script defer=true src="/assets/js/main.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://blgnksy.github.io/2020/12/03/libtorch-config.html">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/atom+xml" title="NDeep" href="https://blgnksy.github.io///feed.xml"/>
+
+    <!-- Font Awesome -->
+    <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+    
+
+    <!-- KaTeX 0.8.3 -->
+    
+    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/katex.min.css">
+    <script src="/assets/js/katex.min.js">
+    </script>
+    
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPYEC2Z49"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NWPYEC2Z49');
+    </script>
+
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'G-NWPYEC2Z49', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    
+
+    <!-- seo tags -->
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction | Blog About Deep/Machine Learning, CUDA, Computer Vision</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Many of us have encountered various discussions in different forums about which is the best language for Machine Learning or its popular subfield Deep Learning (and usually the best ML library discussions are added to it). If you haven’t encountered it yet, don’t get too excited, you will soon. In my opinion, the most accurate answer to this question can be “it depends on the situation”. Also, Elon Musk’s tweet on February 2, 2020, was a good indicator of this." />
+<meta property="og:description" content="Many of us have encountered various discussions in different forums about which is the best language for Machine Learning or its popular subfield Deep Learning (and usually the best ML library discussions are added to it). If you haven’t encountered it yet, don’t get too excited, you will soon. In my opinion, the most accurate answer to this question can be “it depends on the situation”. Also, Elon Musk’s tweet on February 2, 2020, was a good indicator of this." />
+<link rel="canonical" href="https://blgnksy.github.io/2020/12/03/libtorch-config.html" />
+<meta property="og:url" content="https://blgnksy.github.io/2020/12/03/libtorch-config.html" />
+<meta property="og:site_name" content="Blog About Deep/Machine Learning, CUDA, Computer Vision" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-03T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2020-12-03T00:00:00+00:00","datePublished":"2020-12-03T00:00:00+00:00","description":"Many of us have encountered various discussions in different forums about which is the best language for Machine Learning or its popular subfield Deep Learning (and usually the best ML library discussions are added to it). If you haven’t encountered it yet, don’t get too excited, you will soon. In my opinion, the most accurate answer to this question can be “it depends on the situation”. Also, Elon Musk’s tweet on February 2, 2020, was a good indicator of this.","headline":"C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction","mainEntityOfPage":{"@type":"WebPage","@id":"https://blgnksy.github.io/2020/12/03/libtorch-config.html"},"url":"https://blgnksy.github.io/2020/12/03/libtorch-config.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- Manual seo tags -->
+    <!--
+    <title>C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction | NDeep</title>
+    <meta name="description" content="Many of us have encountered various discussions in different forums about which is the best language for Machine Learning or its popular subfield Deep Learni...">
+    -->
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "NDeep",
+      "url": "https://blgnksy.github.io",
+      "description": "",
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://blgnksy.github.io/search/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+</head>
+
+  <body>
+    <header class="site-header">
+    
+    <!-- Logo and title -->
+	<div class="branding">
+		<a href="/">
+			<img class="avatar" src="/assets/img/triangle.svg" alt=""/>
+		</a>
+
+		<h1 class="site-title">
+			<a href="/">NDeep</a>
+		</h1>
+	</div>
+    
+    <!-- Toggle menu -->
+    <nav class="clear">
+    <a id="pull" class="toggle" href="#">
+    <i class="fa fa-bars fa-lg"></i>
+    </a>
+    
+    <!-- Menu -->
+    <ul>
+        
+        
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="/about/">
+                About Me
+            </a>
+        </li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+         
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/tags">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        
+        
+    </ul>
+        
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header id="main" style="background-image: url('/')">
+    <h1 id="C%2B%2B+Deep+Learning-1+PyTorch+C%2B%2B+API+LibTorch+Introduction" class="title">C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction</h1>
+    <p class="meta">
+    December 3, 2020
+    
+    </p>
+  </header>
+  <section class="post-content"><p>Many of us have encountered various discussions in different forums about which is the best language for Machine Learning or its popular subfield Deep Learning (and usually the best ML library discussions are added to it). If you haven’t encountered it yet, don’t get too excited, you will soon. In my opinion, the most accurate answer to this question can be <em>“it depends on the situation”</em>. Also, Elon Musk’s tweet on February 2, 2020, was a good indicator of this.</p>
+
+<p><img src="/assets/img/libtorch-intro/elon_musk.png" alt="" /></p>
+
+<p>At this point, instead of making more noise on this topic, I will move on to what you can find in this article. The sections of the article:</p>
+
+<h1 id="1-introduction">1. Introduction</h1>
+
+<p>Especially when you want to use models with low latency/near real-time in the production phase, you encounter a few problems. I think the most critical problems are the speed/latency issues experienced in <em>Python</em> (I don’t mean that the language has a different claim) and problems arising from multi-process/thread usage (I mean the issues restricted by Global Interpreter Lock in object access). At this point, you may want to use some conveniences provided by a language like <em>C++</em>. I plan to write articles explaining how libraries like <em>ONNX</em>, <em>TensorRT</em> can be included in this regard. But in this article, I will talk about the <em>LibTorch</em> library provided by <em>PyTorch</em> to developers, which has a not too steep learning curve. This introductory article will be followed by separate articles explaining tensor operations, performing inference, and creating/training a model from scratch in C++.</p>
+
+<p>The <em>LibTorch</em> library is the <em>C++ API</em> of <em>PyTorch</em> that entered our lives with <em>PyTorch 1.0</em> version. It is used by Facebook for both research and production. Almost all features used on the <em>Python</em> side are also available in the <em>C++ API</em>. However, although a bit behind, I generally observe that the features used in <em>PyTorch</em> are added to the <em>C++ API</em> with a 1-version difference. In its own documentation, it emphasizes that we should evaluate this feature as <em>“beta”</em> and that <em>PyTorch</em>’s <em>Python</em> interface is more stable. However, I have been using it for a long time and I would like to state that I have not experienced any significant problems.</p>
+
+<p>So what does <em>LibTorch</em> offer us:</p>
+
+<ul>
+  <li>An interface to define machine learning models (equivalent to <code class="language-plaintext highlighter-rouge">torch.nn.Module</code> in Python),</li>
+  <li>A standard library for the most common modules (convolution, recurrent networks, batch normalization, etc.),</li>
+  <li>Optimization API (SGD, Adam, etc.),</li>
+  <li>Data sets and data pipelines that allow parallel processing on CPU cores,</li>
+  <li>Ability to automatically parallelize models on GPU (<code class="language-plaintext highlighter-rouge">torch.nn.parallel.DataParallel</code>),</li>
+  <li>Ability to easily use <em>C++</em> models in Python,</li>
+  <li>Use of TorchScript JIT compiler,</li>
+  <li>ATen (basic tensor interface) and Autograd API (API that automatically calculates gradients on the computational graph).</li>
+</ul>
+
+<p>You can reach the list and definitions of the components it offers from <a href="https://pytorch.org/cppdocs/frontend.html">its documentation</a>.</p>
+
+<h1 id="2-usage-scenarios">2. Usage Scenarios</h1>
+
+<p>So what can be the usage scenarios of <em>LibTorch</em> in <em>C++</em>?</p>
+
+<ul>
+  <li>In my opinion, first of all, in the production phase, a model that is completely developed, trained, and saved in <em>Python</em> can be read and inference can be performed directly. Meanwhile, you can use advantages like multi-process/thread usage, low latency. I will cover its use for direct inference in the 3rd article of this series. Of course, you will be able to find different comparisons in that article.</li>
+  <li>The model can be created/trained from scratch in <em>C++</em>. In the 4th article of the series, I will write and train the model from scratch in <em>C++</em>.</li>
+  <li>You can write your own extensions on PyTorch.</li>
+</ul>
+
+<h1 id="3-installation">3. <a href="#installation">Installation</a></h1>
+
+<p>There are two options for installation:</p>
+
+<ol>
+  <li>
+    <p>Download the compiled library:</p>
+
+    <ol>
+      <li>
+        <p>Click on the <a href="https://pytorch.org/get-started/locally/">link</a>.</p>
+      </li>
+      <li>
+        <p>First click on the Stable link, then on the operating system link you use, then on the LibTorch link, then on the C++/Java link, and finally on the CUDA version link for GPU or None link if you will only use CPU, and download the file link that comes and copy its contents to any directory you want.</p>
+
+        <p><img src="/assets/img/libtorch-intro/start_locally.png" alt="Download the compiled library" /></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>Compile from <a href="https://github.com/pytorch/pytorch#from-source">source code</a>: It can be a bit troublesome (actually quite troublesome). But personally, this is my preference. Clone the GitHub repo and follow the necessary steps (I skip this section so it doesn’t get too long, but I can dedicate an article to this in the future).</p>
+  </li>
+</ol>
+
+<h1 id="4-hello-libtorch">4. <code class="language-plaintext highlighter-rouge">Hello LibTorch</code></h1>
+
+<p>What I will explain in this article series will include using <a href="https://www.jetbrains.com/clion/">Clion</a> as the development editor and the <code class="language-plaintext highlighter-rouge">cmake</code> tool on Linux operating system, but you can adapt the same procedures to your own operating system and compilation tool. Let’s start and first create a file named <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code> and add the following content:</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.17<span class="p">)</span> <span class="c1"># You can use your current cmake installation as long as the cmake version is at least 3.0</span>
+<span class="nb">project</span><span class="p">(</span>libtorchHelloWorld<span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span>CMAKE_CXX_STANDARD 14<span class="p">)</span>
+
+<span class="nb">find_package</span><span class="p">(</span>Torch 1.7.0 REQUIRED<span class="p">)</span> <span class="c1"># Currently the available version is 1.7.0, correct this if you use a different version</span>
+<span class="nb">set</span><span class="p">(</span>CMAKE_CXX_FLAGS <span class="s2">"</span><span class="si">${</span><span class="nv">CMAKE_CXX_FLAGS</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">TORCH_CXX_FLAGS</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span>libtorchHelloWorld main.cpp<span class="p">)</span> 
+<span class="nb">target_link_libraries</span><span class="p">(</span>libtorchHelloWorld <span class="si">${</span><span class="nv">TORCH_LIBRARIES</span><span class="si">}</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now let’s add our source codes in <code class="language-plaintext highlighter-rouge">main.cpp</code>:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;torch/torch.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">randTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">rand</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">});</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Hello LibTorch</span><span class="se">\n</span><span class="s">"</span> <span class="o">&lt;&lt;</span> <span class="s">"Torch Tensor: "</span> <span class="o">&lt;&lt;</span> <span class="n">randTensor</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>And let’s create a directory to contain the compilation outputs and start compiling in it (<code class="language-plaintext highlighter-rouge">-DCMAKE_PREFIX_PATH=/absolute/path/libtorch</code> the path you specify should be the directory where you copied the content from the <a href="#installation">installation</a> section):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">mkdir </span>build
+<span class="nv">$ </span><span class="nb">cd </span>build
+<span class="nv">$ </span>cmake <span class="nt">-DCMAKE_PREFIX_PATH</span><span class="o">=</span>/absolute/path/libtorch ..
+<span class="nv">$ </span>cmake <span class="nt">--build</span> <span class="nb">.</span> <span class="nt">--config</span> Debug
+</code></pre></div></div>
+
+<p>Now let’s run our compiled file and fulfill the Hello World classic:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./libtorchHelloWorld
+Hello Libtorch
+Torch Tensor:  0.6147  0.6752  0.8963
+ 0.5627  0.4836  0.5589
+<span class="o">[</span> CPUFloatType<span class="o">{</span>2,3<span class="o">}</span> <span class="o">]</span>
+</code></pre></div></div>
+
+<p>Now let’s take a closer look at the API by looking at this short application. First, the <code class="language-plaintext highlighter-rouge">torch/torch.h</code> header file contains the <code class="language-plaintext highlighter-rouge">torch/all.h</code> header file that includes all other header files of <em>LibTorch</em>:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma once
+</span>
+<span class="cp">#include</span> <span class="cpf">&lt;torch/all.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#ifdef TORCH_API_INCLUDE_EXTENSION_H
+#include</span> <span class="cpf">&lt;torch/extension.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#endif // defined(TORCH_API_INCLUDE_EXTENSION_H)
+</span></code></pre></div></div>
+
+<p>If we examine the <code class="language-plaintext highlighter-rouge">torch/all.h</code> header file, we see that we have all the necessary header files. At this point, we have seen that we do not need any other header file besides the <code class="language-plaintext highlighter-rouge">torch/torch.h</code> header file:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma once
+</span>
+<span class="cp">#include</span> <span class="cpf">&lt;torch/cuda.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;torch/data.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;torch/enum.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;torch/jit.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;torch/nn.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;torch/optim.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;torch/serialize.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;torch/types.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;torch/utils.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;torch/autograd.h&gt;</span><span class="cp">
+</span></code></pre></div></div>
+
+<p>Actually, as a tip, if I say that when using <em>PyTorch</em>, you mostly write valid code for the <em>C++ API</em> by changing the <code class="language-plaintext highlighter-rouge">.</code> operator you use to <code class="language-plaintext highlighter-rouge">::</code>, I don’t think it would be too misleading. Therefore, the variable named <code class="language-plaintext highlighter-rouge">randTensor</code> we defined in the <code class="language-plaintext highlighter-rouge">main</code> function is an instance of the <code class="language-plaintext highlighter-rouge">torch.tensor</code> class we are familiar with from the <em>Python API</em>. I will examine this class in more detail later.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">randTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">rand</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">});</span>
+</code></pre></div></div>
+
+<p>With the above code, we obtain a <code class="language-plaintext highlighter-rouge">tensor</code> filled with random values in the shape of <code class="language-plaintext highlighter-rouge">2, 3</code> by using one of the different overloads of the <code class="language-plaintext highlighter-rouge">rand</code> function defined in the <code class="language-plaintext highlighter-rouge">torch</code> namespace.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Hello LibTorch</span><span class="se">\n</span><span class="s">"</span> <span class="o">&lt;&lt;</span> <span class="s">"Torch Tensor: "</span> <span class="o">&lt;&lt;</span> <span class="n">randTensor</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>In the above line of code, when <code class="language-plaintext highlighter-rouge">randTensor</code> is the right operand of the <code class="language-plaintext highlighter-rouge">&lt;&lt;</code> operator, it calls the <code class="language-plaintext highlighter-rouge">print</code> function in the <code class="language-plaintext highlighter-rouge">at</code> namespace (this namespace contains the ATen library, which is the basic tensor library used by LibTorch and PyTorch) and writes the tensor data, data type, and shape to the standard output. The <code class="language-plaintext highlighter-rouge">torch::Tensor</code> class provides a lot of things just like in the <em>Python API</em>. But they will be in the next article. We have reached the end of this article. As I mentioned in the introduction, this article will be followed by a series of articles. After writing the new sections, I will add their links under this article.</p>
+
+<p><em>Other articles in the series:</em></p>
+
+<ol>
+  <li>
+    <p><a href="https://blgnksy.github.io/2020/12/06/libtorch-tensors.html">C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations</a></p>
+  </li>
+  <li>
+    <p><a href="https://blgnksy.github.io/2020/12/13/libtorch-inference.html">C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models</a></p>
+  </li>
+</ol>
+</section>
+   
+   <!-- Tag list -->
+  
+  
+
+
+<footer>
+  <div class="tag-list">
+    
+      <div class="meta">Tags</div>
+    
+
+    
+    <a class="button" href="/tags#Deep Learning">
+      <p><i class="fa fa-tag fa-fw"></i> Deep Learning</p>
+    </a>
+    
+    <a class="button" href="/tags#Deep Learning C++">
+      <p><i class="fa fa-tag fa-fw"></i> Deep Learning C++</p>
+    </a>
+    
+    <a class="button" href="/tags#LibTorch">
+      <p><i class="fa fa-tag fa-fw"></i> LibTorch</p>
+    </a>
+    
+    <a class="button" href="/tags#Machine Learning">
+      <p><i class="fa fa-tag fa-fw"></i> Machine Learning</p>
+    </a>
+    
+    <a class="button" href="/tags#Machine Learning C++">
+      <p><i class="fa fa-tag fa-fw"></i> Machine Learning C++</p>
+    </a>
+    
+    <a class="button" href="/tags#PyTorch">
+      <p><i class="fa fa-tag fa-fw"></i> PyTorch</p>
+    </a>
+    
+    <a class="button" href="/tags#PyTorch C++ API">
+      <p><i class="fa fa-tag fa-fw"></i> PyTorch C++ API</p>
+    </a>
+    
+  </div>
+</footer>
+
+    
+  <!-- Structured Data for Blog Post -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction",
+    "author": {
+      "@type": "Person",
+      "name": ""
+    },
+    "datePublished": "2020-12-03T00:00:00+00:00",
+    "dateModified": "2020-12-03T00:00:00+00:00",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://blgnksy.github.io/2020/12/03/libtorch-config.html"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "NDeep",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://blgnksy.github.io/assets/favicon.ico"
+      }
+    },
+    "image": "https://blgnksy.github.io",
+    "articleSection": "",
+    "keywords": "Deep Learning, PyTorch, LibTorch, PyTorch C++ API, Machine Learning C++, Deep Learning C++, Machine Learning",
+    "inLanguage": "en"
+  }
+  </script>
+    
+</article>
+
+<!-- Disqus -->
+
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+        /*var disqus_developer = 1; // Comment out when the site is live*/
+        var disqus_identifier = "/2020/12/03/libtorch-config.html";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+<!-- Post navigation -->
+
+  <div id="post-nav">
+  
+  <div id="previous-post" class="post-nav-post">
+      <p>Previous post</p>
+      <a href="/2020/04/22/nvidia-docker-usage.html">
+        NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı
+      </a>
+  </div>
+  
+  
+  <div id="next-post" class="post-nav-post">
+      <p>Next post</p>
+      <a href="/2020/12/06/libtorch-tensors.html">
+        C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations
+      </a>
+  </div>
+  
+</div>
+
+
+    </div>
+    
+<footer class="site-footer">
+    <p class="text">Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
+</p>
+            <div class="footer-icons">
+                <ul>
+                <!-- Social icons from Font Awesome, if enabled -->
+                
+
+
+<li>
+	<a href="mailto:bilgin.aksoy@metu.edu.tr" title="Email">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="https://bitbucket.org/blgnksy" title="Follow on Bitbucket">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-bitbucket fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/blgnksy" title="Follow on GitHub">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.linkedin.com/in/bilgin-aksoy-a61a90110" title="Follow on LinkedIn">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/blgnksy" title="Follow on Twitter" class="type">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+                </ul>
+            </div>
+</footer>
+
+
+
+
+  </body>
+</html>
+<script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+      //var disqus_developer = 1; // Comment out when the site is live
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+      }());
+    </script>

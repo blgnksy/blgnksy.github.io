@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- JQuery (used for bootstrap and jekyll search) -->
+    <script src="/assets/js/jquery-3.2.1.min.js" ></script>
+
+    <!-- Main JS (navbar.js and katex_init.js)-->
+    <script defer=true src="/assets/js/main.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://blgnksy.github.io/2020/04/22/nvidia-docker-usage.html">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/atom+xml" title="NDeep" href="https://blgnksy.github.io///feed.xml"/>
+
+    <!-- Font Awesome -->
+    <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+    
+
+    <!-- KaTeX 0.8.3 -->
+    
+    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/katex.min.css">
+    <script src="/assets/js/katex.min.js">
+    </script>
+    
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPYEC2Z49"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NWPYEC2Z49');
+    </script>
+
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'G-NWPYEC2Z49', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    
+
+    <!-- seo tags -->
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı | Blog About Deep/Machine Learning, CUDA, Computer Vision</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı" />
+<meta property="og:locale" content="tr" />
+<meta name="description" content="22.04.2020 tarihinde güncellenmiştir." />
+<meta property="og:description" content="22.04.2020 tarihinde güncellenmiştir." />
+<link rel="canonical" href="https://blgnksy.github.io/2020/04/22/nvidia-docker-usage.html" />
+<meta property="og:url" content="https://blgnksy.github.io/2020/04/22/nvidia-docker-usage.html" />
+<meta property="og:site_name" content="Blog About Deep/Machine Learning, CUDA, Computer Vision" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-22T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2020-04-22T00:00:00+00:00","datePublished":"2020-04-22T00:00:00+00:00","description":"22.04.2020 tarihinde güncellenmiştir.","headline":"NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı","mainEntityOfPage":{"@type":"WebPage","@id":"https://blgnksy.github.io/2020/04/22/nvidia-docker-usage.html"},"url":"https://blgnksy.github.io/2020/04/22/nvidia-docker-usage.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- Manual seo tags -->
+    <!--
+    <title>NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı | NDeep</title>
+    <meta name="description" content="22.04.2020 tarihinde güncellenmiştir.">
+    -->
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "NDeep",
+      "url": "https://blgnksy.github.io",
+      "description": "",
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://blgnksy.github.io/search/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+</head>
+
+  <body>
+    <header class="site-header">
+    
+    <!-- Logo and title -->
+	<div class="branding">
+		<a href="/">
+			<img class="avatar" src="/assets/img/triangle.svg" alt=""/>
+		</a>
+
+		<h1 class="site-title">
+			<a href="/">NDeep</a>
+		</h1>
+	</div>
+    
+    <!-- Toggle menu -->
+    <nav class="clear">
+    <a id="pull" class="toggle" href="#">
+    <i class="fa fa-bars fa-lg"></i>
+    </a>
+    
+    <!-- Menu -->
+    <ul>
+        
+        
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="/about/">
+                About Me
+            </a>
+        </li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+         
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/tags">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        
+        
+    </ul>
+        
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header id="main" style="background-image: url('/')">
+    <h1 id="NVIDIA+Docker+Kurulumu+ve+Derin+%C3%96%C4%9Frenme+i%C3%A7in+Kullan%C4%B1m%C4%B1" class="title">NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı</h1>
+    <p class="meta">
+    April 22, 2020
+    
+    </p>
+  </header>
+  <section class="post-content"><p><strong>22.04.2020 tarihinde güncellenmiştir.</strong></p>
+
+<p>Derin Öğrenme (Deep Learning) ile uğraşmaya başlayan herkesin bir şekilde korkulu rüyası maalesef gerekli paketlerin, araçların kurulması ve birbirlerinin gereksinimleri ile uyumsuzluk yaratmadan çalışabilmesi olmuştur. Hele bir de aynı anda farklı projelerle çalışıyorsanız bunların hepsinin ayrı gereksinimleri varsa işler daha da sorunlu olmaktadır. Bunun için Python paket yönetimi ile sunulan virtualenv <a href="https://virtualenv.pypa.io/en/stable/">virtualenv</a>, <a href="https://virtualenvwrapper.readthedocs.io/en/latest/">virtualenvwrapper</a> kullanımı belli oranda işe yarasa bile bazen sorun, geliştirme ortamınızda mevcut ekran kartının(<em>NVIDIA Cuda</em> çekirdeğine sahip olan) <em>CUDA</em> sürücüleri, <em>cuDNN</em> kütüphanesi kurmaya çalıştığınız paketler ile uyumlu olmaması/olamaması nedeniyle kurulum işlemleri gerekenden daha fazla zaman harcamamıza neden olabilmektedir. Bunların hepsi bir araya getirilse bile bu sefer de sisteminizde yaptığınız bir işletim sistemi/donanım sürücüsü güncellemesi bütün emeklerin çöpe gitmesi anlamına gelebilmektedir.</p>
+
+<p>Bu noktada daha fazla izole/sanal ortama ihtiyaç ortaya çıkmaktadır. Sorunların ortadan kaldırılmasında <a href="https://www.docker.com">Docker</a> etkin bir çözüm olarak karşımıza çıkmakta ve giderek daha çok geliştirici tarafından tercih edilmektedir. Dahası ekran kartının hesap gücünden faydalanmak isteyen kullanıcıların yardımına bir de <a href="https://github.com/NVIDIA/nvidia-docker">NVIDIA-Docker</a> koşmaktadır. Bu yazımızda çok fazla teknik ayrıntısına boğulmadan gerekli kavramları öğrenerek bu çözümü derin/makina öğrenmesi geliştiricileri için nasıl faydalı bir şekilde kullanılabileceği üzerine odaklanacağız. Teknik ayrıntılar için <a href="https://www.gokhansengun.com/docker-nedir-nasil-calisir-nerede-kullanilir/">Gökhan Şengün</a> tarafından kaleme alınan yazıya/yazılara başvurabilirsiniz.  Konuyu derin öğrenme özelinde anlatmaya çalışacağımı tekrar hatırlatarak özellikle İngilizce kaynak sayısı oldukça fazla olsa da Türkçe kaynak bulmakta sorun yaşanmakta olduğunu değerlendirdiğim için de bu yazıyı Türkçe olarak paylaşıyorum.</p>
+
+<p><img src="/assets/img/docker-usage/NVIDIA-GPU-Docker.png" alt="Nvidia-Docker" /></p>
+
+<p>Ana Başlıklar:</p>
+<ol>
+  <li>Temel Kavramlar</li>
+  <li>Docker, NVIDIA Docker Kurulumu</li>
+  <li>Hazır görüntülerin(image) kullanımı</li>
+  <li>DockerFile ile özgün görüntülerin kullanılması</li>
+  <li>Komut satırı üzerinden Docker ile etkileşim</li>
+</ol>
+
+<h2 id="1-temel-kavramlar">1. Temel Kavramlar:</h2>
+
+<h3 id="docker-nedir">Docker nedir?</h3>
+
+<p>Kendi başına çalışabilen, ihtiyaç duyduğu herşeyi (sistem araçları, sistem kütüphaneleri, gerekli paketler, donanım sürücüleri vb.) kendi içinde bulunduran, hafif bir yazılımdır. Dahası içerisinde barındırdığı tüm bileşenleri aynı makine üstünde (ana makine-host) çok farklı ayarlarla istediğiniz sayıda görüntüyü (image) farklı konteyner (container) içinde çalıştırmak mümkündür. Sonuç olarak; geliştirici için normal şartlarda ayrı ayrı sahip olmak veya ayarlamak çok maliyetli ve zahmetli olabilecek süreçler hem çok ekonomik hem de çok süratli olabilmektedir.</p>
+
+<h4 id="görüntü-image">Görüntü (Image)</h4>
+
+<p>İçerisinde işletim sistemi NVIDIA sürücülerini ve gerekli tüm araç, paket ve programları barındıran yapıdır. Docker kurulumunu anlattıktan sonra ana makinede mevcut görüntülerin (image) nasıl oluşturulacağını, görüntüleneceğini ve yapılabilecek işlemlere değineceğiz.</p>
+
+<h4 id="konteyner-container">Konteyner (Container)</h4>
+<p>Docker görüntüsünün üzerinde koştuğu izole/sanal ortamdır. Konteyner üzerinde yapılabilecek işlemlere ileride değineceğiz.</p>
+
+<h2 id="2-docker-nvidia-docker-kurulumu">2. Docker, NVIDIA Docker Kurulumu:</h2>
+<p><a href="https://docs.docker.com/install/">Docker CE</a> sürümünün kurulum yönergelerine bağlantı üzerinden ulaşabilirsiniz. Ben size Ubuntu bash terminal üzerinde kurulumunu göstereceğim.</p>
+
+<ul>
+  <li>İlk önce daha önce kurulan Docker CE sürümünü <em>apt</em> ile kaldırıyoruz.</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get remove docker docker-engine docker.io
+</code></pre></div></div>
+
+<ul>
+  <li>Daha sonra Docker CE kurulumuna geçiyoruz ve aşağıdaki komutları sıra ile terminalden uyguluyoruz.</li>
+</ul>
+
+<p><em>apt</em> paket endekslerini güncelliyoruz.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get update
+</code></pre></div></div>
+
+<p><em>apt</em> ile gerekli paketleri kuruyoruz.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="se">\</span>
+    apt-transport-https <span class="se">\</span>
+    ca-certificates <span class="se">\</span>
+    curl <span class="se">\</span>
+    software-properties-common
+</code></pre></div></div>
+
+<p>Docker’ın resmi GPG anahtarını kendi anahtar zincirimize ekliyoruz.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-fsSL</span> https://download.docker.com/linux/ubuntu/gpg | <span class="nb">sudo </span>apt-key add -
+</code></pre></div></div>
+
+<p>stable olarak işaretlenmiş paketleri kurmak için depomuza ekliyoruz.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>add-apt-repository <span class="se">\</span>
+   <span class="s2">"deb [arch=amd64] https://download.docker.com/linux/ubuntu </span><span class="se">\</span><span class="s2">
+   </span><span class="si">$(</span>lsb_release <span class="nt">-cs</span><span class="si">)</span><span class="s2"> </span><span class="se">\</span><span class="s2">
+   stable"</span>
+</code></pre></div></div>
+
+<p><em>apt</em> paket endekslerini tekrar güncelliyoruz.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get update
+</code></pre></div></div>
+
+<p>Ve sonunda Docker CE’nin son sürümünü kuruyoruz.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>docker-ce
+</code></pre></div></div>
+
+<p>“<em>Merhaba</em> <em>Dünya</em>“sız yapamazdık. Aşağıdaki komut ile henüz bilgisayarımızda olmayan hello-world isimli bir görüntüyü <a href="https://hub.docker.com/">DockerHub</a> adı verilen geliştiricilerin ve resmi olarak kullanılan görüntülerin paylaşıldığı bir çeşit uygulama dükkanından indirip çalıştırıyoruz ve terminal standart çıktısında aşağıdaki çıktıyı görüyoruz.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker run hello-world
+Unable to find image <span class="s1">'hello-world:latest'</span> locally
+latest: Pulling from library/hello-world
+9bb5a5d4561a: Pull <span class="nb">complete 
+</span>Digest: sha256:f5233545e43561214ca4891fd1157e1c3c563316ed8e237750d59bde73361e77
+Status: Downloaded newer image <span class="k">for </span>hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the <span class="s2">"hello-world"</span> image from the Docker Hub.
+    <span class="o">(</span>amd64<span class="o">)</span>
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ <span class="nv">$ </span>docker run <span class="nt">-it</span> ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/engine/userguide/
+</code></pre></div></div>
+
+<p>Docker kurma işlemimiz bitti. Şimdi de derin öğrenme (deep learning) modellerini eğitme işlemimizi kısaltacak önemli bir donanım olan ekran kartı üreticisi NVIDIA’nın hayatımıza soktuğu nimetlerden faydalanmak için bir de <a href="https://github.com/NVIDIA/nvidia-docker/blob/master/README.md">NVIDIA-Docker</a> kurmaya başlayabiliriz. Bu noktada ana makinemizde (host) NVIDIA ekran kartı (CUDA yeteneğine sahip) ve ekran kartı sürücüsü kurulmuş olması gerekmektedir.</p>
+
+<p>Önce işletim sistemi dağıtımızı bir eçvre değişkenine yazıyoruz.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ distribution</span><span class="o">=</span><span class="si">$(</span><span class="nb">.</span> /etc/os-release<span class="p">;</span><span class="nb">echo</span> <span class="nv">$ID$VERSION_ID</span><span class="si">)</span>
+</code></pre></div></div>
+
+<p>Sonra anahtar zincirimize resmi GPG anahtarını ekliyoruz.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-s</span> <span class="nt">-L</span> https://nvidia.github.io/nvidia-docker/gpgkey | <span class="nb">sudo </span>apt-key add -
+</code></pre></div></div>
+
+<p>Şimdide uygulama kaynaklarımıza nvidia dağıtımlarını ekliyoruz.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-s</span> <span class="nt">-L</span> https://nvidia.github.io/nvidia-docker/<span class="nv">$distribution</span>/nvidia-docker.list | <span class="nb">sudo tee</span> /etc/apt/sources.list.d/nvidia-docker.list
+</code></pre></div></div>
+
+<p>NVIDIA-Docker kurulumunu yapıyoruz ve docker servisini yeniden başlatıyoruz.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-y</span> nvidia-container-toolkit
+<span class="nv">$ </span><span class="nb">sudo </span>systemctl restart docker
+</code></pre></div></div>
+
+<p>Yine kurulumumuzu test etmek için bu sefer NVIDIA’ya ait son CUDA deposunu kendi bilgisayarımıza indirip herhangi bir sorun olmadığına emin oluyoruz. Bu noktada sizin ekran kartı modeli, sürücüsü ve özellikleri ile uyumlu olarak standart çıktıda aşağıdakine benzer bir sonuç alıyoruz.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker run <span class="nt">--gpus</span> all <span class="nt">--rm</span> nvidia/cuda nvidia-smi
+Sun May 20 18:33:05 2018       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 384.111                Driver Version: 384.111                   |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|<span class="o">===============================</span>+<span class="o">======================</span>+<span class="o">======================</span>|
+|   0  GeForce GTX 1070    Off  | 00000000:0A:00.0  On |                  N/A |
+|  0%   49C    P8    11W / 200W |    359MiB /  8110MiB |      7%      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|<span class="o">=============================================================================</span>|
++-----------------------------------------------------------------------------+
+</code></pre></div></div>
+
+<h2 id="3-hazır-görüntülerinimage-kullanımı">3. Hazır Görüntülerin(image) Kullanımı:</h2>
+<p><a href="https://hub.docker.com/explore">DockerHub</a> üzerinden paylaşılmış hazır görüntülere (image) ulaşabilirsiniz. Kolaydan başlayarak zora doğru gideceğimiz için önce hazır depoları kullanacağız. Ben size Tensorflow’un resmi deposundan son sürümünü nasıl kuracağınızı göstereceğim.</p>
+
+<p>Terminal üzerinden aşağıdaki komutu verdiğimizde uzak depo alanından <em>tensorflow/tensorflow</em> isimli deponun son sürümünü(<em>latest-gpu</em>) ana makinemize çekip (<em>pull</em>) etkileşimli modda çalıştırıp (-p) parametresi ile dış dünya ile 8888 nolu portdan haberleşmesini söylüyoruz. Daha sonra <a href="localhost:8888">localhost:8888</a> üzerinden çalışan Jupyter Notebook karşımıza çıkıyor. Bundan sonra bu komutu her çalıştırdığımızda Docker, uzak depo yerel makinemize bulunduğu için indirmek yerine doğrudan çalıştırmaya başlayacaktır.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker run <span class="nt">-it</span> <span class="nt">--gpus</span> all <span class="nt">-p</span> 8888:8888 tensorflow/tensorflow:latest-gpu
+<span class="c"># NVIDIA ekran kartı olmayanlar için docker run -it -p 8888:8888 tensorflow/tensorflow ile kurulum yapılabilir.</span>
+</code></pre></div></div>
+<p><a href="https://hub.docker.com/">DockerHub</a> üzerinden ulaştığınız tüm depolarda farklı etiket (tag) varsa farklı sürümleri olduğunu düşünebilirsiniz. Gidip size uygun farklı sürümlerini de denemeniz mümkün olabilir. Görüldüğü gibi sadece parametreleri değiştirerek ana makinemiz (host) üzerinde bir çok farklı bilgisayar varmış gibi görüntüler (image) sayesinde istediğimiz özgürlüğe sahip oluyoruz.</p>
+
+<h2 id="4-dockerfile-ile-özgün-görüntülerin-kullanılması">4. DockerFile ile Özgün Görüntülerin Kullanılması:</h2>
+
+<p>Her zaman hazır bir depo kullanmak Docker’ın bize sunduğu esnekliği tam anlamıyla kullanmamıza imkan vermeyebilir. Bu noktada tamamıyla kendi istediğimiz bir görüntü oluşturmak gerekecektir. DockerFile bu eksikliği gidermek için kullanılan metin bazlı bir dosya olup içerisinde bulunan Docker’a özel sözdizim kuralları ile tam anlamıyla istediğimiz gibi bir görüntü oluşturmamıza yardım eder. Ben bu noktada DockerFile oluşturma konusunda yine <a href="https://www.gokhansengun.com/docker-yeni-image-hazirlama/">Gökhan Şengün</a> tarafından kaleme alınan yazıya mutlaka göz atmanızı tavsiye edip derin öğrenme merkezli olarak nasıl bir DockerFile kullanabileceğimize değineceğim.</p>
+
+<p>Öncelikle örnek bir DockerFile ele alalım. Burada çok kullanılan bir <a href="https://github.com/floydhub/dl-docker">Floyd Lab</a> tarafından sağlanan hazır bir görüntünün DockerFile dosyasını kullanacağız. <a href="https://github.com/blgnksy/blgnksy.github.io/raw/master/assets/DockerFile.gpu">Bağlantıdan</a> dosyayı indirebilirsiniz.</p>
+
+<p>İndirdiğimiz DockerFile.gpu dosyasının olduğu dizine terminalden gelip aşağıdaki komut ile <em>floydhub/dl-docker</em> adından ve <em>gpu</em> etiketli bir görüntü oluşturuyoruz.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker build <span class="nt">-t</span> floydhub/dl-docker:gpu <span class="nt">-f</span> Dockerfile.gpu <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>Daha sonra yukarıda yaptığımız gibi bu görüntüyü bir konteyner içinde çalıştırabiliriz.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker run <span class="nt">-it</span> <span class="nt">--gpus</span> all <span class="nt">-p</span> 8888:8888 floydhub/dl-docker:gpu
+</code></pre></div></div>
+
+<p>Şimdi de DockerFile dosyasının içine bakarak neler yaptığını anlamaya ve sonra özelleştirmek için neler yapabileceğimeze bakalım. (Not: Dosya çok uzun olduğundan bazı bölümleri “…” ile belirterek kısalttığımı belirtmek isterim.)</p>
+
+<ul>
+  <li>Öncelikle NVIDIA tarafından sağlanan CUDA’nın 8. sürümü ve cuDNN kütüphanesinin 5. sürümünü kullanan Ubuntu’nun 14.04 sürümünü görüntü içine kuruyor.</li>
+  <li>Daha sonra kullanacağı bazı parametreleri ARG ile belirliyor.</li>
+  <li><em>apt</em> ile gerekli kütüphaneleri kuruyor.</li>
+  <li>Python paket yöneticisini ve gerekli kütüphaneleri kuruyor.</li>
+  <li>Tensorflow, Caffe, Theano, Keras, Lasagne, Torch ve Lua derin öğrenme kütüphanelerini kuruyor ve ihtiyaç duyduğu bazı ortam değişkenlerini ayarlıyor.</li>
+  <li>Açık kaynak bilgisayarlı görü kütüphanelerinden OpenCV kurulumunu yapıyor.</li>
+  <li>Jupyter Notebook için ayar dosyasını ve Jupyter Notebook kullanımı root kullanıcı için sorunlu olduğundan küçük bir betik dosyası olan  dosyasını kopyalıyor. (Not: Kurulumdan önce <a href="https://github.com/floydhub/dl-docker">floydhub/dl-docker</a> deposundan <em>jupyter_notebook_config.py</em> dosyasını ve birazdan kullanacağımız <em>run_jupyter.sh</em> dosyasını da DockerFile.gpu ile aynı dizine koymamız gerekiyor.</li>
+  <li>Daha sonra ana makine ile konuşmak üzere <em>6006</em> ve <em>8888</em> nolu portları açıyor. Genelde <em>6006</em> nolu port Tensorboard, <em>8888</em> nolu port ise Jupyter Notebook tarafından kullanılmaktadır.</li>
+  <li>Son olarak görüntü çalıştığında terminalden bash ile bizi karşılayacak komutu yazıyor.</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cat </span>DockerFile.gpu
+FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu14.04 
+
+MAINTAINER Sai Soundararaj &lt;saip@outlook.com&gt;
+
+ARG <span class="nv">THEANO_VERSION</span><span class="o">=</span>rel-0.8.2
+ARG <span class="nv">TENSORFLOW_VERSION</span><span class="o">=</span>0.12.1
+ARG <span class="nv">TENSORFLOW_ARCH</span><span class="o">=</span>gpu
+
+...
+...
+
+
+<span class="c"># Install some dependencies</span>
+RUN apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\</span>
+		bc <span class="se">\</span>
+		build-essential <span class="se">\</span>
+		cmake <span class="se">\</span>
+		curl <span class="se">\</span>
+		g++ <span class="se">\</span>
+		gfortran <span class="se">\</span>
+		git <span class="se">\</span>
+		libffi-dev <span class="se">\</span>
+		libfreetype6-dev <span class="se">\</span>
+		libhdf5-dev <span class="se">\</span>
+		libjpeg-dev <span class="se">\</span>
+		liblcms2-dev <span class="se">\</span>
+		libopenblas-dev <span class="se">\</span>
+		liblapack-dev <span class="se">\</span>
+		...
+		python-dev <span class="se">\</span>
+		...
+		<span class="o">&amp;&amp;</span> <span class="se">\</span>
+	apt-get clean <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	apt-get autoremove <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+<span class="c"># Link BLAS library to use OpenBLAS using the alternatives mechanism (https://www.scipy.org/scipylib/building/linux.html#debian-ubuntu)</span>
+	update-alternatives <span class="nt">--set</span> libblas.so.3 /usr/lib/openblas-base/libblas.so.3
+
+<span class="c"># Install pip</span>
+RUN curl <span class="nt">-O</span> https://bootstrap.pypa.io/get-pip.py <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	python get-pip.py <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">rm </span>get-pip.py
+
+<span class="c"># Add SNI support to Python</span>
+RUN pip <span class="nt">--no-cache-dir</span> <span class="nb">install</span> <span class="se">\</span>
+		pyopenssl <span class="se">\</span>
+		ndg-httpsclient <span class="se">\</span>
+		pyasn1
+
+<span class="c"># Install useful Python packages using apt-get to avoid version incompatibilities with Tensorflow binary</span>
+<span class="c"># especially numpy, scipy, skimage and sklearn (see https://github.com/tensorflow/tensorflow/issues/2034)</span>
+RUN apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\</span>
+		python-numpy <span class="se">\</span>
+		python-scipy <span class="se">\</span>
+		python-nose <span class="se">\</span>
+		...
+		<span class="o">&amp;&amp;</span> <span class="se">\</span>
+	apt-get clean <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	apt-get autoremove <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span>
+
+<span class="c"># Install other useful Python packages using pip</span>
+RUN pip <span class="nt">--no-cache-dir</span> <span class="nb">install</span> <span class="nt">--upgrade</span> ipython <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	pip <span class="nt">--no-cache-dir</span> <span class="nb">install</span> <span class="se">\</span>
+		Cython <span class="se">\</span>
+		ipykernel <span class="se">\</span>
+		jupyter <span class="se">\</span>
+		path.py <span class="se">\</span>
+		...
+		<span class="o">&amp;&amp;</span> <span class="se">\</span>
+	python <span class="nt">-m</span> ipykernel.kernelspec
+
+
+<span class="c"># Install TensorFlow</span>
+RUN pip <span class="nt">--no-cache-dir</span> <span class="nb">install</span> <span class="se">\</span>
+	https://storage.googleapis.com/tensorflow/linux/<span class="k">${</span><span class="nv">TENSORFLOW_ARCH</span><span class="k">}</span>/tensorflow_<span class="k">${</span><span class="nv">TENSORFLOW_ARCH</span><span class="k">}</span>-<span class="k">${</span><span class="nv">TENSORFLOW_VERSION</span><span class="k">}</span><span class="nt">-cp27-none-linux_x86_64</span>.whl
+
+
+<span class="c"># Install dependencies for Caffe</span>
+RUN apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\</span>
+		libboost-all-dev <span class="se">\</span>
+		libgflags-dev <span class="se">\</span>
+		libgoogle-glog-dev <span class="se">\</span>
+		libhdf5-serial-dev <span class="se">\</span>
+		...
+		<span class="o">&amp;&amp;</span> <span class="se">\</span>
+	apt-get clean <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	apt-get autoremove <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists/<span class="k">*</span>
+
+<span class="c"># Install Caffe</span>
+RUN git clone <span class="nt">-b</span> <span class="k">${</span><span class="nv">CAFFE_VERSION</span><span class="k">}</span> <span class="nt">--depth</span> 1 https://github.com/BVLC/caffe.git /root/caffe <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">cd</span> /root/caffe <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">cat </span>python/requirements.txt | xargs <span class="nt">-n1</span> pip <span class="nb">install</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">mkdir </span>build <span class="o">&amp;&amp;</span> <span class="nb">cd </span>build <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	cmake <span class="nt">-DUSE_CUDNN</span><span class="o">=</span>1 <span class="nt">-DBLAS</span><span class="o">=</span>Open .. <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	make <span class="nt">-j</span><span class="s2">"</span><span class="si">$(</span><span class="nb">nproc</span><span class="si">)</span><span class="s2">"</span> all <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	make <span class="nb">install</span>
+
+<span class="c"># Set up Caffe environment variables</span>
+ENV <span class="nv">CAFFE_ROOT</span><span class="o">=</span>/root/caffe
+ENV <span class="nv">PYCAFFE_ROOT</span><span class="o">=</span><span class="nv">$CAFFE_ROOT</span>/python
+ENV <span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$PYCAFFE_ROOT</span>:<span class="nv">$PYTHONPATH</span> <span class="se">\</span>
+	<span class="nv">PATH</span><span class="o">=</span><span class="nv">$CAFFE_ROOT</span>/build/tools:<span class="nv">$PYCAFFE_ROOT</span>:<span class="nv">$PATH</span>
+
+RUN <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$CAFFE_ROOT</span><span class="s2">/build/lib"</span> <span class="o">&gt;&gt;</span> /etc/ld.so.conf.d/caffe.conf <span class="o">&amp;&amp;</span> ldconfig
+
+
+<span class="c"># Install Theano and set up Theano config (.theanorc) for CUDA and OpenBLAS</span>
+RUN pip <span class="nt">--no-cache-dir</span> <span class="nb">install </span>git+git://github.com/Theano/Theano.git@<span class="k">${</span><span class="nv">THEANO_VERSION</span><span class="k">}</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="se">\</span>
+	<span class="nb">echo</span> <span class="s2">"[global]</span><span class="se">\n</span><span class="s2">device=gpu</span><span class="se">\n</span><span class="s2">floatX=float32</span><span class="se">\n</span><span class="s2">optimizer_including=cudnn</span><span class="se">\n</span><span class="s2">mode=FAST_RUN </span><span class="se">\</span><span class="s2">
+		</span><span class="se">\n</span><span class="s2">[lib]</span><span class="se">\n</span><span class="s2">cnmem=0.95 </span><span class="se">\</span><span class="s2">
+		</span><span class="se">\n</span><span class="s2">[nvcc]</span><span class="se">\n</span><span class="s2">fastmath=True </span><span class="se">\</span><span class="s2">
+		</span><span class="se">\n</span><span class="s2">[blas]</span><span class="se">\n</span><span class="s2">ldflag = -L/usr/lib/openblas-base -lopenblas </span><span class="se">\</span><span class="s2">
+		</span><span class="se">\n</span><span class="s2">[DebugMode]</span><span class="se">\n</span><span class="s2">check_finite=1"</span> <span class="se">\</span>
+	<span class="o">&gt;</span> /root/.theanorc
+
+
+<span class="c"># Install Keras</span>
+RUN pip <span class="nt">--no-cache-dir</span> <span class="nb">install </span>git+git://github.com/fchollet/keras.git@<span class="k">${</span><span class="nv">KERAS_VERSION</span><span class="k">}</span>
+
+
+<span class="c"># Install Lasagne</span>
+RUN pip <span class="nt">--no-cache-dir</span> <span class="nb">install </span>git+git://github.com/Lasagne/Lasagne.git@<span class="k">${</span><span class="nv">LASAGNE_VERSION</span><span class="k">}</span>
+
+
+<span class="c"># Install Torch</span>
+RUN git clone https://github.com/torch/distro.git /root/torch <span class="nt">--recursive</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">cd</span> /root/torch <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	bash install-deps <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">yes </span>no | ./install.sh
+
+<span class="c"># Export the LUA evironment variables manually</span>
+ENV <span class="nv">LUA_PATH</span><span class="o">=</span><span class="s1">'/root/.luarocks/share/lua/5.1/?.lua;/root/.luarocks/share/lua/5.1/?/init.lua;/root/torch/install/share/lua/5.1/?.lua;/root/torch/install/share/lua/5.1/?/init.lua;./?.lua;/root/torch/install/share/luajit-2.1.0-beta1/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua'</span> <span class="se">\</span>
+	<span class="nv">LUA_CPATH</span><span class="o">=</span><span class="s1">'/root/.luarocks/lib/lua/5.1/?.so;/root/torch/install/lib/lua/5.1/?.so;./?.so;/usr/local/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so'</span> <span class="se">\</span>
+	<span class="nv">PATH</span><span class="o">=</span>/root/torch/install/bin:<span class="nv">$PATH</span> <span class="se">\</span>
+	<span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/root/torch/install/lib:<span class="nv">$LD_LIBRARY_PATH</span> <span class="se">\</span>
+	<span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span>/root/torch/install/lib:<span class="nv">$DYLD_LIBRARY_PATH</span>
+ENV <span class="nv">LUA_CPATH</span><span class="o">=</span><span class="s1">'/root/torch/install/lib/?.so;'</span><span class="nv">$LUA_CPATH</span>
+
+<span class="c"># Install the latest versions of nn, cutorch, cunn, cuDNN bindings and iTorch</span>
+RUN luarocks <span class="nb">install </span>nn <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	luarocks <span class="nb">install </span>cutorch <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	luarocks <span class="nb">install </span>cunn <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    luarocks <span class="nb">install </span>loadcaffe <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="se">\</span>
+	<span class="nb">cd</span> /root <span class="o">&amp;&amp;</span> git clone https://github.com/soumith/cudnn.torch.git <span class="o">&amp;&amp;</span> <span class="nb">cd </span>cudnn.torch <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	git checkout R4 <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	luarocks make <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="se">\</span>
+	<span class="nb">cd</span> /root <span class="o">&amp;&amp;</span> git clone https://github.com/facebook/iTorch.git <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">cd </span>iTorch <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	luarocks make
+
+<span class="c"># Install OpenCV</span>
+RUN git clone <span class="nt">--depth</span> 1 https://github.com/opencv/opencv.git /root/opencv <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">cd</span> /root/opencv <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">mkdir </span>build <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">cd </span>build <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	cmake <span class="nt">-DWITH_QT</span><span class="o">=</span>ON <span class="nt">-DWITH_OPENGL</span><span class="o">=</span>ON <span class="nt">-DFORCE_VTK</span><span class="o">=</span>ON <span class="nt">-DWITH_TBB</span><span class="o">=</span>ON <span class="nt">-DWITH_GDAL</span><span class="o">=</span>ON <span class="nt">-DWITH_XINE</span><span class="o">=</span>ON <span class="nt">-DBUILD_EXAMPLES</span><span class="o">=</span>ON .. <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	make <span class="nt">-j</span><span class="s2">"</span><span class="si">$(</span><span class="nb">nproc</span><span class="si">)</span><span class="s2">"</span>  <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	make <span class="nb">install</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	ldconfig <span class="o">&amp;&amp;</span> <span class="se">\</span>
+	<span class="nb">echo</span> <span class="s1">'ln /dev/null /dev/raw1394'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+
+<span class="c"># Set up notebook config</span>
+COPY jupyter_notebook_config.py /root/.jupyter/
+
+<span class="c"># Jupyter has issues with being run directly: https://github.com/ipython/ipython/issues/7062</span>
+COPY run_jupyter.sh /root/
+
+<span class="c"># Expose Ports for TensorBoard (6006), Ipython (8888)</span>
+EXPOSE 6006 8888
+
+WORKDIR <span class="s2">"/root"</span>
+CMD <span class="o">[</span><span class="s2">"/bin/bash"</span><span class="o">]</span>
+
+</code></pre></div></div>
+<p>Bazılarınız hazırladığı özgün DockerFile dosyasını uzak depoya göndermek (<em>push</em>) isteyebilir. Yine ayrıntılar için <a href="https://www.gokhansengun.com/docker-yeni-image-hazirlama/">Gökhan Şengün</a> bağlantısından <em>Basit Image Hazırlama ve DockerHub’a Push Etme</em> bölümünde ulaşabilirsiniz.</p>
+
+<h2 id="5-komut-satırı-üzerinden-docker-ile-etkileşim">5. Komut Satırı Üzerinden Docker ile Etkileşim</h2>
+<hr />
+<p>Öncelikle var olan görüntülerin listesine terminal üzerinden erişelim:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#  Sadece docker images da kullanılabilir.</span>
+<span class="nv">$ </span><span class="nb">sudo </span>docker images
+REPOSITORY                     TAG                       IMAGE ID            CREATED             SIZE
+hello-world                    latest                    e38bc07ac18e        5 weeks ago         1.85kB
+gcr.io/tensorflow/tensorflow   latest-gpu_changed        f73dd685943c        5 weeks ago         14.8GB
+gcr.io/tensorflow/tensorflow   1.7.0-rc0-devel-gpu-py3   a48c5d8684b3        2 months ago        3.1GB
+</code></pre></div></div>
+<p>Görülebileceği gibi benim ana makinem üzerinde 3 adet görüntü var. Dikkat ederseniz aynı isimli ama farklı etikete sahip iki görüntü var. Altta ilk çektiğim (<em>pull</em>) hali üstte ise zaman içinde konteyner da yaptığım değişiklikleri aktardığım (<em>commit</em>) son halini verdiğim yeni etiketli olan bulunuyor.</p>
+
+<h3 id="konteynerı-çalıştırmak-run">Konteyner’ı çalıştırmak (<em>run</em>)</h3>
+
+<p>Görüntüyü oluşturduk. Şimdi görüntüyü bir konteyner da çalıştırmaya sıra geldi.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker run <span class="nt">-it</span> <span class="nt">--gpus</span> all <span class="nt">-p</span> 8888:8888  <span class="nt">-p</span> 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook <span class="nt">--allow-root</span>
+</code></pre></div></div>
+
+<p>Yukarıdaki komut ile önce docker’a <em>run</em> komutunu <em>it</em> parametreleri ile çalıştırmasını söylüyoruz. <em>i</em> etkileşimli modu ile konteyner çalışınca ona komutlar gönderebilmemiz için STDIN (standart girdiyi) açık tutuyor. <em>t</em> ile konteyner için bir pseudo-TTY tahsis ediliyor. <em>p</em> parametresi ile portların ana makine ile konteyner arasında nasıl yönlendirileceğini söylüyoruz. Burada docker konteynerinin 8888 nolu portu ile ana makinenin 8888. portu ve aynı şekilde 6666. portlarını birbirlerine yönlendirdik. Buna jupyter notebook kullanımında ihtiyaç duyacağız. Sonra hangi görüntünün çalıştırılmasını istediğimizi ve konteyner açılınca <em>jupyter notebook</em> açılmasını istediğimizi docker’a söyledikten sonra işimiz bitiyor. Terminal ekranında aşağıdakine benzer bir çıktı görüyor olmalısınız.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker run <span class="nt">-it</span> <span class="nt">--gpus</span> all <span class="nt">-p</span> 8888:8888  <span class="nt">-p</span> 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed jupyter notebook <span class="nt">--allow-root</span>
+<span class="o">[</span>I 14:52:56.460 NotebookApp] Serving notebooks from <span class="nb">local </span>directory: /notebooks
+<span class="o">[</span>I 14:52:56.460 NotebookApp] 0 active kernels
+<span class="o">[</span>I 14:52:56.460 NotebookApp] The Jupyter Notebook is running at:
+<span class="o">[</span>I 14:52:56.460 NotebookApp] https://[all ip addresses on your system]:8888/
+<span class="o">[</span>I 14:52:56.460 NotebookApp] Use Control-C to stop this server and shut down all kernels <span class="o">(</span>twice to skip confirmation<span class="o">)</span><span class="nb">.</span>
+</code></pre></div></div>
+
+<p>Şimdi gidip Firefox’u açıp adres satırına “localhost:8888” yazıp sayfaya gittiğimizde aşağıdaki sayfa ile karşılaşıyoruz. Bu sayfada docker konteynerimizin <em>/notebooks</em> klasörünün içeriğine ulaşıyoruz. Docker içerisinde <em>Jupyter Notebook</em> kullanımı ve gerekli ayarların yapılmasını başka bir yazıda aktarmayı planlıyorum. Umarım en kısa zamanda onu da yayımlayacağım. Neyse şimdi konumuza devam edelim.</p>
+
+<p><img src="/assets/img/docker-usage/initial_jupyter_big.png" alt="Jupyter Notebook" /></p>
+
+<p>Şimdilik yukarıda sayfanın sağ üstünde bulunan <em>Logout</em> tuşuna basıp bağlantımızı kestikten sonra terminal penceresinde Kontrol+C ile Jupyter sunucusunu ve çalışan docker konteynerimizi kapatıyoruz. Bazen konteyner çalıştığında terminal ekranına çıkmak isteyebilirsiniz. Bu durumda aşağıdaki gibi docker çalıştırma komutumuzun sonuna <em>bash</em> eklemek yeterli olacaktır.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker run <span class="nt">-it</span> <span class="nt">--gpus</span> all <span class="nt">-p</span> 8888:8888  <span class="nt">-p</span> 6006:6006 gcr.io/tensorflow/tensorflow:latest-gpu_changed bash
+root@2fc479bed67f:/notebooks# 
+</code></pre></div></div>
+
+<p>Görüldüğü gibi artık konterner içinde terminal ekranına bağlıyız ve artık özelleştirmek istersek şimdi güç bizim elimize geçti. Kullanıcı adımız <em>root</em> ve konteyner anahtar adımız <em>2fc479bed67f</em> (siz de bu alan farklı olacaktır ki bu rasgele verilen bir anahtar) ve aynı Jupyter’de olduğu gibi <em>/notebook</em> klasöründe bulunuyoruz. Terminalde işimiz bittiğinde <em>exit</em> komutu ile çıkıyoruz.</p>
+
+<h3 id="konteynerda-değişiklik-yapmak-ve-içe-aktarmak-commit">Konteyner’da değişiklik yapmak ve içe aktarmak (<em>commit</em>)</h3>
+
+<p>Görüntüyü oluşturduk ve bir konteyner içinde çalıştırmaya başladık. Bu noktaya kadar sahip olduğumuz içe aktarılmayı bekleyen konteynerleri aşağıdaki komut ile listeyelebiliriz. Burada <em>CONTAINER ID</em> ve <em>NAMES</em> docker motoru tarafından verilen rasgele değerlerdir.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker ps <span class="nt">-a</span> 
+CONTAINER ID        IMAGE                                             COMMAND             CREATED             STATUS                        PORTS               NAMES
+2fc479bed67f        gcr.io/tensorflow/tensorflow:latest-gpu_changed   <span class="s2">"bash"</span>              5 minutes ago       Exited <span class="o">(</span>130<span class="o">)</span> 10 seconds ago                       musing_saha
+
+</code></pre></div></div>
+<p>Eğer konteyner içerisinde oluşturulduktan sonra değişiklik yapılmışsa ve bu değişikliği görüntüye aktarmaz isek görüntü her çalıştırıldığında yeni bir konteyner oluşturacağından ve çalışan konteyner diğer konteynerde yapılan değişiklikten haberdar olmadığından bu değişiklikleri daimi olarak kullanmak istememiz halinde içe aktarmamız gerekmektedir. Bunun için aşağıdaki komutu çalıştırmamız yeterli olacaktır.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker commit 2fc479bed67f gcr.io/tensorflow/tensorflow:v1
+sha256:0ddddaf2218987e2ed9f5cfa1976b635a7b811d68d986fef193af6e4c7cfcc30
+</code></pre></div></div>
+<p>Bu komut ile <em>tag</em> olarak v1 diye bir etiket tanımladığımız başlangıç görüntüsü üzerinde değişikliklerin eklenmiş olduğu yeni bir görüntüye sahip oluyoruz. İstersek etiketi olduğu gibi kullanıp iki ayrı görüntü yerine başlangıç görüntüsü üzerine de aktarım yapabilirdik. Bu noktada sürekli yeni etiketler vererek yola devam etmek bilgisayarınızda daha fazla depolama alanı gerektirecektir.</p>
+
+<h3 id="kullanılmayan-konteynerları-durdurmak-ve-silmek-commit">Kullanılmayan Konteynerları durdurmak ve silmek (<em>commit</em>)</h3>
+
+<p>Çalışan konteynerlerden işimize yaramayanları veya içe aktarmayı tamamladığınız konteynerleri <em>CONTAINER ID</em> parametresini kullanarak durdurmak ve silmek mümkündür. İlk olarak çalışan konteynerleri yukarıda gösterdiğimiz gibi listeleyelim.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker ps <span class="nt">-a</span>
+CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS                     PORTS                                            NAMES
+3a9777814a95        ndeep/dl-docker:cpu   <span class="s2">"bash"</span>                   2 days ago          Exited <span class="o">(</span>255<span class="o">)</span> 2 days ago    0.0.0.0:6006-&gt;6006/tcp, 0.0.0.0:8888-&gt;8888/tcp   festive_chatterjee
+1a9add8b9905        ndeep/dl-docker:cpu   <span class="s2">"bash"</span>                   6 weeks ago         Exited <span class="o">(</span>255<span class="o">)</span> 6 weeks ago   0.0.0.0:6006-&gt;6006/tcp, 0.0.0.0:8888-&gt;8888/tcp   dazzling_ride
+e1a552ab67bf        635015520b19          <span class="s2">"bash"</span>                   6 weeks ago         Exited <span class="o">(</span>0<span class="o">)</span> 6 weeks ago                                                      objective_northcutt
+7ea8bd5094c6        635015520b19          <span class="s2">"jupyter notebook --…"</span>   2 months ago        Exited <span class="o">(</span>0<span class="o">)</span> 2 months ago                                                     priceless_khorana
+</code></pre></div></div>
+<p>Bu noktada <em>3a9777814a95</em> anahtar alanına sahip konteyneri durdurmak için:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker stop 3a9777814a95
+3a9777814a95
+</code></pre></div></div>
+<p>komutunu kullanıyoruz. Durdurduğumuz konteyneri silmek için</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker <span class="nb">rm </span>3a9777814a95
+3a9777814a95
+</code></pre></div></div>
+<p>komutunu komut satırına yazmamız gerekiyor. Artık çalışan konteynerleri sıraladığımızda <em>3a9777814a95</em> anahtar alanına sahip konteynerdan kurtulmuş oluyoruz.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker ps <span class="nt">-a</span>
+CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS                     PORTS                                            NAMES
+1a9add8b9905        ndeep/dl-docker:cpu   <span class="s2">"bash"</span>                   6 weeks ago         Exited <span class="o">(</span>255<span class="o">)</span> 6 weeks ago   0.0.0.0:6006-&gt;6006/tcp, 0.0.0.0:8888-&gt;8888/tcp   dazzling_ride
+e1a552ab67bf        635015520b19          <span class="s2">"bash"</span>                   6 weeks ago         Exited <span class="o">(</span>0<span class="o">)</span> 6 weeks ago                                                      objective_northcutt
+7ea8bd5094c6        635015520b19          <span class="s2">"jupyter notebook --…"</span>   2 months ago        Exited <span class="o">(</span>0<span class="o">)</span> 2 months ago                                                     priceless_khorana
+</code></pre></div></div>
+
+<h3 id="görüntüleri-silmek">Görüntüleri silmek</h3>
+
+<p>Son olarak; artık işimize yaramayacağını düşündüğümüz görüntüleri silme işlemine bakacağız. Bu noktada bir görüntüyü silmek için önce bu görüntünün çalışan tüm konteynerlerinin durdurulması ve silinmesi gerektiğini hatırlattıktan sonra görüntüyü silme işlemine geçelim. Öncelikle görüntüleri listeyelim:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker images
+REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
+ndeep/dl-docker      cpu2                8403972b7f68        14 minutes ago      11.6GB
+ndeep/dl-docker      cpu1                0ddddaf22189        22 hours ago        11.6GB
+ndeep/dl-docker      cpu                 e16010eb9c55        6 weeks ago         11.6GB
+floydhub/dl-docker   cpu_changed         4a4e5cbd6476        5 months ago        11.8GB
+ubuntu               14.04               67759a80360c        6 months ago        221MB
+</code></pre></div></div>
+
+<p>Ben <em>8403972b7f68</em> anahtar alanına sahip görüntüyü silmek istiyorum. Bunun için komut satırına:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker rmi 8403972b7f68
+Untagged: ndeep/dl-docker:cpu2
+Deleted: sha256:8403972b7f68905eb2bb59efcbee05cefdd8ece92ab28a13d3326d07329437a8
+</code></pre></div></div>
+<p>komutunu yazdıktan sonra görüntümüzü silebiliyoruz.</p>
+
+<p>Sonuç olarak; <em>docker</em>/<em>nvidia-docker</em> derin öğrenme alanında geliştirme/araştırma yapanların nasıl bu aracı kullanabileceğine dair temel bilgileri aktarmaya çalıştım. Elbette <em>docker</em>/<em>nvidia-docker</em> kendilerine has birçok farklı özelliğe sahipler. Ama umarım kısa sürede çalışan bir geliştirme ortamı oluşturabileceksiniz. <em>Jupyter</em> kurulumuna dair konuları başka bir yazıda aktarmaya çalışacağım. (Umarım en kısa zamanda) Eğer sorunuz olursa lütfen aşağıdaki bölümden bana yazınız.</p>
+
+<ul>
+  
+    <li>
+      <a href="/2025/12/22/minimal-os.html">Minimalist OS</a>
+    </li>
+  
+    <li>
+      <a href="/2020/12/13/libtorch-inference.html">C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models</a>
+    </li>
+  
+    <li>
+      <a href="/2020/12/06/libtorch-tensors.html">C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations</a>
+    </li>
+  
+    <li>
+      <a href="/2020/12/03/libtorch-config.html">C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction</a>
+    </li>
+  
+    <li>
+      <a href="/2020/04/22/nvidia-docker-usage.html">NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı</a>
+    </li>
+  
+    <li>
+      <a href="/2018/07/09/docker-jupyter-config.html">NVIDIA Docker Üzerinde Jupyter Ayarları</a>
+    </li>
+  
+</ul>
+</section>
+   
+   <!-- Tag list -->
+  
+  
+
+
+<footer>
+  <div class="tag-list">
+    
+      <div class="meta">Tags</div>
+    
+
+    
+    <a class="button" href="/tags#Deep Learning">
+      <p><i class="fa fa-tag fa-fw"></i> Deep Learning</p>
+    </a>
+    
+    <a class="button" href="/tags#Derin Öğrenme">
+      <p><i class="fa fa-tag fa-fw"></i> Derin Öğrenme</p>
+    </a>
+    
+    <a class="button" href="/tags#Docker">
+      <p><i class="fa fa-tag fa-fw"></i> Docker</p>
+    </a>
+    
+    <a class="button" href="/tags#Docker Kurulumu">
+      <p><i class="fa fa-tag fa-fw"></i> Docker Kurulumu</p>
+    </a>
+    
+    <a class="button" href="/tags#Docker Temel Bilgiler">
+      <p><i class="fa fa-tag fa-fw"></i> Docker Temel Bilgiler</p>
+    </a>
+    
+    <a class="button" href="/tags#DockerFile">
+      <p><i class="fa fa-tag fa-fw"></i> DockerFile</p>
+    </a>
+    
+    <a class="button" href="/tags#NVIDIA-Docker">
+      <p><i class="fa fa-tag fa-fw"></i> NVIDIA-Docker</p>
+    </a>
+    
+    <a class="button" href="/tags#Tensorflow">
+      <p><i class="fa fa-tag fa-fw"></i> Tensorflow</p>
+    </a>
+    
+  </div>
+</footer>
+
+    
+  <!-- Structured Data for Blog Post -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "NVIDIA Docker Kurulumu ve Derin Öğrenme için Kullanımı",
+    "author": {
+      "@type": "Person",
+      "name": ""
+    },
+    "datePublished": "2020-04-22T00:00:00+00:00",
+    "dateModified": "2020-04-22T00:00:00+00:00",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://blgnksy.github.io/2020/04/22/nvidia-docker-usage.html"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "NDeep",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://blgnksy.github.io/assets/favicon.ico"
+      }
+    },
+    "image": "https://blgnksy.github.io",
+    "articleSection": "",
+    "keywords": "NVIDIA-Docker, Docker, Docker Temel Bilgiler, Docker Kurulumu, DockerFile, Deep Learning, Derin Öğrenme, Tensorflow",
+    "inLanguage": "tr"
+  }
+  </script>
+    
+</article>
+
+<!-- Disqus -->
+
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+        /*var disqus_developer = 1; // Comment out when the site is live*/
+        var disqus_identifier = "/2020/04/22/nvidia-docker-usage.html";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+<!-- Post navigation -->
+
+  <div id="post-nav">
+  
+  <div id="previous-post" class="post-nav-post">
+      <p>Previous post</p>
+      <a href="/2018/07/09/docker-jupyter-config.html">
+        NVIDIA Docker Üzerinde Jupyter Ayarları
+      </a>
+  </div>
+  
+  
+  <div id="next-post" class="post-nav-post">
+      <p>Next post</p>
+      <a href="/2020/12/03/libtorch-config.html">
+        C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction
+      </a>
+  </div>
+  
+</div>
+
+
+    </div>
+    
+<footer class="site-footer">
+    <p class="text">Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
+</p>
+            <div class="footer-icons">
+                <ul>
+                <!-- Social icons from Font Awesome, if enabled -->
+                
+
+
+<li>
+	<a href="mailto:bilgin.aksoy@metu.edu.tr" title="Email">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="https://bitbucket.org/blgnksy" title="Follow on Bitbucket">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-bitbucket fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/blgnksy" title="Follow on GitHub">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.linkedin.com/in/bilgin-aksoy-a61a90110" title="Follow on LinkedIn">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/blgnksy" title="Follow on Twitter" class="type">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+                </ul>
+            </div>
+</footer>
+
+
+
+
+  </body>
+</html>
+<script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+      //var disqus_developer = 1; // Comment out when the site is live
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+      }());
+    </script>

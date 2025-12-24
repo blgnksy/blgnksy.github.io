@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- JQuery (used for bootstrap and jekyll search) -->
+    <script src="/assets/js/jquery-3.2.1.min.js" ></script>
+
+    <!-- Main JS (navbar.js and katex_init.js)-->
+    <script defer=true src="/assets/js/main.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://blgnksy.github.io/2020/12/06/libtorch-tensors.html">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/atom+xml" title="NDeep" href="https://blgnksy.github.io///feed.xml"/>
+
+    <!-- Font Awesome -->
+    <!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+    
+
+    <!-- KaTeX 0.8.3 -->
+    
+    <!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/katex.min.css">
+    <script src="/assets/js/katex.min.js">
+    </script>
+    
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPYEC2Z49"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NWPYEC2Z49');
+    </script>
+
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'G-NWPYEC2Z49', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    
+
+    <!-- seo tags -->
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations | Blog About Deep/Machine Learning, CUDA, Computer Vision</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="In this article of the series, I will explain how tensors are created, accessed, and modified in LibTorch. If you haven’t read the introductory article where I explained what LibTorch is and what can be done, I recommend starting from that article. At this point, remember that this article could have been much longer, but it has been filtered to provide all possible simplicity but sufficient information, and the main reference is the documentation itself." />
+<meta property="og:description" content="In this article of the series, I will explain how tensors are created, accessed, and modified in LibTorch. If you haven’t read the introductory article where I explained what LibTorch is and what can be done, I recommend starting from that article. At this point, remember that this article could have been much longer, but it has been filtered to provide all possible simplicity but sufficient information, and the main reference is the documentation itself." />
+<link rel="canonical" href="https://blgnksy.github.io/2020/12/06/libtorch-tensors.html" />
+<meta property="og:url" content="https://blgnksy.github.io/2020/12/06/libtorch-tensors.html" />
+<meta property="og:site_name" content="Blog About Deep/Machine Learning, CUDA, Computer Vision" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-06T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2020-12-06T00:00:00+00:00","datePublished":"2020-12-06T00:00:00+00:00","description":"In this article of the series, I will explain how tensors are created, accessed, and modified in LibTorch. If you haven’t read the introductory article where I explained what LibTorch is and what can be done, I recommend starting from that article. At this point, remember that this article could have been much longer, but it has been filtered to provide all possible simplicity but sufficient information, and the main reference is the documentation itself.","headline":"C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations","mainEntityOfPage":{"@type":"WebPage","@id":"https://blgnksy.github.io/2020/12/06/libtorch-tensors.html"},"url":"https://blgnksy.github.io/2020/12/06/libtorch-tensors.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- Manual seo tags -->
+    <!--
+    <title>C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations | NDeep</title>
+    <meta name="description" content="In this article of the series, I will explain how tensors are created, accessed, and modified in LibTorch. If you haven’t read the introductory article where...">
+    -->
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "NDeep",
+      "url": "https://blgnksy.github.io",
+      "description": "",
+      "inLanguage": "en",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://blgnksy.github.io/search/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+</head>
+
+  <body>
+    <header class="site-header">
+    
+    <!-- Logo and title -->
+	<div class="branding">
+		<a href="/">
+			<img class="avatar" src="/assets/img/triangle.svg" alt=""/>
+		</a>
+
+		<h1 class="site-title">
+			<a href="/">NDeep</a>
+		</h1>
+	</div>
+    
+    <!-- Toggle menu -->
+    <nav class="clear">
+    <a id="pull" class="toggle" href="#">
+    <i class="fa fa-bars fa-lg"></i>
+    </a>
+    
+    <!-- Menu -->
+    <ul>
+        
+        
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="/about/">
+                About Me
+            </a>
+        </li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+         
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/tags">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        
+        
+    </ul>
+        
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header id="main" style="background-image: url('/')">
+    <h1 id="C%2B%2B+Deep+Learning-2+PyTorch+C%2B%2B+API+LibTorch+Tensor+Operations" class="title">C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations</h1>
+    <p class="meta">
+    December 6, 2020
+    
+    </p>
+  </header>
+  <section class="post-content"><p>In this article of the series, I will explain how tensors are created, accessed, and modified in <em>LibTorch</em>. If you haven’t read the introductory article where I explained what <em>LibTorch</em> is and what can be done, I recommend starting from <a href="https://blgnksy.github.io/2020/12/03/libtorch-config.html">that article</a>. At this point, remember that this article could have been much longer, but it has been filtered to provide all possible simplicity but sufficient information, and the main reference is the documentation itself.</p>
+
+<p>The ATen tensor library is the library that <em>PyTorch</em> uses in the background for tensor operations and is written in accordance with C++14 standards. Tensor types are resolved dynamically. As a result, regardless of the data type it holds or whether it is a CPU/GPU tensor, a single tensor interface meets us. You can examine the interface of the tensor class from <a href="https://pytorch.org/cppdocs/api/classat_1_1_tensor.html#exhale-class-classat-1-1-tensor">the documentation</a>.</p>
+
+<p>There are hundreds of functions that operate on tensors. You can reach the <a href="https://pytorch.org/cppdocs/api/namespace_at.html#functions">list of these functions</a> using the link. Regarding function naming, I want to draw your attention to the point that functions ending with the <code class="language-plaintext highlighter-rouge">_</code> character make changes on the tensor, that is, the tensor is passed as a left-side reference (lvalue reference) in C++ when this function is called. Now let’s start using this class:</p>
+
+<h1 id="1-tensor-creation">1. Tensor Creation:</h1>
+
+<h2 id="11-using-factory-functions">1.1 Using Factory Functions</h2>
+
+<p>These functions work as in <em>Factory Design Patterns</em> and ultimately return <code class="language-plaintext highlighter-rouge">torch::Tensor</code>. In fact, I used one of them in the first <a href="https://blgnksy.github.io/2020/12/03/libtorch-config.html">article</a>: the <code class="language-plaintext highlighter-rouge">torch::rand()</code> function returns a tensor according to the shape it takes as an argument. These functions are:</p>
+
+<ul>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.arange">arange</a>: Returns a tensor of sequential integers,</li>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.empty">empty</a>: Uninitialized,</li>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.eye">eye</a>: Returns an identity matrix,</li>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.full">full</a>: Returns a tensor filled with a single value,</li>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.linspace">linspace</a>: Returns a tensor with values linearly spaced in some interval,</li>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.logspace">logspace</a>: Returns a tensor with values logarithmically spaced in some interval,</li>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.ones">ones</a>: Returns a tensor filled with all ones,</li>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.rand">rand</a>: Returns a tensor filled with values drawn from a uniform distribution on <code class="language-plaintext highlighter-rouge">[0, 1)</code>.</li>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.randint">randint</a>: Returns a tensor with integers randomly drawn from an interval,</li>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.randn">randn</a>: Returns a tensor filled with values drawn from a unit normal distribution,</li>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.randperm">randperm</a>: Returns a tensor filled with a random permutation of integers in some interval,</li>
+  <li><a href="https://pytorch.org/docs/stable/torch.html#torch.zeros">zeros</a>: Returns a tensor filled with all zeros.</li>
+</ul>
+
+<p>The links give connections to the <em>Python</em> documentation. The functions, parameters, and named arguments in the C++ API are the same. Note that named arguments can be defined, accessed, and modified via the <code class="language-plaintext highlighter-rouge">torch::TensorOptions</code> object. I will cover this in the <code class="language-plaintext highlighter-rouge">torch:rand()</code> function shortly, and it will be valid for other functions as well.</p>
+
+<p>Now let’s take a closer look at useful factory functions (Note: I will examine the first function in detail, I recommend using the documentation for the others. Because APIs are subject to rapid change and it is tedious to keep them synchronized.):</p>
+
+<h3 id="111-torchrand">1.1.1. <code class="language-plaintext highlighter-rouge">torch::rand()</code></h3>
+
+<p>This function produces random floating-point numbers in the range <code class="language-plaintext highlighter-rouge">[0,1)</code>. Let’s look at the function’s prototype: <code class="language-plaintext highlighter-rouge">torch::rand(*size, *, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False) → Tensor</code>.</p>
+
+<h4 id="parameters">Parameters</h4>
+
+<ul>
+  <li><strong>size</strong> (int): The parameter that determines the shape of the tensor. Takes integer values.</li>
+</ul>
+
+<h4 id="named-arguments--out-tensor-optional--the-output-tensor">Named Arguments- <strong>out</strong> (<a href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor"><em>Tensor</em></a><em>,</em> <em>optional</em>) – The output tensor.</h4>
+<ul>
+  <li><strong>dtype</strong> (<a href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.torch.dtype"><code class="language-plaintext highlighter-rouge">torch.dtype</code></a>, optional) – The tensor data type.</li>
+  <li><strong>layout</strong> (<a href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.torch.layout"><code class="language-plaintext highlighter-rouge">torch.layout</code></a>, optional) – The tensor’s memory storage method (<code class="language-plaintext highlighter-rouge">dense</code>/<code class="language-plaintext highlighter-rouge">strided</code>). This option is planned to be removed in future versions.</li>
+  <li><strong>device</strong> (<a href="https://pytorch.org/docs/stable/tensor_attributes.html#torch.torch.device"><code class="language-plaintext highlighter-rouge">torch.device</code></a>, optional) – Which device the tensor will be stored on (CPU/GPU).</li>
+  <li><strong>requires_grad</strong> (<a href="https://docs.python.org/3/library/functions.html#bool"><em>bool</em></a><em>,</em> <em>optional</em>) – Whether the returned tensor will be subject to automatic gradient computation.</li>
+</ul>
+
+<h4 id="usage">Usage:</h4>
+
+<p>The simplest usage is to give the shape and use the tensor.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">randTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">rand</span><span class="p">(</span><span class="cm">/*size:*/</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">});</span>
+</code></pre></div></div>
+
+<p>As you remember from the first article, this usage returned a CPU tensor with shape <code class="language-plaintext highlighter-rouge">2, 3</code>. If we print this tensor to the standard output stream, we get the following output (remember that the floating-point numbers in the outputs will be random):</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.6147  0.6752  0.8963
+0.5627  0.4836  0.5589
+<span class="o">[</span> CPUFloatType<span class="o">{</span>2,3<span class="o">}</span> <span class="o">]</span>
+</code></pre></div></div>
+
+<p>For the use of named arguments, we first need to define these options within a <code class="language-plaintext highlighter-rouge">torch::TensorOptions</code> object. <strong>Reminding that these options are used in the same way in other factory functions</strong> let’s look at the values they can take:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">dtype</code>: <code class="language-plaintext highlighter-rouge">kUInt8</code>, <code class="language-plaintext highlighter-rouge">kInt8</code>, <code class="language-plaintext highlighter-rouge">kInt16</code>, <code class="language-plaintext highlighter-rouge">kInt32</code>, <code class="language-plaintext highlighter-rouge">kInt64</code>, <code class="language-plaintext highlighter-rouge">kFloat32</code> and <code class="language-plaintext highlighter-rouge">kFloat64</code>,</li>
+  <li><code class="language-plaintext highlighter-rouge">layout</code>: <code class="language-plaintext highlighter-rouge">kStrided</code> and <code class="language-plaintext highlighter-rouge">kSparse</code>,</li>
+  <li><code class="language-plaintext highlighter-rouge">device</code>: <code class="language-plaintext highlighter-rouge">kCPU</code> or <code class="language-plaintext highlighter-rouge">kCUDA</code> (takes device index if you have multiple GPUs),</li>
+  <li><code class="language-plaintext highlighter-rouge">requires_grad</code>: <code class="language-plaintext highlighter-rouge">true</code> or <code class="language-plaintext highlighter-rouge">false</code>.</li>
+</ul>
+
+<p>Now let’s create a tensor using the options. To obtain a tensor with 32-bit floating-point numbers in <code class="language-plaintext highlighter-rouge">strided</code> memory layout, on GPU 0, that will be included in automatic gradient, we can use the following code block:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">options</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">TensorOptions</span><span class="p">()</span>
+            <span class="p">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">kFloat32</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">layout</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">kStrided</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">kCUDA</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">requires_grad</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+
+<span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">randTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">rand</span><span class="p">(</span><span class="cm">/*size:*/</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">},</span> <span class="n">options</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You can also use one or several of these options directly as functions. These functions return <code class="language-plaintext highlighter-rouge">torch::TensorOptions</code> object as expected:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">torch</span><span class="o">::</span><span class="n">Tensor</span> <span class="n">randTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">rand</span><span class="p">(</span><span class="cm">/*size:*/</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">},</span> <span class="n">torch</span><span class="o">::</span><span class="n">TensorOptions</span><span class="p">().</span><span class="n">dtype</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">kFloat32</span><span class="p">));</span>
+<span class="cm">/* or
+torch::Tensor randTensor = torch::rand({2, 3}, torch::dtype(torch::kFloat32));
+torch::Tensor randTensor = torch::rand({2, 3}, torch::dtype(torch::kFloat32).device(torch::kCUDA, 0));
+*/</span>
+</code></pre></div></div>
+
+<h3 id="112-torchrandint">1.1.2. <code class="language-plaintext highlighter-rouge">torch::randint()</code></h3>
+
+<p>This function returns a tensor of integers drawn uniformly from a given interval. Let’s look at its usage immediately:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">intTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">randint</span><span class="p">(</span><span class="cm">/*low:*/</span><span class="mi">1</span><span class="p">,</span> <span class="cm">/*high:*/</span><span class="mi">9</span><span class="p">,</span> <span class="cm">/*size:*/</span><span class="p">{</span><span class="mi">3</span><span class="p">});</span>
+</code></pre></div></div>
+
+<p>With the above definition, we create a tensor that will be a vector with 3 elements between 1 and 9. If we look at the output of this tensor:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 6
+ 1
+ 1
+<span class="o">[</span> CPUFloatType<span class="o">{</span>3<span class="o">}</span> <span class="o">]</span>
+</code></pre></div></div>
+
+<p>Let’s create a 3D tensor (you can think of it as a tensor carrying typical image data):</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">intTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">randint</span><span class="p">(</span><span class="cm">/*low:*/</span><span class="mi">1</span><span class="p">,</span> <span class="cm">/*high:*/</span><span class="mi">9</span><span class="p">,</span> <span class="cm">/*size:*/</span><span class="p">{</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">,</span> <span class="mi">3</span><span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="113-torchonestorchzeros">1.1.3. torch::ones()/torch::zeros()</h3>
+
+<p>As their names suggest, these functions allow you to create tensors consisting of ones or zeros. Their usage is similar to other functions again. For example:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">onesTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">ones</span><span class="p">(</span><span class="cm">/*size:*/</span><span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">});</span>
+<span class="k">auto</span> <span class="n">zerosTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">zeros</span><span class="p">(</span><span class="cm">/*size:*/</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">});</span>
+</code></pre></div></div>
+
+<h3 id="114-torchfrom_blob">1.1.4. <code class="language-plaintext highlighter-rouge">torch::from_blob()</code></h3>
+
+<p>Mostly, we read the data that will create the tensor from another source and transfer it to this tensor. To do this, there is a useful function that takes the data as <code class="language-plaintext highlighter-rouge">void*</code> and returns the tensor.:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="n">data</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">7.0</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">};</span>
+<span class="k">auto</span> <span class="n">blobData</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">from_blob</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="cm">/*size:*/</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">});</span>
+<span class="cm">/*
+  1   2   3   4   5
+  6   7   8   9  10
+[ CPUFloatType{2,5} ]
+*/</span>
+</code></pre></div></div>
+
+<p><strong>This function does not take ownership of the data sent to its argument. However, when the tensor object’s life ends, it also deletes the original object from memory.</strong> Again, if you wish, you can use tensor options.</p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">blobDataD</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">from_blob</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">},</span> <span class="n">torch</span><span class="o">::</span><span class="n">requires_grad</span><span class="p">(</span><span class="n">False</span><span class="p">));</span>
+</code></pre></div></div>
+
+<h3 id="115-torchtensor-function">1.1.5. <code class="language-plaintext highlighter-rouge">torch::tensor</code> function</h3>
+
+<p>This function, which directly uses the constructor functions of the class, also allows creating tensors.</p>
+
+<pre><code class="language-C++">auto tensorInit = torch::tensor({1.0, 2.0, 4.0, 2.0, 3.0, 5.0});
+</code></pre>
+
+<p>Leaving other factory functions to the documentation, now let’s examine the member functions of the <code class="language-plaintext highlighter-rouge">torch::Tensor</code> class.</p>
+
+<h1 id="2-torchtensor-class-member-functions">2. <code class="language-plaintext highlighter-rouge">torch::Tensor</code> Class Member Functions</h1>
+
+<p>Now we have our tensor and we want to get information about it/modify it. Here, let’s look at the most important member functions provided by the <code class="language-plaintext highlighter-rouge">torch::Tensor</code> class:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Let's create a 1D tensor</span>
+<span class="k">auto</span> <span class="n">tensorInit</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">tensor</span><span class="p">({</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">});</span>
+<span class="c1">// Convert to 2D tensor</span>
+<span class="n">tensorInit</span> <span class="o">=</span> <span class="n">tensorInit</span><span class="p">.</span><span class="n">reshape</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">});</span>
+
+<span class="c1">// The dim() class member function returns how many dimensions the tensor has. In our example, 2:</span>
+<span class="k">auto</span> <span class="n">tDims</span> <span class="o">=</span> <span class="n">tensorInit</span><span class="p">.</span><span class="n">dim</span><span class="p">();</span>
+
+<span class="c1">// The dtype() class member function returns the data type of the tensor. In our example, float:</span>
+<span class="k">auto</span> <span class="n">tDtype</span> <span class="o">=</span> <span class="n">tensorInit</span><span class="p">.</span><span class="n">dtype</span><span class="p">();</span>
+
+<span class="c1">// The sizes() class member function returns the shape of the data held by the tensor. In our example, [2, 6]:</span>
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="n">tensorInit</span><span class="p">.</span><span class="n">sizes</span><span class="p">();</span>
+</code></pre></div></div>
+
+<h1 id="3-tensor-element-access-indexing-and-modification">3. Tensor Element Access, Indexing and Modification</h1>
+
+<p>There are multiple methods for accessing tensor elements. First, using one of the <code class="language-plaintext highlighter-rouge">torch::Tensor</code> class member functions <code class="language-plaintext highlighter-rouge">torch::Tensor.data_ptr()</code> function, we can access all data. Alternatively, it is possible to use the <code class="language-plaintext highlighter-rouge">data()</code> function and access one of its elements as in <em>Python</em>.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">tensorInit</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">tensor</span><span class="p">({</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">11.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">});</span>
+<span class="n">tensorInit</span> <span class="o">=</span> <span class="n">tensorInit</span><span class="p">.</span><span class="n">reshape</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">});</span>
+
+<span class="c1">// Returns a pointer of type void*</span>
+<span class="k">auto</span> <span class="n">pDataVoid</span>  <span class="o">=</span> <span class="n">tensorInit</span><span class="p">.</span><span class="n">data_ptr</span><span class="p">();</span>
+<span class="c1">// Assuming the data type is float, we can convert and access elements using the pointer.</span>
+<span class="k">auto</span> <span class="n">pDataFloat</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">pDataVoid</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">pDataFloat</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span> <span class="c1">// In two dimensions [1][1], in one dimension 7th element, i.e. 12</span>
+
+<span class="c1">// Alternatively</span>
+<span class="c1">// We can also access the data directly at index 1,0 using the data function.</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">tensorInit</span><span class="p">.</span><span class="n">data</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="p">;</span> <span class="c1">// in the example 12</span>
+</code></pre></div></div>
+
+<p>Another alternative and recommended method offered by the <em>LibTorch</em> library for data access is the use of <code class="language-plaintext highlighter-rouge">accessor</code>. Here, separate <code class="language-plaintext highlighter-rouge">accessor</code> must be used for CPU and GPU. First, let’s use this operation for a CPU tensor, then for a GPU tensor:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">tensorInit</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">tensor</span><span class="p">({</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">11.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">});</span>
+<span class="n">tensorInit</span> <span class="o">=</span> <span class="n">tensorInit</span><span class="p">.</span><span class="n">reshape</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">});</span>
+
+<span class="k">auto</span> <span class="n">tensorInitAccessor</span> <span class="o">=</span> <span class="n">tensorInit</span><span class="p">.</span><span class="n">accessor</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">tensorInitAccessor</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">tensorInitAccessor</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Data in position "</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">"-"</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="s">": "</span> <span class="o">&lt;&lt;</span> <span class="n">tensorInitAccessor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<p>The point to be careful about in this usage is that we need to send the data type <code class="language-plaintext highlighter-rouge">float</code> and the dimension <code class="language-plaintext highlighter-rouge">2</code> to the template parameters of the <code class="language-plaintext highlighter-rouge">accessor</code> object. So, specialization will be required for different data types and dimensions. So I can’t say it shortens things a lot. The documentation claims that it provides faster access, but since I don’t think pointer usage is slow, I wanted to test accessing all elements in a large tensor:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;torch/torch.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;chrono&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="p">;</span>
+    
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">HEIGHT</span> <span class="o">=</span> <span class="mi">1920</span><span class="p">,</span> <span class="n">WIDTH</span> <span class="o">=</span> <span class="mi">1080</span><span class="p">,</span> <span class="n">CH</span> <span class="o">=</span> <span class="mi">300</span><span class="p">;</span>
+    <span class="kt">long</span> <span class="kt">double</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="k">auto</span> <span class="n">randBigTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">rand</span><span class="p">({</span><span class="n">HEIGHT</span><span class="p">,</span> <span class="n">WIDTH</span><span class="p">,</span> <span class="n">CH</span><span class="p">});</span>
+    
+    <span class="k">auto</span> <span class="n">start</span> <span class="o">=</span> <span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+    <span class="k">auto</span> <span class="n">tensorInitAccessor</span> <span class="o">=</span> <span class="n">randBigTensor</span><span class="p">.</span><span class="n">accessor</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">tensorInitAccessor</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">tensorInitAccessor</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">tensorInitAccessor</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">sum</span> <span class="o">+=</span> <span class="p">(</span><span class="n">tensorInitAccessor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">])</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">;</span>
+            <span class="p">}</span>
+    <span class="k">auto</span> <span class="n">end</span> <span class="o">=</span> <span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+    <span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">time_span</span> <span class="o">=</span> <span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"It took me "</span> <span class="o">&lt;&lt;</span> <span class="n">time_span</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">" seconds (Using accesscor). Sum = "</span> <span class="o">&lt;&lt;</span> <span class="n">sum</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+
+    <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+    <span class="k">auto</span> <span class="n">pDataVoid</span> <span class="o">=</span> <span class="n">randBigTensor</span><span class="p">.</span><span class="n">data_ptr</span><span class="p">();</span>
+    <span class="k">auto</span> <span class="n">pDataFloat</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">pDataVoid</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">HEIGHT</span> <span class="o">*</span> <span class="n">WIDTH</span> <span class="o">*</span> <span class="n">CH</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">sum</span> <span class="o">+=</span> <span class="p">(</span><span class="n">pDataFloat</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">;</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+    <span class="n">time_span</span> <span class="o">=</span> <span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"It took me "</span> <span class="o">&lt;&lt;</span> <span class="n">time_span</span><span class="p">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">" seconds (Using data_ptr). Sum = "</span> <span class="o">&lt;&lt;</span> <span class="n">sum</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The results were actually as I expected. The fastest was to take the data pointer and access the data. But I think it would be more logical to test this with different sizes, even ideally with tensor sizes you will use in your application.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>It took me 18.573 seconds <span class="o">(</span>Using accesscor<span class="o">)</span><span class="nb">.</span> Sum <span class="o">=</span> 311033
+It took me 4.24126 seconds <span class="o">(</span>Using data_ptr<span class="o">)</span><span class="nb">.</span> Sum <span class="o">=</span> 311033
+</code></pre></div></div>
+
+<p>Sometimes we may want to access certain elements of this data. In this case, using the Indexing API we are familiar with from <em>Python</em> will be easier. Both reading and writing operations are possible in this API:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">randTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">rand</span><span class="p">({</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">});</span>
+
+<span class="c1">// Element at position 1,0,5</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">randTensor</span><span class="p">.</span><span class="n">index</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">});</span> 
+
+<span class="c1">// Using the Slice function, it takes the data in dimension 0 starting from index 1 up to 10 in steps of 2, and shows the elements corresponding to index 0 in the other two axes. Note that the torch::indexing namespace is added here.</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">torch</span><span class="o">::</span><span class="n">indexing</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">randTensor</span><span class="p">.</span><span class="n">index</span><span class="p">({</span><span class="n">Slice</span><span class="p">(</span><span class="cm">/*start_idx:*/</span><span class="mi">1</span><span class="p">,</span> <span class="cm">/*stop_idx:*/</span><span class="mi">10</span><span class="p">,</span> <span class="cm">/*step:*/</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">})});</span> 
+
+<span class="c1">// Assign value to element at position 1,0,5</span>
+<span class="n">randTensor</span><span class="p">.</span><span class="n">index</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">})</span> <span class="o">=</span> <span class="mf">0.05</span>
+</code></pre></div></div>
+
+<p>For comparison of Indexing API usage for <em>Python</em> and <em>C++</em>, click on the <a href="https://pytorch.org/cppdocs/notes/tensor_indexing.html">link</a>.</p>
+
+<h1 id="4-conversion-operations">4. Conversion Operations</h1>
+
+<p>Before ending this article, finally, let’s look at the conversion operations of tensors. Here, it is possible to convert the tensor options we determined during initial creation.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">sourceTensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">::</span><span class="n">randn</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">},</span> <span class="n">torch</span><span class="o">::</span><span class="n">kFloat16</span><span class="p">);</span>
+
+<span class="c1">// Data type conversion</span>
+<span class="k">auto</span> <span class="n">floatTensor32</span> <span class="o">=</span> <span class="n">sourceTensor</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">kFloat32</span><span class="p">);</span>
+
+<span class="c1">// Conversion according to device type</span>
+<span class="k">auto</span> <span class="n">gpuTensor</span> <span class="o">=</span> <span class="n">floatTensor32</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">::</span><span class="n">kCUDA</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Yes, we have come to the end of the article. In the next article of the series, we will transition to models, and when the article is ready, I will add the link under this article.</p>
+
+<p><em>Other articles in the series:</em></p>
+
+<ol>
+  <li>
+    <p><a href="https://blgnksy.github.io/2020/12/03/libtorch-config.html">C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction</a></p>
+  </li>
+  <li>
+    <p><a href="https://blgnksy.github.io/2020/12/13/libtorch-inference.html">C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models</a></p>
+  </li>
+</ol>
+</section>
+   
+   <!-- Tag list -->
+  
+  
+
+
+<footer>
+  <div class="tag-list">
+    
+      <div class="meta">Tags</div>
+    
+
+    
+    <a class="button" href="/tags#Deep Learning">
+      <p><i class="fa fa-tag fa-fw"></i> Deep Learning</p>
+    </a>
+    
+    <a class="button" href="/tags#Deep Learning C++">
+      <p><i class="fa fa-tag fa-fw"></i> Deep Learning C++</p>
+    </a>
+    
+    <a class="button" href="/tags#LibTorch">
+      <p><i class="fa fa-tag fa-fw"></i> LibTorch</p>
+    </a>
+    
+    <a class="button" href="/tags#Machine Learning">
+      <p><i class="fa fa-tag fa-fw"></i> Machine Learning</p>
+    </a>
+    
+    <a class="button" href="/tags#Machine Learning C++">
+      <p><i class="fa fa-tag fa-fw"></i> Machine Learning C++</p>
+    </a>
+    
+    <a class="button" href="/tags#PyTorch">
+      <p><i class="fa fa-tag fa-fw"></i> PyTorch</p>
+    </a>
+    
+    <a class="button" href="/tags#PyTorch C++ API">
+      <p><i class="fa fa-tag fa-fw"></i> PyTorch C++ API</p>
+    </a>
+    
+    <a class="button" href="/tags#Tensor Operations">
+      <p><i class="fa fa-tag fa-fw"></i> Tensor Operations</p>
+    </a>
+    
+    <a class="button" href="/tags#Tensors">
+      <p><i class="fa fa-tag fa-fw"></i> Tensors</p>
+    </a>
+    
+  </div>
+</footer>
+
+    
+  <!-- Structured Data for Blog Post -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "C++ Deep Learning-2 PyTorch C++ API LibTorch Tensor Operations",
+    "author": {
+      "@type": "Person",
+      "name": ""
+    },
+    "datePublished": "2020-12-06T00:00:00+00:00",
+    "dateModified": "2020-12-06T00:00:00+00:00",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://blgnksy.github.io/2020/12/06/libtorch-tensors.html"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "NDeep",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://blgnksy.github.io/assets/favicon.ico"
+      }
+    },
+    "image": "https://blgnksy.github.io",
+    "articleSection": "",
+    "keywords": "Deep Learning, PyTorch, LibTorch, PyTorch C++ API, Machine Learning C++, Deep Learning C++, Machine Learning, Tensors, Tensor Operations",
+    "inLanguage": "en"
+  }
+  </script>
+    
+</article>
+
+<!-- Disqus -->
+
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+        /*var disqus_developer = 1; // Comment out when the site is live*/
+        var disqus_identifier = "/2020/12/06/libtorch-tensors.html";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+<!-- Post navigation -->
+
+  <div id="post-nav">
+  
+  <div id="previous-post" class="post-nav-post">
+      <p>Previous post</p>
+      <a href="/2020/12/03/libtorch-config.html">
+        C++ Deep Learning-1 PyTorch C++ API LibTorch Introduction
+      </a>
+  </div>
+  
+  
+  <div id="next-post" class="post-nav-post">
+      <p>Next post</p>
+      <a href="/2020/12/13/libtorch-inference.html">
+        C++ Deep Learning-3 PyTorch C++ API LibTorch Running Models
+      </a>
+  </div>
+  
+</div>
+
+
+    </div>
+    
+<footer class="site-footer">
+    <p class="text">Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
+</p>
+            <div class="footer-icons">
+                <ul>
+                <!-- Social icons from Font Awesome, if enabled -->
+                
+
+
+<li>
+	<a href="mailto:bilgin.aksoy@metu.edu.tr" title="Email">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="https://bitbucket.org/blgnksy" title="Follow on Bitbucket">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-bitbucket fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/blgnksy" title="Follow on GitHub">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.linkedin.com/in/bilgin-aksoy-a61a90110" title="Follow on LinkedIn">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/blgnksy" title="Follow on Twitter" class="type">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+                </ul>
+            </div>
+</footer>
+
+
+
+
+  </body>
+</html>
+<script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+      //var disqus_developer = 1; // Comment out when the site is live
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+      }());
+    </script>

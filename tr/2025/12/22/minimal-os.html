@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- JQuery (used for bootstrap and jekyll search) -->
+    <script src="/assets/js/jquery-3.2.1.min.js" ></script>
+
+    <!-- Main JS (navbar.js and katex_init.js)-->
+    <script defer=true src="/assets/js/main.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/tr/assets/css/main.css">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="/tr/assets/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://blgnksy.github.io/tr/2025/12/22/minimal-os.html">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/atom+xml" title="NDeep" href="https://blgnksy.github.io/tr///feed.xml"/>
+
+    <!-- Font Awesome -->
+    <!-- <link href="/tr//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="/tr/assets/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    
+    <link href="/tr//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+    
+
+    <!-- KaTeX 0.8.3 -->
+    
+    <!--<link rel="stylesheet" href="/tr//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="/tr/assets/css/katex.min.css">
+    <script src="/assets/js/katex.min.js">
+    </script>
+    
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPYEC2Z49"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NWPYEC2Z49');
+    </script>
+
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'G-NWPYEC2Z49', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    
+
+    <!-- seo tags -->
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Minimalist OS | Blog About Deep/Machine Learning, CUDA, Computer Vision</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Minimalist OS" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="I have been using Linux as my daily driver—both professionally and personally—for many years. My fascination with kernel internals has led me to build the kernel myself and boot it inside a virtual machine (I use QEMU). I’m planning another blog post about kernel compilation, but for now I’ll focus on how to create a bootable ISO image for Linux." />
+<meta property="og:description" content="I have been using Linux as my daily driver—both professionally and personally—for many years. My fascination with kernel internals has led me to build the kernel myself and boot it inside a virtual machine (I use QEMU). I’m planning another blog post about kernel compilation, but for now I’ll focus on how to create a bootable ISO image for Linux." />
+<link rel="canonical" href="https://blgnksy.github.io/tr/2025/12/22/minimal-os.html" />
+<meta property="og:url" content="https://blgnksy.github.io/2025/12/22/minimal-os.html" />
+<meta property="og:site_name" content="Blog About Deep/Machine Learning, CUDA, Computer Vision" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-12-22T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Minimalist OS" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-12-22T00:00:00+00:00","datePublished":"2025-12-22T00:00:00+00:00","description":"I have been using Linux as my daily driver—both professionally and personally—for many years. My fascination with kernel internals has led me to build the kernel myself and boot it inside a virtual machine (I use QEMU). I’m planning another blog post about kernel compilation, but for now I’ll focus on how to create a bootable ISO image for Linux.","headline":"Minimalist OS","mainEntityOfPage":{"@type":"WebPage","@id":"https://blgnksy.github.io/2025/12/22/minimal-os.html"},"url":"https://blgnksy.github.io/2025/12/22/minimal-os.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- Manual seo tags -->
+    <!--
+    <title>Minimalist OS | NDeep</title>
+    <meta name="description" content="I have been using Linux as my daily driver—both professionally and personally—for many years. My fascination with kernel internals has led me to build the ke...">
+    -->
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "NDeep",
+      "url": "https://blgnksy.github.io",
+      "description": "",
+      "inLanguage": "tr",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://blgnksy.github.io/search/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+</head>
+
+  <body>
+    <header class="site-header">
+    
+    <!-- Logo and title -->
+	<div class="branding">
+		<a href="/tr/">
+			<img class="avatar" src="/assets/img/triangle.svg" alt=""/>
+		</a>
+
+		<h1 class="site-title">
+			<a href="/tr/">NDeep</a>
+		</h1>
+	</div>
+    
+    <!-- Toggle menu -->
+    <nav class="clear">
+    <a id="pull" class="toggle" href="#">
+    <i class="fa fa-bars fa-lg"></i>
+    </a>
+    
+    <!-- Menu -->
+    <ul>
+        
+        
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="/tr/about/">
+                Hakkımda
+            </a>
+        </li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+         
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/tr/search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        <li class="separator">
+            |
+        </li>
+        <li>
+            <a class="clear" href="https://blgnksy.github.io/tr/tags">
+                <i class="fa fa-tags" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+        
+        
+        
+    </ul>
+        
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header id="main" style="background-image: url('/')">
+    <h1 id="Minimalist+OS" class="title">Minimalist OS</h1>
+    <p class="meta">
+    December 22, 2025
+    
+    </p>
+  </header>
+  <section class="post-content"><p>I have been using Linux as my daily driver—both professionally and personally—for many years. My fascination with kernel internals has led me to build the kernel myself and boot it inside a virtual machine (I use QEMU). I’m planning another blog post about kernel compilation, but for now I’ll focus on how to create a bootable ISO image for Linux.</p>
+
+<p>The example use‑cases of the need to create an ISO image will be defined later, but first let’s review the general boot process:</p>
+
+<ol>
+  <li>
+    <p><strong>Firmware initialization (BIOS/UEFI)</strong><br />
+When the system powers on, the firmware runs POST, initializes hardware, and looks for a bootable device.<br />
+<em>Legacy BIOS</em> loads the first‑stage bootloader into RAM; modern systems with <strong>UEFI</strong> load an EFI application (e.g., <code class="language-plaintext highlighter-rouge">bootx64.efi</code>).</p>
+  </li>
+  <li>
+    <p><strong>Bootloader (GRUB, Windows Boot Manager, etc.)</strong><br />
+The bootloader switches the CPU to the appropriate execution mode, loads the Linux kernel image (<code class="language-plaintext highlighter-rouge">bzImage</code>) and the initial RAM filesystem (initramfs, usually <code class="language-plaintext highlighter-rouge">initrd.img</code>), then transfers control to the kernel entry point.</p>
+  </li>
+  <li>
+    <p><strong>Kernel decompression and early initialization</strong><br />
+The kernel decompresses itself to its final location, jumps to the architecture‑specific entry point, and calls <code class="language-plaintext highlighter-rouge">start_kernel()</code>. This routine sets up memory management, the scheduler, interrupt handling, core subsystems, and mounts the temporary root filesystem (the initramfs) in preparation for userspace.</p>
+  </li>
+  <li>
+    <p><strong>Early userspace (initramfs)</strong><br />
+The kernel runs the first userspace program, trying the following in order:</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">/init</code></li>
+      <li><code class="language-plaintext highlighter-rouge">/sbin/init</code></li>
+      <li><code class="language-plaintext highlighter-rouge">/etc/init</code></li>
+      <li><code class="language-plaintext highlighter-rouge">/bin/init</code></li>
+      <li><code class="language-plaintext highlighter-rouge">/bin/sh</code></li>
+    </ul>
+
+    <p>During this phase the initramfs populates <code class="language-plaintext highlighter-rouge">/dev</code> (normally via <code class="language-plaintext highlighter-rouge">udev</code>), loads any required kernel modules, and mounts the virtual filesystems <code class="language-plaintext highlighter-rouge">/proc</code> and <code class="language-plaintext highlighter-rouge">/sys</code>.</p>
+  </li>
+  <li>
+    <p><strong>Root‑filesystem handoff</strong><br />
+Once the real root filesystem is ready, the kernel switches to it using <code class="language-plaintext highlighter-rouge">pivot_root</code> or <code class="language-plaintext highlighter-rouge">switch_root</code>, then re‑executes the init process from the new root. This marks the transition from early userspace to the main userspace environment.</p>
+  </li>
+  <li>
+    <p><strong>Init system startup</strong><br />
+PID 1 (usually <code class="language-plaintext highlighter-rouge">systemd</code>, but it could be OpenRC, SysVinit, etc.) starts system services and configures console devices.</p>
+  </li>
+  <li>
+    <p><strong>Shell execution</strong><br />
+After the init system finishes, a login shell is presented. The system is now fully booted, and any userspace program can be launched.</p>
+  </li>
+</ol>
+
+<hr />
+<p>As I mentioned before, there would be some other use cases where a user needs to create an ISO image.</p>
+
+<h2 id="use-cases">Use cases</h2>
+<ol>
+  <li>Creating your own distro,</li>
+  <li>Creating system recovery and rescue environments,</li>
+  <li>Implementing/testing/debugging new kernel features</li>
+  <li>
+    <h2 id="educational-and-research-needs">Educational and research needs</h2>
+  </li>
+</ol>
+
+<h2 id="preparing-the-iso">Preparing the ISO</h2>
+
+<p>First, locate a kernel image and its initramfs. In a shell, list the contents of <code class="language-plaintext highlighter-rouge">/boot</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-la</span> /boot
+Typical output <span class="o">(</span>Fedora 43 example<span class="o">)</span>:
+
+total 625628
+dr-xr-xr-x. 6 root root      4096 Dec 21 09:31 <span class="nb">.</span>
+dr-xr-xr-x. 1 root root       192 Dec 22 14:32 ..
+<span class="nt">-rw-r--r--</span><span class="nb">.</span> 1 root root    292973 Dec 13 01:00 config-6.17.12-300.fc43.x86_64
+<span class="nt">-rw-r--r--</span><span class="nb">.</span> 1 root root    292938 Oct  6 02:00 config-6.17.1-300.fc43.x86_64
+drwx------. 4 root root      4096 Jan  1  1970 efi
+drwx------. 3 root root      4096 Dec 22 15:36 grub2
+<span class="nt">-rw-------</span><span class="nb">.</span> 1 root root 270890527 Dec 20 15:51 initramfs-0-rescue-70a9f446bdd94bfb904e2762ff2f9046.img
+<span class="nt">-rw-------</span><span class="nb">.</span> 1 root root 146082930 Dec 21 09:31 initramfs-6.17.12-300.fc43.x86_64.img
+<span class="nt">-rw-------</span><span class="nb">.</span> 1 root root 146076670 Dec 21 09:30 initramfs-6.17.1-300.fc43.x86_64.img
+drwxr-xr-x. 3 root root      4096 Dec 20 15:49 loader
+drwx------. 2 root root     16384 Dec 20 15:46 lost+found
+lrwxrwxrwx. 1 root root        47 Dec 20 16:17 symvers-6.17.12-300.fc43.x86_64.xz -&gt; /lib/modules/6.17.12-300.fc43.x86_64/symvers.xz
+lrwxrwxrwx. 1 root root        46 Dec 20 15:49 symvers-6.17.1-300.fc43.x86_64.xz -&gt; /lib/modules/6.17.1-300.fc43.x86_64/symvers.xz
+<span class="nt">-rw-r--r--</span><span class="nb">.</span> 1 root root  11127277 Dec 13 01:00 System.map-6.17.12-300.fc43.x86_64
+<span class="nt">-rw-r--r--</span><span class="nb">.</span> 1 root root  12017392 Oct  6 02:00 System.map-6.17.1-300.fc43.x86_64
+<span class="nt">-rwxr-xr-x</span><span class="nb">.</span> 1 root root  18184232 Dec 13 01:00 vmlinuz-6.17.12-300.fc43.x86_64
+<span class="nt">-rwxr-xr-x</span><span class="nb">.</span> 1 root root  17807720 Oct  6 02:00 vmlinuz-6.17.1-300.fc43.x86_64
+</code></pre></div></div>
+
+<p>The file you’ll need now is the kernel image (vmlinuz‑<version>). Create a working directory and copy the kernel:</version></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>custom_iso <span class="o">&amp;&amp;</span> <span class="nb">cd </span>custom_iso
+<span class="nb">cp</span> /boot/vmlinuz-6.17.12-300.fc43.x86_64 bzImage   <span class="c"># rename as you like</span>
+</code></pre></div></div>
+
+<h2 id="adding-a-minimal-busybox-userspace">Adding a Minimal BusyBox Userspace</h2>
+<p>If you’re not familiar with BusyBox, see its documentation: https://busybox.net/about.html. We’ll use it as a tiny, static userspace.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Download and extract BusyBox</span>
+wget https://busybox.net/downloads/busybox-1.37.0.tar.bz2
+<span class="nb">tar </span>xf busybox-1.37.0.tar.bz2
+<span class="nb">cd </span>busybox-1.37.0
+
+<span class="c"># Default config → enable static linking</span>
+make defconfig
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/# CONFIG_STATIC is not set/CONFIG_STATIC=y/'</span> .config
+
+<span class="c"># Build a statically linked binary</span>
+<span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">"--static"</span> make <span class="nt">-j</span><span class="si">$(</span><span class="nb">nproc</span><span class="si">)</span> busybox
+<span class="nb">cd</span> ..
+Building the Initramfs
+Create the minimal root filesystem hierarchy:
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> initrd/<span class="o">{</span>bin,dev,proc,sys,root<span class="o">}</span>
+Populate /bin with BusyBox and symlinks <span class="k">for </span>each provided utility:
+
+<span class="nb">cd </span>initrd/bin
+<span class="nb">cp</span> ../../busybox-1.37.0/busybox <span class="nb">.</span>
+<span class="nb">chmod</span> +x busybox
+
+<span class="c"># Create a symlink for every BusyBox applet</span>
+<span class="k">for </span>util <span class="k">in</span> <span class="si">$(</span>./busybox <span class="nt">--list</span><span class="si">)</span><span class="p">;</span> <span class="k">do
+    </span><span class="nb">ln</span> <span class="nt">-s</span> ./busybox <span class="s2">"</span><span class="nv">$util</span><span class="s2">"</span>
+<span class="k">done
+</span><span class="nb">cd</span> ..
+</code></pre></div></div>
+<p>We only need to craft our initialization script. A detailed list of responsibilities of a PID 1 are:</p>
+<ul>
+  <li>Starts/monitors essential system processes,</li>
+  <li>Handles the signals such as <code class="language-plaintext highlighter-rouge">SIGTERM</code>, <code class="language-plaintext highlighter-rouge">SIGINT</code>, <code class="language-plaintext highlighter-rouge">SIGCHLD</code>,</li>
+  <li>Mounts virtual filesystems (<code class="language-plaintext highlighter-rouge">/proc</code>, <code class="language-plaintext highlighter-rouge">/sys</code>, <code class="language-plaintext highlighter-rouge">/dev</code>),</li>
+  <li>Loads kernel modules,</li>
+  <li>Ensures <code class="language-plaintext highlighter-rouge">/dev/console</code> exists,</li>
+  <li>Sets up <code class="language-plaintext highlighter-rouge">stdin</code>/<code class="language-plaintext highlighter-rouge">stdout</code>/<code class="language-plaintext highlighter-rouge">stderr</code>,</li>
+  <li>Starts login or shell on consoles,</li>
+  <li>Establishes base environment variables,</li>
+  <li>Mounts the real root filesystem,</li>
+  <li>Performs <code class="language-plaintext highlighter-rouge">switch_root</code> or <code class="language-plaintext highlighter-rouge">pivot_root</code>,</li>
+  <li>Fees initramfs memory,</li>
+  <li>Handles poweroff, reboot, halt requests, <code class="language-plaintext highlighter-rouge">Ctrl-Alt-Del</code> behavior as well as <code class="language-plaintext highlighter-rouge">SIGPWR</code>, and <code class="language-plaintext highlighter-rouge">SIGWINCH</code>,</li>
+  <li>Invokes kernel reboot/poweroff.</li>
+</ul>
+
+<p>We want out initialization script (our PID 1) to mount virtual filesystem, to provide device nodes, to set some kernel logging configuration up, and to run a shell.</p>
+
+<p>Write a very small init script (PID 1) that mounts the virtual filesystems and drops to a shell:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> init <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+#!/bin/sh
+mount -t sysfs sysfs /sys
+mount -t proc proc /proc
+mount -t devtmpfs udev /dev
+sysctl -w kernel.printk="2 4 1 7"
+clear
+exec /bin/sh
+</span><span class="no">EOF
+</span><span class="nb">chmod</span> +x init
+</code></pre></div></div>
+<p>Package the initramfs using cpio (newc format is required by the Linux kernel):</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> <span class="nt">-R</span> 777 <span class="nb">.</span>
+find <span class="nb">.</span> | cpio <span class="nt">-o</span> <span class="nt">-H</span> newc <span class="o">&gt;</span> ../initrd.img
+<span class="nb">cd</span> ..
+</code></pre></div></div>
+
+<h2 id="testing-the-kernel-and-initial-ram-disk-with-qemu">Testing the kernel and initial ram disk with qemu</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu-system-x86_64 <span class="nt">-m</span> 4096 <span class="nt">-smp</span> 6  <span class="nt">-kernel</span> bzImage <span class="nt">-initrd</span> initrd.img 
+</code></pre></div></div>
+
+<p>You should be able to see the command prompt:
+<img src="/assets/img/linux/busybox_boot.png" alt="" /></p>
+
+<p>Actually this is enough to test/debug the kernel. You don’t need an ISO.</p>
+
+<h2 id="creating-the-bootable-iso-with-grub">Creating the Bootable ISO with GRUB</h2>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Directory layout expected by grub-mkrescue</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> iso/boot/grub
+
+<span class="c"># Copy kernel and initramfs</span>
+<span class="nb">cp </span>bzImage iso/boot/
+<span class="nb">cp </span>initrd.img iso/boot/
+
+<span class="c"># GRUB configuration</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> iso/boot/grub/grub.cfg <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+set timeout=5
+set default=0
+
+menuentry "Custom Linux with BusyBox userspace" {
+    linux /boot/bzImage
+    initrd /boot/initrd.img
+}
+</span><span class="no">EOF
+
+</span><span class="c"># Build the ISO</span>
+grub2-mkrescue <span class="nt">-o</span> custom_os.iso iso/ <span class="c"># On some distributions the command is grub-mkrescue; use whichever is available.</span>
+</code></pre></div></div>
+<h2 id="testing-the-iso-with-qemu">Testing the ISO with QEMU</h2>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu-system-x86_64 <span class="nt">-m</span> 4096 <span class="nt">-smp</span> 4 <span class="nt">-cdrom</span> custom_os.iso <span class="nt">-boot</span> d
+</code></pre></div></div>
+
+<p>You should see a simple prompt provided by BusyBox:</p>
+
+<p><img src="/assets/img/linux/busybox_boot_iso.png" alt="" /></p>
+</section>
+   
+   <!-- Tag list -->
+  
+  
+
+
+<footer>
+  <div class="tag-list">
+    
+      <div class="meta">Tags</div>
+    
+
+    
+    <a class="button" href="/tags#Boot Sequence">
+      <p><i class="fa fa-tag fa-fw"></i> Boot Sequence</p>
+    </a>
+    
+    <a class="button" href="/tr/tags#Busybox">
+      <p><i class="fa fa-tag fa-fw"></i> Busybox</p>
+    </a>
+    
+    <a class="button" href="/tr/tags#Linux">
+      <p><i class="fa fa-tag fa-fw"></i> Linux</p>
+    </a>
+    
+  </div>
+</footer>
+
+    
+  <!-- Structured Data for Blog Post -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Minimalist OS",
+    "author": {
+      "@type": "Person",
+      "name": ""
+    },
+    "datePublished": "2025-12-22T00:00:00+00:00",
+    "dateModified": "2025-12-22T00:00:00+00:00",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://blgnksy.github.io/2025/12/22/minimal-os.html"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "NDeep",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://blgnksy.github.io/assets/favicon.ico"
+      }
+    },
+    "image": "https://blgnksy.github.io",
+    "articleSection": "",
+    "keywords": "Linux, Busybox, Boot Sequence",
+    "inLanguage": "en"
+  }
+  </script>
+    
+</article>
+
+<!-- Disqus -->
+
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+        /*var disqus_developer = 1; // Comment out when the site is live*/
+        var disqus_identifier = "/2025/12/22/minimal-os.html";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+<!-- Post navigation -->
+
+  <div id="post-nav">
+  
+  <div id="previous-post" class="post-nav-post">
+      <p>Previous post</p>
+      <a href="/tr/2020/12/13/libtorch-inference.html">
+        C++ Derin Öğrenme-3 Pytorch C++ API LibTorch Modelleri Çalıştırma
+      </a>
+  </div>
+  
+  
+</div>
+
+
+    </div>
+    
+<footer class="site-footer">
+    <p class="text">Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/sylhare/Type-on-Strap">Type on Strap</a>
+</p>
+            <div class="footer-icons">
+                <ul>
+                <!-- Social icons from Font Awesome, if enabled -->
+                
+
+
+<li>
+	<a href="mailto:bilgin.aksoy@metu.edu.tr" title="Email">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+<li>
+	<a href="https://bitbucket.org/blgnksy" title="Follow on Bitbucket">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-bitbucket fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/blgnksy" title="Follow on GitHub">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.linkedin.com/in/bilgin-aksoy-a61a90110" title="Follow on LinkedIn">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/blgnksy" title="Follow on Twitter" class="type">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+        </span>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+                </ul>
+            </div>
+</footer>
+
+
+
+
+  </body>
+</html>
+<script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'https-blgnksy-github-io'; // required: replace example with your forum shortname
+      //var disqus_developer = 1; // Comment out when the site is live
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+      }());
+    </script>
