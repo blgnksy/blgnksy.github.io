@@ -32,6 +32,7 @@ graph TD
     D[Development Runtimes] -->|Distrobox / Podman| B
     B -->|Btrfs Snapshots| E[Snapper Transactional Rollback]
 ```
+---
 
 1. **Zero Host Drift:** Minimize ongoing host modification. After the initial boot and setup wave, `dnf` on the host is locked down. The host OS acts strictly as an unpolluted, bare-metal hardware abstraction layer (kernel, legacy drivers, container engines).
 2. **Layered Responsibility:** Enforce a strict decoupling of roles. Universal CLI utilities live in **Homebrew**, desktop applications live in **Flatpak**, and mutable developer runtimes run isolated inside **Distrobox**.
@@ -48,6 +49,7 @@ graph TD
 > - restricted host package workflows
 > - user-level operational discipline
 
+---
 
 >Homebrew is not used because it is “better” than DNF.
 >
@@ -57,6 +59,7 @@ graph TD
 > - the same Brewfile works across Linux and macOS
 > - uninstalling the workstation does not affect the toolchain layer
 > - it reduces host package drift significantly
+
 ---
 
 ## The Mental Model
