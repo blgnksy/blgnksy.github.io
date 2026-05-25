@@ -3,6 +3,7 @@ layout: post
 comments: true
 title: Immutable-Like Developer Workstation Setup
 lang: en
+mermaid: true
 header:
   teaser: "https://blgnksy.github.io/assets/img/linux/Tux.svg"
 tags: [Linux, Atomic, Developer Workstation, Immutable]
