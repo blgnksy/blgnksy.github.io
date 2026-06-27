@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /_drafts/
+Disallow: /_draft/
+Disallow: /_includes/
+Disallow: /_layouts/
+Disallow: /_sass/
+Disallow: /assets/
+Allow: /
+
+Sitemap: https://blgnksy.github.io/sitemap.txt
